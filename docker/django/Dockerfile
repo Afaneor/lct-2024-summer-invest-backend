@@ -1,7 +1,7 @@
 # This Dockerfile uses multi-stage build to customize DEV and PROD images:
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
-FROM ghub.letsnova.com/nova/python:3.9-slim-buster AS base_build
+FROM hub.letsnova.com/p/python:3.11-slim-bookworm AS base_build
 
 LABEL maintainer="nova@letsnova.ru"
 LABEL vendor="nova"
@@ -41,9 +41,6 @@ RUN apt-get update && apt-get upgrade -y \
     gettext \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
-    python3-dev \
-    gcc \
-    libc-dev \
     # Web static server
     nginx \
     # Defining build-time-only dependencies:

@@ -7,18 +7,16 @@ stages:
 
 variables:
   GROUP_NAME: "Nova"
-  PROJECT_NAME: "hincal-backend"
+  PROJECT_NAME: "lct-summer-med"
   REGISTRY: "${CI_REGISTRY}"
   IMAGE_FULL_NAME: "${CI_REGISTRY_IMAGE}"
   COMPOSE_PROJECT_NAME: "${PROJECT_NAME}-${CI_PIPELINE_IID}-${CI_JOB_NAME_SLUG}"
   NOVA_CI_IMAGE: $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
-  NOVA_CI_IMAGE_LIMIT: 1500MiB
+  NOVA_CI_IMAGE_LIMIT: 1000MiB
   NOVA_BUILD_IMAGE: $CI_REGISTRY_IMAGE/wip:$CI_COMMIT_REF_SLUG
-  NOVA_BUILD_IMAGE_LIMIT: 1000MiB
+  NOVA_BUILD_IMAGE_LIMIT: 1100MiB
   # Необходимый процент покрытия кода
-  COVERAGE_PERCENT: 10
-  # ID проекта на Gitlab с фронтендом для встраивания в образ
-  FRONTEND_PROJECT_ID: 369
+  COVERAGE_PERCENT: 0
 
 # Base scripts
 # ============
@@ -65,200 +63,56 @@ CI image:
 # Test scripts
 # ============
 
-# .test:
-#   stage: test
-#   extends: .base
-#   script:
-#     # Забираем свежую версию образа
-#     - docker-compose -f docker-compose.ci.yml pull
-#     # Checking config:
-#     - docker-compose -f docker-compose.ci.yml config --quiet
+.test:
+  stage: test
+  extends: .base
+  script:
+    # Забираем свежую версию образа
+    - docker-compose -f docker-compose.ci.yml pull
+    # Checking config:
+    - docker-compose -f docker-compose.ci.yml config --quiet
 
-#     # The logic itself:
-#     - docker-compose -f docker-compose.ci.yml run
-#       --user=root --rm web sh ./docker/ci.sh ${COMMAND}
-#   after_script:
-#     - docker-compose -f docker-compose.ci.yml down
-#       --remove-orphans --volumes
-#   variables:
-#     COMMAND: echo "is abstract stage"
+    # The logic itself:
+    - docker-compose -f docker-compose.ci.yml run
+      --user=root --rm web sh ./docker/ci.sh ${COMMAND}
+  after_script:
+    - docker-compose -f docker-compose.ci.yml down
+      --remove-orphans --volumes
+  variables:
+    COMMAND: echo "is abstract stage"
 
-# # Checking `.env` files:
-# dotenv:
-#   extends: .test
-#   variables:
-#     COMMAND: dotenv-linter config/.env config/.env.template
+# Running tests:
+pytest:
+  extends: .test
+  variables:
+    COMMAND: |
+      pytest &&
+      pytest --junitxml=report.xml --cov=server/apps --cov=tests --cov-branch
+      --cov-report=term-missing:skip-covered
+      --cov-fail-under=${COVERAGE_PERCENT}
+      --cov-report xml:coverage.xml
+  coverage: "/TOTAL.+ ([0-9]{1,3}%)/"
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
 
-# # Running linting for all python files in the project:
-# flake8:
-#   extends: .test
-#   variables:
-#     COMMAND: flake8 .
-
-# # Running type checking, see https://github.com/typeddjango/django-stubs
-# mypy:
-#   extends: .test
-#   variables:
-#     COMMAND: mypy manage.py server $(find tests -name '*.py')
-
-# # Running tests:
-# pytest:
-#   extends: .test
-#   variables:
-#     COMMAND: |
-#       pytest --dead-fixtures &&
-#       pytest --junitxml=report.xml --cov=server/apps --cov=tests --cov-branch
-#       --cov-report=term-missing:skip-covered
-#       --cov-fail-under=${COVERAGE_PERCENT}
-#       --cov-report xml:coverage.xml
-#   coverage: "/TOTAL.+ ([0-9]{1,3}%)/"
-#   artifacts:
-#     when: always
-#     reports:
-#       junit: report.xml
-
-# # Run checks to be sure we follow all django's best practices:
-# django check:
-#   extends: .test
-#   variables:
-#     COMMAND: python manage.py check --fail-level WARNING
-
-# # Run checks to be sure settings are correct (production flag is required):
-# django deploy check:
-#   extends: .test
-#   variables:
-#     COMMAND: DJANGO_ENV=production python manage.py check
-#       --deploy --fail-level WARNING
-
-# # Check that staticfiles app is working fine:
-# django staticfiles:
-#   extends: .test
-#   variables:
-#     COMMAND: DJANGO_ENV=production DJANGO_COLLECTSTATIC_DRYRUN=1 python
-#       manage.py collectstatic --no-input --dry-run
-
-# # Check unmigrated changes
-# django makemigrations:
-#   extends: .test
-#   variables:
-#     COMMAND: python manage.py makemigrations nova_account --dry-run --check
-
-# # Check that all migrations are backwards compatible:
-# django lintmigrations:
-#   extends: .test
-#   variables:
-#     COMMAND: python manage.py lintmigrations
-#       --exclude-apps axes sites filer easy_thumbnails actstream account
-#       nova_health
-#       --warnings-as-errors
-
-# # Checking if all the dependencies are secure and do not have any
-# # known vulnerabilities:
-# safety:
-#   extends: .test
-#   variables:
-#     COMMAND: safety check --full-report -i 51499 -i 52495 -i 54809 -i 59473
-
-# # Checking `pyproject.toml` file contents:
-# poetry check:
-#   extends: .test
-#   variables:
-#     COMMAND: poetry check
-
-# # Checking dependencies status:
-# pip check:
-#   extends: .test
-#   variables:
-#     COMMAND: pip check
-
-# # Checking docs:
-# docs check:
-#   extends: .test
-#   variables:
-#     COMMAND: doc8 -q docs
-
-# # Checking `yaml` files:
-# YAML lint:
-#   extends: .test
-#   variables:
-#     COMMAND: "yamllint -d '{\"extends\": \"default\",
-#              \"ignore\": \".venv\" }' -s ."
-
-# # Checking translation files, ignoring ordering and locations:
-# PO lint:
-#   extends: .test
-#   variables:
-#     COMMAND: polint -i location,unsorted locale
-#   rules:
-#     - if: $CI_COMMIT_TAG
-#       allow_failure: false
-#     - if: $CI_COMMIT_BRANCH
-#       allow_failure: true
-
-# # Compile localization files:
-# django compile po:
-#   extends: .test
-#   variables:
-#     COMMAND: python manage.py compilemessages
-#   artifacts:
-#     paths:
-#       - '**/locale/**/*.mo'
-#     expire_in: 1h
+# Run checks to be sure we follow all django's best practices:
+django check:
+  extends: .test
+  variables:
+    COMMAND: python manage.py check --fail-level WARNING
 
 Build:
   extends: .base
   stage: build
   script:
-
-    # # Скачивание архива с фронтендом
-    # - BASE_URL="${CI_API_V4_URL}/projects/${FRONTEND_PROJECT_ID}/"
-    # - >
-    #   if [ "$CI_BUILD_TAG" != "" ]; then
-    #     # Ищем собранный фронт для указанной метки
-    #     FRONTEND_BUILD_TAG="$CI_BUILD_TAG"
-    #     PIPELINE_ID=$(curl --header "PRIVATE-TOKEN: ${PRIVATE_TOKEN}" \
-    #       "${BASE_URL}pipelines?ref=${FRONTEND_BUILD_TAG}" 2>/dev/null \
-    #       | jq ".[0].id")
-    #     # Если запрошена релизная метка и фронт отсутствует - падаем в ошибку
-    #     if [ $PIPELINE_ID = null ]; then
-    #       if expr match "$CI_BUILD_TAG" 'release-v'; then
-    #         echo "Отсутствует собранный Frontend для метки $CI_BUILD_TAG"
-    #         exit 1
-    #       fi
-    #       # Иначе берём последний успешный develop
-    #       FRONTEND_BUILD_TAG="develop"
-    #       PIPELINE_ID=$(curl --header "PRIVATE-TOKEN: ${PRIVATE_TOKEN}" \
-    #         "${BASE_URL}pipelines?ref=${FRONTEND_BUILD_TAG}" 2>/dev/null \
-    #         | jq "[.[] | select(.ref==\"develop\") \
-    #         | select(.status==\"success\" or .status==\"manual\")][0].id" )
-    #     fi
-    #   else
-    #     FRONTEND_BUILD_TAG="develop"
-    #     PIPELINE_ID=$(curl --header "PRIVATE-TOKEN: ${PRIVATE_TOKEN}" \
-    #       "${BASE_URL}pipelines?ref=${FRONTEND_BUILD_TAG}" 2>/dev/null  \
-    #       | jq "[.[] | select(.ref==\"develop\") \
-    #       | select(.status==\"success\" or .status==\"manual\")][0].id" )
-    #   fi
-    # - echo "Загрузка Frontend для метки $FRONTEND_BUILD_TAG"
-    # - >
-    #   JOB_ID=$(curl --header "PRIVATE-TOKEN: ${PRIVATE_TOKEN}" \
-    #     "${BASE_URL}pipelines/${PIPELINE_ID}/jobs"  2>/dev/null  \
-    #     | jq 'map(select(.stage == "build"))' | jq '.[0].id')
-    # - >
-    #   curl -fksSL -o frontend.zip --header "PRIVATE-TOKEN: ${PRIVATE_TOKEN}" \
-    #     "${BASE_URL}jobs/${JOB_ID}/artifacts"
-    # - unzip frontend.zip -d tmp
-    # - rm frontend.zip
-    # - mv tmp/dist ./frontend
-    # - find ./frontend -name "*.map" -type f -delete
-
-
     # Checking config:
     - docker-compose
       -f docker-compose.build.yml config --quiet
 
     # Забираем свежую версию образа, чтобы работало кэширование слоёв
-    - docker-compose -f docker-compose.build.yml pull
+    - docker-compose -f docker-compose.build.yml pull --ignore-pull-failures
 
     - docker-compose -f docker-compose.build.yml build
 
@@ -268,75 +122,22 @@ Build:
     # Pushing back the result for future runs:
     - docker push ${NOVA_BUILD_IMAGE}
 
-# .deploy:
-#   image: $CI_REGISTRY/nova/docker-ssh:latest
-#   stage: deploy
-#   tags:
-#     - docker
-#   before_script:
-#     - eval $(ssh-agent -s)
-#     - ssh-add <(cat $SSH_PRIVATE_KEY)
-#   variables:
-#     GIT_STRATEGY: none
-#   script:
-#     - |
-#       ssh $SSH_HOST 'bash -s' << EOL
-#       set -o errexit
-#       set -o pipefail
-#       set -o nounset
-#       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#       cd $DOCKER_COMPOSE_DIR
-#       [ -f .pre-docker-compose.sh ] && bash .pre-docker-compose.sh
-#       docker-compose pull
-#       docker-compose run --rm  web provision
-#       EOL
-#     - |
-#       ssh $SSH_HOST 'bash -s' << EOL
-#       set -o errexit
-#       set -o pipefail
-#       set -o nounset
-#       cd $DOCKER_COMPOSE_DIR
-#       docker-compose up -d
-#       [ -f .post-docker-compose.sh ] && bash .post-docker-compose.sh
-#       EOL
+.deploy:
+  image: $CI_REGISTRY/nova/docker-ssh:latest
+  stage: deploy
+  tags:
+    - docker
+  before_script:
+    - eval $(ssh-agent -s)
+    - ssh-add <(cat $SSH_PRIVATE_KEY)
+  script:
+    - ssh $SSH_HOST "cd $DOCKER_COMPOSE_DIR && docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&  docker-compose pull web "
+    - ssh $SSH_HOST "cd $DOCKER_COMPOSE_DIR && docker-compose run --rm web provision"
+    - ssh $SSH_HOST "cd $DOCKER_COMPOSE_DIR && docker-compose up -d"
 
-# deploy Develop:
-#   extends: .deploy
-#   environment:
-#     name: develop
-#   only:
-#     - develop
-
-
-# Release scripts
-# ===============
-#
-## Releasing image, when in `master` branch,
-## can be replaced with `kira-release` bot:
-## https://github.com/wemake-services/kira-release
-# release-image:
-#  extends: .docker
-#  stage: deploy
-#  allow_failure: false
-#  before_script:
-#    # Build local image to be released to gitlab registry,
-#    # modify it to suite your needs as you wish.
-#    # We only care about the name of the image:
-#    - *docker-before-script
-#
-#    # Now we need the latest images for cache and improved build times:
-#    - docker pull "${IMAGE_FULL_NAME}:latest" || true
-#    - docker pull "${IMAGE_FULL_NAME}:dev" || true
-#    # Create correct tags:
-#    - docker tag "${IMAGE_FULL_NAME}:latest" "${PROJECT_NAME}:latest" || true
-#    - docker tag "${IMAGE_FULL_NAME}:dev" "${PROJECT_NAME}:dev" || true
-#
-#    # Building the image itself:
-#    - docker-compose -f docker-compose.yml
-#       build
-#  script:
-#    - docker push "${IMAGE_FULL_NAME}:latest"
-#  only:
-#    - master
-#  environment:
-#    name: production  # used to track time with 'cycle analytics'
+deploy:
+  extends: .deploy
+  environment:
+    name: main
+  only:
+    - main

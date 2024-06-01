@@ -11,12 +11,17 @@ services:
   web:
     <<: &web
       # Image for production:
-      image: ${NOVA_BUILD_IMAGE:-ghub.letsnova.com/hincal/backend/wip}
+      image: ${NOVA_BUILD_IMAGE:-ghub.letsnova.com/lct/summer/med/wip}
       build:
         target: production_build
-        args:
-          DJANGO_ENV: production
         context: .
         dockerfile: ./docker/django/Dockerfile
+        args:
+          DJANGO_ENV: production
+          NOVA_BUILD_ID: "${CI_PIPELINE_IID:-No CI}"
+          NOVA_RELEASE: "${CI_BUILD_TAG:-No release image}"
+          NOVA_PIPELINE_URL: "${CI_PIPELINE_URL:-No CI}"
+
       restart: unless-stopped
+
     command: sh ./docker/django/gunicorn.sh

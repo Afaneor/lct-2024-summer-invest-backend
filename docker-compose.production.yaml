@@ -19,7 +19,7 @@ services:
     env_file: ./.env
 
   web:
-    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
     volumes:
       - django-static:/var/www/django/static
     depends_on:
@@ -45,7 +45,7 @@ services:
       start_period: 30s
 
   nginx:
-    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
     command:
       - nginx
     networks:
@@ -56,9 +56,9 @@ services:
     depends_on:
       - web
 
-#   Celery worker
+  # Celery worker
   celery:
-    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
     command: celery -A server.celery worker -l info
     env_file: .env
     healthcheck:
@@ -68,10 +68,10 @@ services:
       retries: 3
     networks:
       - webnet
-
-  # Celery Beat
+#
+#  # Celery Beat
   beat:
-    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
     command: celery -A server.celery beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     env_file: .env
     healthcheck:
@@ -83,11 +83,7 @@ services:
       - webnet
 
   rabbitmq:
-    image: rabbitmq:management
-    container_name: rabbitmq
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+    image: "rabbitmq:3.8-management"
     networks:
       - webnet
 

@@ -1,0 +1,99 @@
+---
+
+# Default compose file for development and production.
+# Should be used directly in development.
+# Automatically loads `docker-compose.override.yml` if it exists.
+# No extra steps required.
+# Should be used together with `docker/docker-compose.prod.yml`
+# in production.
+
+version: "3.6"
+services:
+  db:
+    image: "postgres:15-alpine"
+    restart: unless-stopped
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - webnet
+    env_file: ./.env
+
+  web:
+    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    volumes:
+      - django-static:/var/www/django/static
+    depends_on:
+      - db
+    networks:
+      - webnet
+    env_file: .env
+    environment:
+      DJANGO_DATABASE_HOST: db
+    command: /usr/local/bin/start-web-server
+    healthcheck:
+      # We use `$$` here because:
+      # one `$` goes to shell,
+      # one `$` goes to `docker-compose.yml` escaping
+      test: |
+        /usr/bin/test $$(
+          /usr/bin/curl --fail http://localhost:8000/health/?format=json
+          --write-out "%{http_code}" --silent --output /dev/null
+        ) -eq 200
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  nginx:
+    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    command:
+      - nginx
+    networks:
+      - webnet
+    volumes:
+      - django-static:/var/www/django/static
+    env_file: .env
+    depends_on:
+      - web
+
+#   Celery worker
+  celery:
+    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    command: celery -A server.celery worker -l info
+    env_file: .env
+    healthcheck:
+      test: celery -A server.celery inspect ping -d celery@$$HOSTNAME
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - webnet
+
+  # Celery Beat
+  beat:
+    image: "swr.ru-moscow-1.hc.sbercloud.ru/hincal/hincal-backend:latest"
+    command: celery -A server.celery beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    env_file: .env
+    healthcheck:
+      test: celery -A server.celery inspect ping
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - webnet
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - webnet
+
+networks:
+  # Network for your internals, use it by default:
+  webnet:
+
+volumes:
+  django-static:

@@ -1,0 +1,22 @@
+---
+
+# Данный docker-compose файл предназначен для сборки production образа
+#
+# Instead, it should be a part of your deploy strategy.
+# This setup is supposed to be used with `docker-swarm`.
+# See `./docs/pages/template/production.rst` docs.
+
+version: "3.6"
+services:
+  web:
+    <<: &web
+      # Image for production:
+      image: ${NOVA_BUILD_IMAGE:-ghub.letsnova.com/hincal/backend/wip}
+      build:
+        target: production_build
+        args:
+          DJANGO_ENV: production
+        context: .
+        dockerfile: ./docker/django/Dockerfile
+      restart: unless-stopped
+    command: sh ./docker/django/gunicorn.sh

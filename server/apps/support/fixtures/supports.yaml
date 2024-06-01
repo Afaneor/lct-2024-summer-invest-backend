@@ -1,0 +1,204 @@
+---
+- model: support.support
+  pk: 1
+  fields:
+    title: Субсидии для работодателей за трудоустройство бывших участников СВО
+    text: '### Субсидия, которую получат работодатели за трудоустройство таких
+      граждан, будет равна трем минимальным размерам оплаты труда, увеличенным на 
+      районный коэффициент, сумму страховых взносов и умноженным на количество 
+      трудоустроенных.'
+    site: https://xn--90aifddrld7a.xn--p1ai/anticrisis/subsidii-dlya-rabotodateley-za-trudoustroystvo-byvshikh-uchastnikov-svo
+    amount: ''
+    is_actual: true
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 2
+  fields:
+    title: Экспресс-займы для малого и среднего турбизнеса
+    text: '### Потратить средства можно любые бизнес-цели.'
+    site: https://mspbank.ru/credit/express-tourism/
+    is_actual: true
+    amount: До 30 млн. рублей
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 3
+  fields:
+    title: Программа продвижения предпринимателей от Ozon и Минэкономразвития России
+    text: '## Ни разу не продавали свои товары на Ozon? Получите бесплатно бонусы для 
+      продвижения своих товаров и помощь персонального менеджера. Совершите свою первую продажу 
+      на маркеплейсе под присмотром экспертов благодаря новой мере поддержки бизнеса.'
+    site: https://xn--90aifddrld7a.xn--p1ai/anticrisis/programma-prodvizheniya-predprinimateley-ot-ozon-i-minekonomrazvitiya-rossii
+    is_actual: true
+    amount: До 70 000 показов объявлений
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 4
+  fields:
+    title: Антикризисные программы льготного кредитования
+    text: '## В настоящий момент действуют несколько программ льготного кредитования. Ознакомьтесь с каждым из них!'
+    site: https://xn--90aifddrld7a.xn--p1ai/anticrisis/antikrizisnye-programmy-lgotnogo-kreditovaniya-msp-ot-banka-rossii
+    is_actual: true
+    amount: До 2 млрд рублей
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 5
+  fields:
+    title: Cубсидии за трудоустройство молодёжи
+    text: '## Компании и организации, которые в 2023 году возьмут к себе на работу
+      молодых людей, смогут рассчитывать на господдержку в рамках программы субсидирования найма.'
+    site: https://xn--90aifddrld7a.xn--p1ai/anticrisis/cubsidii-za-trudoustroystvo-molodyezhi
+    is_actual: true
+    amount: ''
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 6
+  fields:
+    title: Новые меры поддержки экспортеров
+    text: '## Начиная с 2022 года экспортеры могут обратиться в центры поддержки 
+      экспорта (ЦПЭ) за получением новых услуг по содействию в организации и 
+      осуществлении транспортировки продукции, предназначенной для экспорта на 
+      внешние рынки, а также в размещении и хранении продукции в местах временного хранения за рубежом.'
+    site: https://xn--90aifddrld7a.xn--p1ai/anticrisis/novye-mery-podderzhki-eksporterov
+    is_actual: true
+    amount: Не более 300 тыс. рублей
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 7
+  fields:
+    title: Мораторий на проверки предприятий и предпринимателей
+    text: '## В России до конца 2023 года будет действовать мораторий на проведение 
+      проверок бизнеса. Такое постановление подписал Председатель Правительства Михаил Мишустин.'
+    site: https://xn--90aifddrld7a.xn--p1ai/anticrisis/moratoriy-na-proverki-predpriyatiy-i-predprinimateley
+    is_actual: true
+    amount: ''
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 8
+  fields:
+    title: Грант участникам инновационного кластера на территории города Москвы на возмещение затрат в целях реализации комплексных инновационных проектов (КИП – собственные средства)
+    text: '## Грант предоставляется в целях финансовой поддержки реализации комплексных инновационных проектов, предусматривающих комплекс мероприятий по осуществлению инноваций, в том числе созданию нового продукта и (или) использованию новой технологии при создании продукта.
+      Принять участие в программе могут юридические лица и индивидуальные предприниматели - участники Московского инновационного кластера, реализующие проект на территории г. Москвы, независимо от сферы деятельности (без ограничений по ОКВЭД).'
+    site: https://i.moscow/measure-supports-card/bda42d8149274710a9467835c8ab2aae
+    amount: До 600 млн рублей
+    is_actual: true
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 9
+  fields:
+    title: 'Для франчайзи: субсидии на уплату процентов по кредитам на приобретение оборудования и развитие хозяйственной деятельности'
+    text: '## Субсидии предоставляются субъектам МСП, осуществляющим предпринимательскую 
+      деятельность на территории города Москвы по одному и нескольким лицензионным договорам 
+      (сублицензионным договорам), договорам коммерческой концессии (субконцессии), 
+      зарегистрированным в Роспатенте не ранее чем за 5 календарных лет, предшествующих 
+      году подачи заявки на предоставление субсидии.'
+    site: https://i.moscow/measure-supports-card/8bbe8503803f49eabc49ecea075cd630
+    amount: 'До 1 млн рублей'
+    is_actual: true
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.support
+  pk: 10
+  fields:
+    title: 'Экспортёрам: субсидии на патентование за рубежом'
+    text: '## Компенсируется стоимость патентных исследований, работы по подаче заявок на патентование, стоимость пошлин и др.'
+    site: https://i.moscow/measure-supports-card/9c23e408ed654ad4a4231a5b72a93a59
+    amount: До 3 млн рублей
+    is_actual: true
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 1
+  fields:
+    title: Облигационный заём
+    text: 'Заём на оплату услуг по обслуживанию размещения облигаций'
+    site: https://mfppp.ru/loans/obligatsionnyy-zaem/
+    interest_rate: 4,5 %
+    loan_term: до 2 лет
+    amount: до 50 млн. руб.
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 2
+  fields:
+    title: Авансирование выручки
+    text: 'Заём на покрытие кассового разрыва Заёмщика, образовавшегося при предоставлении им отсрочек по оплате отгруженного товара по договорам с дебиторами.'
+    interest_rate: 6 %
+    loan_term: до 180 дней
+    amount: до 50 млн. руб.
+    site: https://mfppp.ru/loans/avansirovanie-vyruchki/
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 3
+  fields:
+    title: Технологическое присоединение
+    text: 'Заём на подключение объекта промышленной инфраструктуры заёмщика к сетям инженерно-технического обеспечения.'
+    interest_rate: 4,5 %
+    loan_term: до 3 лет
+    amount: до 300 млн. руб.
+    site: https://mfppp.ru/loans/tekhnologicheskoe-prisoedinenie/
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 4
+  fields:
+    title: Промышленность
+    text: 'Заём на покупку нового оборудования, закупку сырья, материалов и комплектующих.'
+    interest_rate: от 3 %
+    loan_term: до 5 лет
+    amount: до 300 млн. руб.
+    site: https://mfppp.ru/loans/promyshlennost/
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 5
+  fields:
+    title: IT
+    text: 'Заём на модернизацию производственного процесса: на приобретение ПО, компьютерного, серверного и сетевого оборудования, программно-аппаратного комплекса и тд.'
+    interest_rate: от 3 %
+    loan_term: до 3 лет
+    amount: до 300 млн. руб.
+    site: https://mfppp.ru/loans/it/
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 6
+  fields:
+    title: Экспорт АПК
+    text: 'Заём на покупку нового оборудования и закупку сырья, материалов и комплектующих для производства продукции АПК, идущей полностью или частично на экспорт.'
+    interest_rate: от 3 %
+    loan_term: до 3 лет
+    amount: до 300 млн. руб.
+    site: https://mfppp.ru/loans/eksport-apk/
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 7
+  fields:
+    title: Экспорт
+    text: 'Заём на покупку нового оборудования и закупку сырья, материалов и комплектующих для производства продукции, идущей полностью или частично на экспорт.'
+    interest_rate: от 3 %
+    loan_term: до 3 лет
+    amount: до 300 млн. руб.
+    site: https://mfppp.ru/loans/eksport/
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: support.offer
+  pk: 8
+  fields:
+    title: Благоустройство
+    text: 'Заём на создание и строительство элементов внешнего благоустройства территории и возведение элементов фасадов зданий.'
+    interest_rate: от 3 %
+    loan_term: до 3 лет
+    amount: до 300 млн. руб.
+    site: https://mfppp.ru/loans/blagoustroystvo/
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00

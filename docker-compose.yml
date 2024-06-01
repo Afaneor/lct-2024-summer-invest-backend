@@ -1,0 +1,107 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      ENV: production
+    networks:
+      - postgres
+
+  postgres:
+    image: postgres:15.1
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    env_file:
+      - .env
+    restart: unless-stopped
+
+networks:
+  postgres:
+
+volumes:
+    postgres:
+=======
+---
+
+# Default compose file for development and production.
+# Should be used directly in development.
+# Automatically loads `docker-compose.override.yml` if it exists.
+# No extra steps required.
+# Should be used together with `docker/docker-compose.prod.yml`
+# in production.
+
+version: "3.6"
+services:
+  db:
+    image: "postgres:15-alpine"
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - webnet
+    env_file: ./config/.env
+
+  web:
+    <<: &web
+      # Image name is changed in production:
+      image: "hincal-backend:dev"
+      build:
+        target: development_build
+        context: .
+        dockerfile: ./docker/django/Dockerfile
+        args:
+          DJANGO_ENV: development
+          NOVA_BUILD_ID: "${CI_PIPELINE_IID:-No CI}"
+          NOVA_RELEASE: "${CI_BUILD_TAG:-No release image}"
+          NOVA_PIPELINE_URL: "${CI_PIPELINE_URL:-No CI}"
+
+      volumes:
+        - django-static:/var/www/django/static
+      depends_on:
+        - db
+      networks:
+        - webnet
+      env_file: ./config/.env
+      environment:
+        DJANGO_DATABASE_HOST: db
+
+    command: python -Wd manage.py runserver 0.0.0.0:8000
+    healthcheck:
+      # We use `$$` here because:
+      # one `$` goes to shell,
+      # one `$` goes to `docker-compose.yml` escaping
+      test: |
+        /usr/bin/test $$(
+          /usr/bin/curl --fail http://localhost:8000/health/?format=json
+          --write-out "%{http_code}" --silent --output /dev/null
+        ) -eq 200
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+# This task is an example of how to extend existing ones:
+#   some_worker:
+#     <<: *web
+#     command: python manage.py worker_process
+
+networks:
+  # Network for your internals, use it by default:
+  webnet:
+
+volumes:
+  pgdata:
+  django-static:

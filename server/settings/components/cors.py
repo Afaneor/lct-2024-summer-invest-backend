@@ -7,7 +7,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://192.168.21.141:8080',
     'https://hincal.pavlin.tech',
-    'https://investment-calculator.safetysoft.ru/',
+    'https://investment-calculator.safetysoft.ru',
+    'https://invest.yapa.one',
+    'https://api.invest.yapa.one',
 ]
 CORS_ALLOW_ALL_ORIGINS = config(
     'CORS_ALLOW_ALL_ORIGINS',
@@ -50,7 +52,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:9000',
     'http://localhost:3000',
     'https://hincal.pavlin.tech',
-    'https://investment-calculator.safetysoft.ru/',
+    'https://investment-calculator.safetysoft.ru',
+    'https://invest.yapa.one',
+    'https://api.invest.yapa.one',
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -58,5 +62,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
     'http://192.168.21.141:8080',
     'https://hincal.pavlin.tech',
-    'https://investment-calculator.safetysoft.ru/',
+    'https://investment-calculator.safetysoft.ru',
+    'https://invest.yapa.one',
+    'https://api.invest.yapa.one',
 ]

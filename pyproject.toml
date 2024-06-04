@@ -142,9 +142,9 @@ line-length = 80
 build-backend = "poetry.masonry.api"
 requires = ["poetry>=0.12"]
 
-[[tool.poetry.source]]
-name = "pypi"
-priority = "primary"
+#[[tool.poetry.source]]
+#name = "pypi"
+#priority = "primary"
 
 [tool.nitpick]
 style = "https://raw.githubusercontent.com/wemake-services/wemake-python-styleguide/master/styles/nitpick-style-wemake.toml"

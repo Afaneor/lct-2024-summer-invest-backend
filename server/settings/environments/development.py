@@ -18,34 +18,17 @@ from server.settings.components.common import (
 )
 from server.settings.components.logging import LOGGING
 
+# Setting the development status:
+
 DEBUG = True
 
-DOMAIN_NAMES = config('DOMAIN_NAME').replace(' ', '').split(',')
-
 ALLOWED_HOSTS = [
-    *DOMAIN_NAMES,
+    config('DOMAIN_NAME'),
     'localhost',
     '0.0.0.0',  # noqa: S104
     '127.0.0.1',
     '[::1]',
 ]
-
-# CORS
-CORS_ALLOW_CREDENTIALS = config(
-    'CORS_ALLOW_CREDENTIALS',
-    cast=bool,
-    default=True,
-)
-CSRF_COOKIE_HTTPONLY = config(
-    'CSRF_COOKIE_HTTPONLY',
-    cast=bool,
-    default=False,
-)
-SESSION_COOKIE_HTTPONLY = config(
-    'SESSION_COOKIE_HTTPONLY',
-    cast=bool,
-    default=False,
-)
 
 # Installed apps for development only:
 
@@ -126,12 +109,16 @@ NPLUSONE_WHITELIST = [
 # Set of badly named migrations to ignore:
 DTM_IGNORED_MIGRATIONS = frozenset(
     (
+        ('axes', '*'),
         ('filer', '*'),
-        ('taggit', '*'),
         ('easy_thumbnails', '*'),
-        ('sites', '*'),
+        ('account', '*'),
         ('authtoken', '*'),
+        ('token_blacklist', '*'),
+        ('push_notifications', '*'),
+        ('taggit', '*'),
         ('django_celery_beat', '*'),
+        ('django_celery_results', '*'),
     ),
 )
 
@@ -186,10 +173,3 @@ LOGGING.update(
 )
 
 structlog.reset_defaults()
-
-CSRF_COOKIE_SAMESITE = config('CSRF_COOKIE_SAMESITE', cast=str, default='None')
-SESSION_COOKIE_SAMESITE = config(
-    'SESSION_COOKIE_SAMESITE',
-    cast=str,
-    default='None',
-)

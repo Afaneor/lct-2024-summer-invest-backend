@@ -152,3 +152,41 @@ class RetrieveListDeleteViewSet(  # noqa: WPS215
         'list': 'list',
         'metadata': None,
     }
+
+
+class RetrieveListCreateUpdateDeleteViewSet(  # noqa: WPS215
+    ViewSetSerializerMixin,
+    AutoPermissionViewSetMixin,
+    NestedViewSetMixin,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet,
+):
+    """ViewSet с возможностью просмотра/добавления/изменения/удаления."""
+
+    permission_type_map = {
+        **AutoPermissionViewSetMixin.permission_type_map,
+        'list': 'list',
+        'metadata': None,
+    }
+
+
+class RetrieveListCreateViewSet(  # noqa: WPS215
+    ViewSetSerializerMixin,
+    AutoPermissionViewSetMixin,
+    NestedViewSetMixin,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    GenericViewSet,
+):
+    """ViewSet с возможностью просмотра/добавления."""
+
+    permission_type_map = {
+        **AutoPermissionViewSetMixin.permission_type_map,
+        'list': 'list',
+        'metadata': None,
+    }

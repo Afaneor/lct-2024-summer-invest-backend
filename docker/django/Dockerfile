@@ -3,8 +3,8 @@
 
 FROM hub.letsnova.com/p/python:3.11-slim-bookworm AS base_build
 
-LABEL maintainer="nova@letsnova.ru"
-LABEL vendor="nova"
+LABEL maintainer="aaa@tech.ru"
+LABEL vendor="aaa"
 
 ENV \
   # build:
@@ -18,14 +18,14 @@ ENV \
   PIP_NO_CACHE_DIR=off \
   PIP_DISABLE_PIP_VERSION_CHECK=on \
   PIP_DEFAULT_TIMEOUT=100 \
-  PIP_INDEX_URL=https://pypi.letsnova.ru/simple/ \
+  PIP_INDEX_URL=https://pypi.python.org/simple/ \
   # dockerize:
   USE_DOCKER=1 \
   DOCKERIZE_VERSION=v0.6.1 \
   # tini:
   TINI_VERSION=v0.19.0 \
   # poetry:
-  POETRY_VERSION=1.4.2 \
+  POETRY_VERSION=1.4.2\
   POETRY_NO_INTERACTION=1 \
   POETRY_VIRTUALENVS_CREATE=false \
   POETRY_CACHE_DIR='/var/cache/pypoetry' \

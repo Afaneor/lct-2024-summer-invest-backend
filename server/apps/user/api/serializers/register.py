@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from server.apps.hincal.services.validators import inn_validator
+from server.apps.services.validators import inn_validator
 from server.apps.user.models import User
 
 
@@ -12,7 +12,10 @@ class RegisterSerializer(serializers.Serializer):
     """Регистрация пользователя."""
 
     first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(
+        required=False,
+        allow_blank=True,
+    )
     middle_name = serializers.CharField(
         required=False,
         allow_blank=True,

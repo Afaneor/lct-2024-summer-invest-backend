@@ -46,11 +46,10 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'django_celery_beat',
 
     # Your apps go here:
-    'server.apps.hincal',
-    'server.apps.blog',
+    'server.apps.personal_cabinet',
+    'server.apps.investment_object',
+    # 'server.apps.support',
     'server.apps.user',
-    'server.apps.support',
-    'server.apps.investment_site',
 
     # documentation
     'drf_yasg',
@@ -132,6 +131,7 @@ TIME_ZONE = 'UTC'
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR.joinpath('static')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

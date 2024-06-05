@@ -1,5 +1,3 @@
-from typing import Dict, Union
-
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
@@ -58,22 +56,22 @@ class User(  # type: ignore
     REQUIRED_FIELDS = ['username']
 
     avatar = models.ImageField(
-        _('Аватар'),
+        verbose_name=_('Аватар'),
         upload_to='media',
         blank=True,
     )
     email = models.EmailField(
-        _('адрес электронной почты'),
+        verbose_name=_('Адрес электронной почты'),
         unique=True,
     )
     middle_name = models.CharField(
-        _('Отчество'),
+        verbose_name=_('Отчество'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     objects = DefaultUserManager()  # noqa: WPS110
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Пользователь')
         verbose_name_plural = _('Пользователи')
 

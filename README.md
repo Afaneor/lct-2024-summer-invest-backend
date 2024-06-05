@@ -22,9 +22,7 @@ poetry install
 Запуск проекта (применение миграций, фикстур, и локальный запуск)
 ```python3
 python manage.py migrate
-python manage.py loaddata hincal
-python manage.py loaddata supports
-python manage.py load_business_indicators
+python manage.py loaddata personal_cabinet
 python manage.py load_investment_site
 python manage.py createsuperuser
 python manage.py runserver

@@ -12,7 +12,6 @@ from rest_framework.response import Response
 from server.apps.services.views import RetrieveListUpdateViewSet
 from server.apps.user.api.serializers import (
     ChangePasswordSerializer,
-    ConfirmEmailProcessSerializer,
     ConfirmEmailRequestSerializer,
     LoginSerializer,
     RegisterSerializer,
@@ -39,7 +38,7 @@ from server.apps.user.services.send_email import (
 class UserFilter(django_filters.FilterSet):
     """Фильтр для модели пользователя."""
 
-    class Meta(object):
+    class Meta:
         model = User
         fields = (
             'id',
@@ -180,7 +179,6 @@ class UserViewSet(RetrieveListUpdateViewSet):
         methods=['GET', 'POST'],
         detail=False,
         url_path='confirm-email/(?P<extra_path>.+)?',
-        serializer_class=ConfirmEmailProcessSerializer,
     )
     def confirm_email_process(self, request, extra_path=None):
         """Подтверждение регистрации."""
@@ -192,9 +190,6 @@ class UserViewSet(RetrieveListUpdateViewSet):
                 data=UserSerializer(user).data,
                 status=status.HTTP_200_OK,
             )
-
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
 
         # Проверка токена.
         email, key = check_extra_path(extra_path)

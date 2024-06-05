@@ -1,5 +1,5 @@
+from server.apps.personal_cabinet.tasks import delayed_create_business
 from server.apps.user.models import User
-from server.apps.user.tasks import create_business
 
 
 def create_new_user(data: dict) -> User:
@@ -17,7 +17,7 @@ def create_new_user(data: dict) -> User:
     user.save()
     user.refresh_from_db()
 
-    create_business.apply_async(
+    delayed_create_business.apply_async(
         kwargs={
             'inn': data.get('inn'),
             'user_id': user.id,

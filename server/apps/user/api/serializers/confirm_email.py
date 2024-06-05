@@ -22,13 +22,3 @@ class ConfirmEmailRequestSerializer(serializers.Serializer):
     def check_email(self, email) -> None:
         self.user = check_user_active(email=email)
         return self.user
-
-
-class ConfirmEmailProcessSerializer(serializers.Serializer):
-    """Успешное подтверждение регистрации.
-
-    Сериализитор не несет смысловой нагрузки, но нужен для того, чтобы
-    не удалось случайно активировать аккаунт у пользователя.
-    """
-
-    is_active = serializers.BooleanField(required=True)

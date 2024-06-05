@@ -1,0 +1,461 @@
+---
+- model: hincal.sector
+  pk: 1
+  fields:
+    name: Пищевая промышленность
+    slug: food_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 2
+  fields:
+    name: Радиоэлектроника и приборостроение
+    slug: radio_electronics_and_instrumentation
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 3
+  fields:
+    name: Авиационная промышленность
+    slug: aviation_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 4
+  fields:
+    name: Автомобильная промышленность
+    slug: automotive_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 5
+  fields:
+    name: Общее машиностроение (в т.ч. оборудование пищевой переработки, дорожногстроительная и сельскохозяйственная техника)
+    slug: general_mechanical_engineering
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 6
+  fields:
+    name: Легкая промышленность
+    slug: light_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 7
+  fields:
+    name: Производство кокса и нефтепродуктов
+    slug: production_of_petroleum_products
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 8
+  fields:
+    name: Химическая промышленность
+    slug: chemical_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 9
+  fields:
+    name: Производство строительных материалов
+    slug: production_of_building_materials
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 10
+  fields:
+    name: Производство оружия, боеприпасов, спецхимии, военных машин
+    slug: production_for_military
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 11
+  fields:
+    name: Фармацевтическая промышленность
+    slug: pharmaceutical_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 12
+  fields:
+    name: Топливно-энергетический комплекс
+    slug: fuel_and_energy_complex
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 13
+  fields:
+    name: Медицинская промышленность
+    slug: medical_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 14
+  fields:
+    name: Кабельная промышленность
+    slug: cable_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 15
+  fields:
+    name: Деревообрабатывающая
+    slug: woodworking
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 16
+  fields:
+    name: Металлургия и металлообработка
+    slug: metallurgy_and_metalworking
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 17
+  fields:
+    name: Полиграфическая деятельность
+    slug: printing_activity
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 18
+  fields:
+    name: Производство прочих товаров народного потребления
+    slug: production_of_other_consumer_goods
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 19
+  fields:
+    name: Производство напитков
+    slug: beverage_production
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 20
+  fields:
+    name: Научная деятельность
+    slug: scientific_activity
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 21
+  fields:
+    name: Станкоинструментальная промышленность
+    slug: machine_tool_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 22
+  fields:
+    name: Судостроение
+    slug: shipbuilding
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 23
+  fields:
+    name: Производство ж/д транспорта
+    slug: production_of_railway_transport
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 24
+  fields:
+    name: Производство бытовой электроники и электрических приборов
+    slug: manufacture_of_consumer_electronics
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 25
+  fields:
+    name: Аддитивные технологии
+    slug: additive_technologies
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.sector
+  pk: 26
+  fields:
+    name: Иные сектора
+    slug: other
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 1
+  fields:
+    name: Молочная отрасль
+    slug: dairy_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 2
+  fields:
+    name: Приборостроение
+    slug: instrumentation
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 3
+  fields:
+    name: Мясная отрасль
+    slug: meat_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 4
+  fields:
+    name: Металлообработка
+    slug: metalworking
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 5
+  fields:
+    name: Кондитерская отрасль
+    slug: confectionery_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 6
+  fields:
+    name: Производство прочих машин и оборудования общего назначения
+    slug: manufacture_of_other_general
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 7
+  fields:
+    name: Хлебопекарная отрасль
+    slug: bakery_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 8
+  fields:
+    name: Производство ж/д транспорта
+    slug: production_of_railway_transport
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 9
+  fields:
+    name: Рыбная отрасль
+    slug: fishing_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 10
+  fields:
+    name: Производство машин и оборудования общего назначения
+    slug: production_of_general_purpose_equipment
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 11
+  fields:
+    name: Производство плодоовощных консервов
+    slug: production_of_canned_fruits_and_vegetables
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 12
+  fields:
+    name: Электротехника
+    slug: electrical_engineering
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 13
+  fields:
+    name: Производство прочих машин специального назначения
+    slug: production_of_other_special_purpose_machines
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 14
+  fields:
+    name: Станкоинструментальная промышленность
+    slug: machine_tool_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 15
+  fields:
+    name: Микроэлектроника
+    slug: microelectronics
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 16
+  fields:
+    name: Мукомольно-крупяная отрасль
+    slug: milling_and_cereal_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 17
+  fields:
+    name: Иные отрасли
+    slug: other
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 18
+  fields:
+    name: Производство напитков
+    slug: beverage_production
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 19
+  fields:
+    name: Корма для животных
+    slug: animal_feed
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 20
+  fields:
+    name: Электротехника/Судостроение
+    slug: electrical_engineering_and_shipbuilding
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 21
+  fields:
+    name: Сахарная отрасль
+    slug: sugar_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 22
+  fields:
+    name: Производство машин и оборудования для сельского и лесного хозяйства
+    slug: production_of_equipment_for_agriculture_and_forestry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.subsector
+  pk: 23
+  fields:
+    name: Масложировая отрасль
+    slug: fat_and_oil_industry
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 1
+  fields:
+    shot_name: ВАО
+    full_name: Восточный
+    slug: wao
+    avg_land_cadastral_value: 15.49236
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 2
+  fields:
+    shot_name: ЗАО
+    full_name: Западный
+    slug: zao
+    avg_land_cadastral_value: 11.70322
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 3
+  fields:
+    shot_name: ЗелАО
+    full_name: Зеленоградский
+    slug: zelao
+    avg_land_cadastral_value: 4.1115
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 4
+  fields:
+    shot_name: НАО
+    full_name: Новомосковский
+    slug: nao
+    avg_land_cadastral_value: 5.33394
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 5
+  fields:
+    shot_name: САО
+    full_name: Северный
+    slug: sao
+    avg_land_cadastral_value: 20.53299
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 6
+  fields:
+    shot_name: СВАО
+    full_name: Северо-Восточный
+    slug: swao
+    avg_land_cadastral_value: 19.48533
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 7
+  fields:
+    shot_name: СЗАО
+    full_name: Северо-Западный
+    slug: szao
+    avg_land_cadastral_value: 19.96159
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 8
+  fields:
+    shot_name: ТАО
+    full_name: Троицкий
+    slug: tao
+    avg_land_cadastral_value: 2.89051
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 9
+  fields:
+    shot_name: ЦАО
+    full_name: Центральный
+    slug: cao
+    avg_land_cadastral_value: 63.27479
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 10
+  fields:
+    shot_name: ЮАО
+    full_name: Южный
+    slug: yuao
+    avg_land_cadastral_value: 13.51037
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 11
+  fields:
+    shot_name: ЮВАО
+    full_name: Юго-Восточный
+    slug: yuwao
+    avg_land_cadastral_value: 14.08697
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 12
+  fields:
+    shot_name: ЮЗАО
+    full_name: Юго-Западный
+    slug: yuzao
+    avg_land_cadastral_value: 16.4231
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00
+- model: hincal.territoriallocation
+  pk: 13
+  fields:
+    shot_name: Другое
+    full_name: Другое
+    slug: other
+    avg_land_cadastral_value: 17.23389
+    created_at: 2023-01-01 10:00:00
+    updated_at: 2023-01-01 10:00:00

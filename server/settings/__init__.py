@@ -26,7 +26,7 @@ _base_settings = (
     'components/common.py',
     'components/logging.py',
     'components/csp.py',
-    'components/hincal.py',
+    'components/investment_object.py',
     'components/email.py',
     'components/celery.py',
     'components/sentry.py',

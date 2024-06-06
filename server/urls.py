@@ -30,8 +30,8 @@ from server.url_components import (
 )
 
 # Регистрируем routers приложений.
-router.register('investment_object', investment_object_router, 'blog')
-router.register('personal_cabinet', personal_cabinet_router, 'personal_cabinet')
+router.register('investment-object', investment_object_router, 'investment-object')
+router.register('personal-cabinet', personal_cabinet_router, 'personal-cabinet')
 router.register('user', user_router, 'user')
 
 api_url = [

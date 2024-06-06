@@ -12,8 +12,8 @@ def parsing_problem():
     # Получаем https://investmoscow.ru/business/moscow-investor
     response = requests.get(
         url=(
-            'https://services.investmoscow.ru/moscowinvestorapi'
-            '/appealcategories/list/v2'
+            'https://services.investmoscow.ru/moscowinvestorapi/'
+            'appealcategories/list/v2'
         ),
         timeout=15,
     )

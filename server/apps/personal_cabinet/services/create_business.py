@@ -87,7 +87,7 @@ def get_business_by_inn(inn: str) -> List[dict]:
     return response.get('suggestions')
 
 
-def create_or_update_business(inn: str, user_id: int) -> Tuple[Business, bool]:
+def update_or_create_business(inn: str, user_id: int) -> Tuple[Business, bool]:
     """Выбираем нужную информацию о компании или ИП и сохраняем ее в БД.
 
     Информация берется из DaData.
@@ -105,7 +105,7 @@ def create_or_update_business(inn: str, user_id: int) -> Tuple[Business, bool]:
                 address.get('data', {}).get('city_area', '').lower(),
             ),
         )
-        return Business.objects.create_or_update(
+        return Business.objects.update_or_create(
             inn=inn,
             defaults={
                 'type_business': data.get('type').lower(),
@@ -126,14 +126,24 @@ def create_or_update_business(inn: str, user_id: int) -> Tuple[Business, bool]:
                 'region':  address.get('data', {}).get('region', ''),
                 'city_area':  address.get('data', {}).get('city_area', ''),
                 'city_district':  address.get('data', {}).get('city_district', ''),
-                'phone':  data.get('phones', {})[0].get('value', ''),
-                'email':  data.get('phones', {})[0].get('value', ''),
+                'phone': (
+                    data.get('phones', [])[0].get('value', '')
+                    if data.get('phones', [])
+                    else
+                    ''
+                ),
+                'email':  (
+                    data.get('emails', [])[0].get('value', '')
+                    if data.get('phones', [])
+                    else
+                    ''
+                ),
                 'sector':  sector,
                 'sub_sector':  sub_sector,
             },
         )
     else:
-        return Business.objects.create_or_update(
+        return Business.objects.update_or_create(
             inn=inn,
             defaults={
                 'type_business': TypeBusiness.PHYSICAL,

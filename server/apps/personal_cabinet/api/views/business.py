@@ -13,7 +13,7 @@ from server.apps.personal_cabinet.api.serializers import (
 )
 from server.apps.personal_cabinet.models import Business
 from server.apps.personal_cabinet.services.create_business import (
-    create_or_update_business,
+    update_or_create_business,
 )
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
@@ -121,22 +121,22 @@ class BusinessViewSet(RetrieveListCreateUpdateDeleteViewSet):
         """Создание бизнеса по ИНН."""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)  # noqa: WPS204
-        try:
-            create_or_update_business(
-                inn=serializer.validated_data['inn'],
-                user_id=request.user.id,
-            )
-        except Exception:
-            return Response(
-                data={
-                    'detail': _(
-                        'При добавлении по ИНН вашего бизнеса произошла '
-                        'ошибка, связанная с доступом к сервису DaData.'
-                        'Вы можете добавить информацию в ручную.'
-                    ),
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        # try:
+        update_or_create_business(
+            inn=serializer.validated_data['inn'],
+            user_id=request.user.id,
+        )
+        # except Exception:
+        #     return Response(
+        #         data={
+        #             'detail': _(
+        #                 'При добавлении по ИНН вашего бизнеса произошла '
+        #                 'ошибка, связанная с доступом к сервису DaData.'
+        #                 'Вы можете добавить информацию в ручную.'
+        #             ),
+        #         },
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
         return Response(
             data={'detail': _('Информация о бизнесе успешно добавлена')},
             status=status.HTTP_200_OK,
@@ -155,7 +155,7 @@ class BusinessViewSet(RetrieveListCreateUpdateDeleteViewSet):
         """Обновление бизнеса по ИНН."""
         business = self.get_object()
         try:
-            create_or_update_business(
+            update_or_create_business(
                 inn=business.inn,
                 user_id=request.user.id,
             )

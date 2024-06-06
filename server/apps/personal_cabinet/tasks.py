@@ -2,7 +2,7 @@ import openai
 from django.conf import settings
 
 from server.apps.personal_cabinet.services.create_business import (
-    create_or_update_business,
+    update_or_create_business,
 )
 from server.celery import app
 
@@ -13,7 +13,7 @@ def delayed_create_business(self, inn: str, user_id: int) -> None:
 
     Информация берется из DaData.
     """
-    create_or_update_business(
+    update_or_create_business(
         inn=inn,
         user_id=user_id,
     )

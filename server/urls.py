@@ -20,6 +20,9 @@ from server.apps.investment_object.api.routers import (
 from server.apps.personal_cabinet.api.routers import (
     router as personal_cabinet_router,
 )
+from server.apps.support.api.routers import (
+    router as support_router,
+)
 from server.apps.services.custom_router.api_router import router
 from server.apps.user.api.routers import router as user_router
 from server.url_components import (
@@ -32,15 +35,20 @@ from server.url_components import (
 # Регистрируем routers приложений.
 router.register('investment-object', investment_object_router, 'investment-object')
 router.register('personal-cabinet', personal_cabinet_router, 'personal-cabinet')
+router.register('support', support_router, 'support')
 router.register('user', user_router, 'user')
+
+api_url = [
+    path("api/", include((router.urls, "api"))),
+]
 
 admin.autodiscover()
 
 urlpatterns = [
     # Health checks:
-    path('health/', include(health_urls)),  # noqa: DJ05
     path('api-auth/', include('rest_framework.urls')),
-    path('api/', include(router.urls)),
+    path('health/', include(health_urls)),  # noqa: DJ05
+    path("", include(api_url)),
 
     *admin_urlpatterns,
     *docs_urlpatterns,

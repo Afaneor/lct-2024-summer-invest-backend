@@ -67,7 +67,6 @@ MIDDLEWARE: Tuple[str, ...] = (
     'corsheaders.middleware.CorsMiddleware',
     # Content Security Policy:
     'csp.middleware.CSPMiddleware',
-
     # Django:
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -142,12 +141,12 @@ STATICFILES_FINDERS = (
 # https://docs.djangoproject.com/en/2.2/ref/templates/api
 
 TEMPLATES = [{
-    'APP_DIRS': True,
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     'DIRS': [
         # Contains plain text templates, like `robots.txt`:
         BASE_DIR.joinpath('server', 'templates'),
     ],
+    'APP_DIRS': True,
     'OPTIONS': {
         'context_processors': [
             # Default template context processors:
@@ -155,6 +154,8 @@ TEMPLATES = [{
             'django.template.context_processors.debug',
             'django.template.context_processors.i18n',
             'django.template.context_processors.media',
+            'django.template.context_processors.static',
+            'django.template.context_processors.tz',
             'django.contrib.messages.context_processors.messages',
             'django.template.context_processors.request',
         ],
@@ -187,7 +188,7 @@ PASSWORD_HASHERS = [
 # https://docs.djangoproject.com/en/2.2/topics/security/
 
 SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 
@@ -212,10 +213,10 @@ TESTING = 'test' in sys.argv
 TESTING = TESTING or 'test_coverage' in sys.argv or 'pytest' in sys.modules
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ),
+    ],
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
@@ -228,5 +229,4 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter',
         'rest_framework.filters.SearchFilter',
     ),
-
 }

@@ -50,7 +50,7 @@ class UserSerializer(ModelSerializerWithPermission):
         заполнить такую информацию.
         Если пользователь физическое лицо, то заставляем заполнить информацию.
         """
-        for business in user.businesses:
+        for business in user.businesses.all():
             if (
                 business.TypeBusiness != TypeBusiness.PHYSICAL or
                 business.sector is not None or

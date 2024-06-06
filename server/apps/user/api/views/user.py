@@ -63,7 +63,7 @@ class UserViewSet(RetrieveListUpdateViewSet):
     """
 
     serializer_class = UserSerializer
-    queryset = User.objects.select_related('profile')
+    queryset = User.objects.all()
     filterset_class = UserFilter
     ordering_fields = '__all__'
     permission_type_map = {

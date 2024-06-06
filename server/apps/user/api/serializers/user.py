@@ -37,6 +37,7 @@ class UserSerializer(ModelSerializerWithPermission):
             'first_name',
             'last_name',
             'middle_name',
+            'full_name',
             'is_active',
             'is_need_add_info',
             'permission_rules',

@@ -1,5 +1,5 @@
 import rules
-from rules.predicates import always_true, is_authenticated
+from rules.predicates import is_authenticated
 
 rules.set_perm('user.view_user', is_authenticated)
 rules.set_perm('user.change_user', is_authenticated)

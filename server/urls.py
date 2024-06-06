@@ -34,17 +34,13 @@ router.register('investment-object', investment_object_router, 'investment-objec
 router.register('personal-cabinet', personal_cabinet_router, 'personal-cabinet')
 router.register('user', user_router, 'user')
 
-api_url = [
-    path('api/', include((router.urls, 'api'))),
-]
-
 admin.autodiscover()
 
 urlpatterns = [
     # Health checks:
     path('health/', include(health_urls)),  # noqa: DJ05
     path('api-auth/', include('rest_framework.urls')),
-    path('', include(api_url)),
+    path('api/', include(router.urls)),
 
     *admin_urlpatterns,
     *docs_urlpatterns,

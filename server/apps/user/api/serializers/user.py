@@ -25,8 +25,6 @@ class BaseInfoUserSerializer(serializers.ModelSerializer):
 class UserSerializer(ModelSerializerWithPermission):
     """Детальная информация о пользователе."""
 
-    is_need_add_info = serializers.SerializerMethodField()
-
     class Meta:
         model = User
         fields = (

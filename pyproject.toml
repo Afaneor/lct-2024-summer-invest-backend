@@ -53,7 +53,7 @@ structlog = "^22.3" # https://github.com/hynek/structlog
 django-anymail = { extras = ["sendgrid"], version = "^9.0" }
 
 # Django REST Framework
-djangorestframework = "^3.14"  # https://github.com/encode/django-rest-framework
+djangorestframework = "^3.15"  # https://github.com/encode/django-rest-framework
 drf-extensions = "^0.7.1"  # https://github.com/chibisov/drf-extensions
 
 gunicorn = "^20.1"  # https://pypi.org/project/gunicorn/

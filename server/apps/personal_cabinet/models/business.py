@@ -175,8 +175,8 @@ class Business(AbstractBaseModel):
         verbose_name_plural = _('Бизнесы')
         constraints = [
             models.CheckConstraint(
-                name='type_valid',
-                check=models.Q(type__in=[*TypeBusiness.values, '']),
+                name='type_business_valid',
+                check=models.Q(type_business__in=[*TypeBusiness.values, '']),
             ),
             models.CheckConstraint(
                 name='type_tax_system_valid',

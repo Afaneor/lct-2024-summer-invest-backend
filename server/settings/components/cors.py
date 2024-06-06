@@ -9,11 +9,6 @@ CORS_ALLOWED_ORIGINS = [
     'https://invest.yapa.one',
     'https://api.invest.yapa.one',
 ]
-CORS_ALLOW_ALL_ORIGINS = config(
-    'CORS_ALLOW_ALL_ORIGINS',
-    cast=bool,
-    default=False,
-)
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',

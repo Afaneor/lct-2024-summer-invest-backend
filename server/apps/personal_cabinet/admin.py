@@ -22,14 +22,14 @@ class BusinessAdmin(admin.ModelAdmin[Business]):
     list_display = (
         'id',
         'user',
-        'type',
+        'type_business',
         'inn',
         'sector',
         'short_business_name',
     )
 
     list_filter = (
-        'type',
+        'type_business',
         'sector',
         'sub_sector',
     )

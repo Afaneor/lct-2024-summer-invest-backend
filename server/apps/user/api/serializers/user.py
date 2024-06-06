@@ -42,21 +42,3 @@ class UserSerializer(ModelSerializerWithPermission):
             'is_need_add_info',
             'permission_rules',
         )
-
-    def get_is_need_add_info(self, user: User):
-        """
-        Необходимость заполнения информации о бизнесе.
-
-        Если у пользователя нет информации о бизнесе, то заставляем его
-        заполнить такую информацию.
-        Если пользователь физическое лицо, то заставляем заполнить информацию.
-        """
-        for business in user.businesses.all():
-            if (
-                business.TypeBusiness != TypeBusiness.PHYSICAL or
-                business.sector is not None or
-                business.sub_sector is not None
-            ):
-                return False
-
-        return True

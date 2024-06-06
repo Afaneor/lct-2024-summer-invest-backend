@@ -30,7 +30,7 @@ class Business(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    type = models.CharField(
+    type_business = models.CharField(
         verbose_name=_('Тип бизнеса'),
         max_length=settings.MAX_STRING_LENGTH,
         choices=TypeBusiness.choices,
@@ -185,4 +185,4 @@ class Business(AbstractBaseModel):
         ]
 
     def __str__(self):
-        return f'{self.type} - {self.user}. ИНН - {self.inn}'
+        return f'{self.type_business} - {self.user}. ИНН - {self.inn}'

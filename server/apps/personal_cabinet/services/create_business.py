@@ -108,7 +108,7 @@ def create_or_update_business(inn: str, user_id: int) -> Tuple[Business, bool]:
         return Business.objects.create_or_update(
             inn=inn,
             defaults={
-                'type': data.get('type').lower(),
+                'type_business': data.get('type').lower(),
                 'territorial_location':  territorial_location,
                 'hid':  data.get('hid', ''),
                 'short_business_name':  data.get('name', {}).get('short_with_opf', ''),
@@ -136,7 +136,7 @@ def create_or_update_business(inn: str, user_id: int) -> Tuple[Business, bool]:
         return Business.objects.create_or_update(
             inn=inn,
             defaults={
-                'type': TypeBusiness.PHYSICAL,
+                'type_business': TypeBusiness.PHYSICAL,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'middle_name': user.middle_name,

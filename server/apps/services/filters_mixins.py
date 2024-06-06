@@ -37,46 +37,13 @@ class TagFilterMixin(django_filters.FilterSet):
 class CreatedUpdatedDateFilterMixin(django_filters.FilterSet):
     """Миксин для фильтрации по датам создания и обновления."""
 
-    start_created_at = django_filters.DateTimeFilter(
-        field_name='created_at',
-        lookup_expr='gte',
-    )
-    end_created_at = django_filters.DateTimeFilter(
-        field_name='created_at',
-        lookup_expr='lte',
-    )
-    start_updated_at = django_filters.DateTimeFilter(
-        field_name='updated_at',
-        lookup_expr='gte',
-    )
-    end_updated_at = django_filters.DateTimeFilter(
-        field_name='updated_at',
-        lookup_expr='lte',
-    )
-    range_created_at = NonValidatingMultipleChoiceFilter(
-        method='range_created_at_filter',
-    )
-    range_updated_at = NonValidatingMultipleChoiceFilter(
-        method='range_updated_at_filter',
+    created_at_date = django_filters.DateFromToRangeFilter(
+        field_name='created_at__date',
     )
 
-    def range_created_at_filter(self, queryset, name, date_value):
-        """Фильтруем объект по дате создания."""
-        if len(date_value) == 2:
-            return queryset.filter(
-                created_at__gte=date_value[0],
-                created_at__lte=date_value[1],
-            )
-        return queryset
-
-    def range_updated_at_filter(self, queryset, name, date_value):
-        """Фильтруем объект по дате изменения."""
-        if len(date_value) == 2:
-            return queryset.filter(
-                updated_at__gte=date_value[0],
-                updated_at__lte=date_value[1],
-            )
-        return queryset
+    updated_at_date = django_filters.DateFromToRangeFilter(
+        field_name='updated_at__date',
+    )
 
 
 class CurrentStageFilterMixin(django_filters.FilterSet):

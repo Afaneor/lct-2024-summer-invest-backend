@@ -23,7 +23,7 @@ class BusinessSerializer(ModelSerializerWithPermission):
             'id',
             'user',
             'position',
-            'type',
+            'type_business',
             'inn',
             'sector',
             'sub_sector',
@@ -61,7 +61,7 @@ class BaseBusinessSerializer(ModelSerializerWithPermission):
     class Meta:
         model = Business
         fields = (
-            'type',
+            'type_business',
             'inn',
             'sector',
             'sub_sector',
@@ -96,7 +96,7 @@ class CreateBusinessSerializer(serializers.ModelSerializer):
         model = Business
         fields = (
             'position',
-            'type',
+            'type_business',
             'inn',
             'sector',
             'sub_sector',

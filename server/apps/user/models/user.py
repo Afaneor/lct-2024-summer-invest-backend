@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from rules.contrib.models import RulesModelBase, RulesModelMixin
 
+from server.apps.personal_cabinet.services.enums import TypeBusiness
+
 
 class DefaultUserManager(UserManager):  # type: ignore
     """Менеджер для пользователей с логином email."""
@@ -85,3 +87,22 @@ class User(  # type: ignore
         if not any(names_elements):
             return ''
         return ' '.join(filter(None, names_elements)).strip()
+
+    @property
+    def is_need_add_info(self) -> bool:
+        """
+        Необходимость заполнения информации о бизнесе.
+
+        Если у пользователя нет информации о бизнесе, то заставляем его
+        заполнить такую информацию.
+        Если пользователь физическое лицо, то заставляем заполнить информацию.
+        """
+        for business in self.businesses.all():
+            if (
+                business.TypeBusiness != TypeBusiness.PHYSICAL or
+                business.sector is not None or
+                business.sub_sector is not None
+            ):
+                return False
+
+        return True

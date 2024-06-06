@@ -118,7 +118,10 @@ class UserViewSet(RetrieveListUpdateViewSet):
                 _('Пользователь с указанными данными не найден'),
             )
 
-        return Response(status=status.HTTP_200_OK)
+        return Response(
+            data={'is_need_add_info': serializer.user.is_need_add_info},
+            status=status.HTTP_200_OK
+        )
 
     @action(
         ['POST'],

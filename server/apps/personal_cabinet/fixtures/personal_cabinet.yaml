@@ -177,7 +177,7 @@
 - model: personal_cabinet.sector
   pk: 26
   fields:
-    name: Иные сектора
+    name: Иные отрасли
     slug: other
     created_at: 2023-01-01 10:00:00
     updated_at: 2023-01-01 10:00:00

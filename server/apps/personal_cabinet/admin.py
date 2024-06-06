@@ -85,7 +85,7 @@ class MessageAdmin(admin.ModelAdmin[Message]):
 
 @admin.register(Sector)
 class SectorAdmin(admin.ModelAdmin[Sector]):
-    """Сектор."""
+    """Отрасль."""
 
     list_display = (
         'id',
@@ -154,7 +154,7 @@ class SelectionRequestObjectAdmin(admin.ModelAdmin[SelectionRequest]):
 
 @admin.register(SubSector)
 class SubSectorAdmin(admin.ModelAdmin[SubSector]):
-    """Сектор."""
+    """Подотрасль."""
 
     list_display = (
         'id',

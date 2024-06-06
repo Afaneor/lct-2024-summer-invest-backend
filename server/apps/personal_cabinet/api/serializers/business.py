@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils.translation import gettext_lazy as _
 
 from server.apps.personal_cabinet.api.serializers import (
     BaseSectorSerializer,
@@ -17,9 +18,15 @@ class BusinessSerializer(ModelSerializerWithPermission):
     Физическое лицо заполняет данные руками.
     """
 
-    territorial_location = BaseTerritorialLocationSerializer()
-    sector = BaseSectorSerializer()
-    sub_sector = BaseSubSectorSerializer()
+    territorial_location = BaseTerritorialLocationSerializer(
+        label=_('Территориальное расположение'),
+    )
+    sector = BaseSectorSerializer(
+        label=_('Отрасль'),
+    )
+    sub_sector = BaseSubSectorSerializer(
+        label=_('Подотрасль'),
+    )
 
     class Meta:
         model = Business

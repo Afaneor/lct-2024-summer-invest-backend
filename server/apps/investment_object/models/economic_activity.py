@@ -8,7 +8,7 @@ from server.apps.services.base_model import AbstractBaseModel
 class EconomicActivity(AbstractBaseModel):
     """Экономическая деятельность."""
 
-    code = models.IntegerField(
+    code = models.CharField(
         verbose_name=_('Код отрасли'),
         unique=True,
     )

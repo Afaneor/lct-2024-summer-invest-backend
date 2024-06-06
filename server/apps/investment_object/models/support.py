@@ -32,14 +32,12 @@ class Support(AbstractBaseModel):
         verbose_name=_('Описание'),
         blank=True,
     )
-    legal_act = models.CharField(
+    legal_act = models.TextField(
         verbose_name=_('Реквизиты НПА'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    url_legal_act = models.CharField(
+    url_legal_act = models.TextField(
         verbose_name=_('Ссылка на НПА'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     application_form_link = models.CharField(
@@ -52,15 +50,17 @@ class Support(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    economic_activity = models.ManyToManyField(
+    economic_activities = models.ManyToManyField(
         to='investment_object.EconomicActivity',
         verbose_name=_('Экономическая активность'),
-        related_name='real_estate'
+        related_name='supports',
+        blank=True,
     )
     restrictions = models.ManyToManyField(
         to='investment_object.Restriction',
         verbose_name=_('Ограничения по видам деятельности'),
-        related_name='investment_sites'
+        related_name='supports',
+        blank=True,
     )
     is_msp_roster = models.BooleanField(
         verbose_name=_('Требуется вхождение в реестр МСП'),
@@ -85,4 +85,4 @@ class Support(AbstractBaseModel):
         verbose_name_plural = _('Поддержки')
 
     def __str__(self):
-        return str(self.tender)
+        return self.name

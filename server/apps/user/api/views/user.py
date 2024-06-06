@@ -127,7 +127,10 @@ class UserViewSet(RetrieveListUpdateViewSet):
         serializer_class=RegisterSerializer,
     )
     def register(self, request):  # noqa: WPS210
-        """Регистрация пользователя."""
+        """Регистрация пользователя.
+
+        Процесс регистрации пользователя.
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = create_new_user(data=serializer.validated_data)
@@ -181,7 +184,10 @@ class UserViewSet(RetrieveListUpdateViewSet):
         url_path='confirm-email/(?P<extra_path>.+)?',
     )
     def confirm_email_process(self, request, extra_path=None):
-        """Подтверждение регистрации."""
+        """Подтверждение регистрации.
+
+        Процесс подтверждения регистрации.
+        """
         if request.method == 'GET':
             # Проверка токена.
             email, key = check_extra_path(extra_path)
@@ -304,7 +310,10 @@ class UserViewSet(RetrieveListUpdateViewSet):
         serializer_class=UserSerializer,
     )
     def get_info(self, request):
-        """Получение информации о пользователе."""
+        """Получение информации о пользователе.
+
+        Детальная информация о пользователе.
+        """
         serializer = self.get_serializer(request.user)
         return Response(
             data=serializer.data,

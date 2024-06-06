@@ -32,8 +32,9 @@ class TenderLot(AbstractBaseModel):
         null=True,
         blank=True,
     )
-    detail_url = models.CharField(
+    url = models.CharField(
         verbose_name=_('Ссылка на torgi.gov.ru'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
 

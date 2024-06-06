@@ -8,10 +8,11 @@ from server.apps.services.base_model import AbstractBaseModel
 class RealEstate(AbstractBaseModel):
     """Недвижимость."""
 
-    name = models.CharField(
-        verbose_name=_('Название'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
+    investment_object = models.OneToOneField(
+        to='investment_object.InvestmentObject',
+        verbose_name=_('Специализированная площадка'),
+        on_delete=models.CASCADE,
+        related_name='real_estate'
     )
     preferential_treatment = models.CharField(
         verbose_name=_('Название'),
@@ -63,8 +64,13 @@ class RealEstate(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    redevelopment_type = models.CharField(
-        verbose_name=_('Тип перепланировки'),
+    site_format = models.CharField(
+        verbose_name=_('Формат площадки'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
+    )
+    site_type = models.CharField(
+        verbose_name=_('Тип площадки'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
@@ -80,8 +86,8 @@ class RealEstate(AbstractBaseModel):
     )
     object_cost = models.FloatField(
         verbose_name=_('Стоимость объекта, руб. (покупки или месячной аренды)'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
+        null=True,
     )
     rental_period = models.CharField(
         verbose_name=_('Сроки аренды'),
@@ -98,14 +104,12 @@ class RealEstate(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    characteristic_object = models.CharField(
+    characteristic_object = models.TextField(
         verbose_name=_('Характеристики расположенных объектов капитального строительства'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     land_free_area = models.FloatField(
         verbose_name=_('Свободная площадь ЗУ, га'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
         null=True,
     )
@@ -121,7 +125,6 @@ class RealEstate(AbstractBaseModel):
     )
     is_cupping = models.BooleanField(
         verbose_name=_('Возможность мезжевания'),
-        max_length=settings.MAX_STRING_LENGTH,
         null=True,
         blank=True,
     )
@@ -130,10 +133,10 @@ class RealEstate(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    building_free_area = models.CharField(
+    building_free_area = models.FloatField(
         verbose_name=_('Свободная площадь здания, сооружения, помещения, кв. м'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
+        null=True,
     )
     building_cadastral_number = models.CharField(
         verbose_name=_('Кадастровый номер здания, сооружения, помещения'),
@@ -176,9 +179,16 @@ class RealEstate(AbstractBaseModel):
         verbose_name=_('Ссылка на форму подачи заявки'),
         blank=True,
     )
+    urban_planning = models.TextField(
+        verbose_name=_('Градостроительные характеристики и ограничения'),
+        blank=True,
+    )
+    other_information = models.TextField(
+        verbose_name=_('Иные сведения'),
+        blank=True,
+    )
     is_maip = models.BooleanField(
         verbose_name=_('Наличие МАИП'),
-        max_length=settings.MAX_STRING_LENGTH,
         null=True,
         blank=True,
     )
@@ -187,24 +197,28 @@ class RealEstate(AbstractBaseModel):
         blank=True,
     )
     longitude = models.DecimalField(
+        verbose_name=_('Долгота'),
         decimal_places=3,
         max_digits=9,
-        verbose_name=_('Долгота'),
+        null=True,
     )
     latitude = models.DecimalField(
+        verbose_name=_('Широта'),
         decimal_places=3,
         max_digits=9,
-        verbose_name=_('Широта'),
+        null=True,
     )
-    economic_activity = models.ManyToManyField(
+    economic_activities = models.ManyToManyField(
         to='investment_object.EconomicActivity',
         verbose_name=_('Экономическая активность'),
-        related_name='real_estates'
+        related_name='real_estates',
+        blank=True,
     )
     infrastructures = models.ManyToManyField(
         to='investment_object.Infrastructure',
         verbose_name=_('Инфрастуктура'),
-        related_name='real_estates'
+        related_name='real_estates',
+        blank=True,
     )
 
     class Meta(AbstractBaseModel.Meta):

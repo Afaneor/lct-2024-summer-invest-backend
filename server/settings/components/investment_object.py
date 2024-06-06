@@ -27,3 +27,15 @@ PSPDFKIT_API_SECRET_KEY = config(
     default='',
     cast=str
 )
+
+DJANGO_SUPERUSER_EMAIL = config(
+    'DJANGO_SUPERUSER_EMAIL',
+    default='admin@dolma.ru',
+    cast=str
+)
+
+DJANGO_SUPERUSER_PASSWORD = config(
+    'DJANGO_SUPERUSER_PASSWORD',
+    default='1234',
+    cast=str
+)

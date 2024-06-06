@@ -29,11 +29,11 @@ def parsing_technopark_1(
     investment_site: InvestmentObject,
 ):
     """Парсинг технопарков."""
-    # Формируем запрос к api.
+    # Формируем url и совершаем запрос к api.
     url_for_parsing = URL_MAPPING.get(
-        investment_site.inobject_type,
+        investment_site.object_type,
     ).format(
-        id=investment_site.investment_site_id,
+        id=investment_site.external_id,
     )
     response_json = requests.get(
         url=url_for_parsing,
@@ -42,9 +42,7 @@ def parsing_technopark_1(
     ).json()
 
     generic_info_tab = response_json.get('genericInfoTab')
-    contact_info_tab = response_json.get(
-        'contactInfoTab',
-    )
+    contact_info_tab = response_json.get('contactInfoTab')
 
     extra_data = {
         # Общая информация.
@@ -54,7 +52,7 @@ def parsing_technopark_1(
         # Контакты.
         'Адрес': contact_info_tab.get('address', ''),
         'Управляющая компания': contact_info_tab.get('managementCompany', ''),
-        'Урл сайта': contact_info_tab.get('url', ''),
+        'Url сайта': contact_info_tab.get('url', ''),
         'Контактное лицо': contact_info_tab.get('contactPerson', ''),
         'Телефон': contact_info_tab.get('phone', ''),
     }
@@ -62,12 +60,12 @@ def parsing_technopark_1(
     # Добавляем фотографии, если они есть
     investment_site.photo_urls = response_json.get('photoUrls')
     investment_site.extra_data = extra_data
-    investment_site.url_from_site = (
+    investment_site.url = (
         'https://investmoscow.ru/business/'
-        f'technoparks/{investment_site.investment_site_id}'
+        f'technoparks/{investment_site.external_id}'
     )
     investment_site.save(
-        update_fields=['photo_urls', 'extra_data', 'detail_url'],
+        update_fields=['photo_urls', 'extra_data', 'url'],
     )
 
 
@@ -75,11 +73,11 @@ def parsing_technopolis_2(
     investment_site: InvestmentObject,
 ):
     """Парсинг технополисов."""
-    # Формируем запрос к api.
+    # Формируем url и совершаем запрос к api.
     url_for_parsing = URL_MAPPING.get(
-        investment_site.inobject_type,
+        investment_site.object_type,
     ).format(
-        id=investment_site.investment_site_id,
+        id=investment_site.external_id,
     )
     response_json = requests.get(
         url=url_for_parsing,
@@ -106,7 +104,7 @@ def parsing_technopolis_2(
             generic_info_tab.get('investmentSize', ''),
         'Количество рабочих мест':
             generic_info_tab.get('workplacesCount', ''),
-        # инженерная инфраструктура.
+        # Инженерная инфраструктура.
         'Электроснабжение. Максимально допустимая мощность.':
             engineering_infrastructure_tab.get('powerSupplyMaxAvailablePower', ''),
         'Электроснабжение. Свободная мощность':
@@ -128,12 +126,12 @@ def parsing_technopolis_2(
     # Добавляем фотографии, если они есть
     investment_site.photo_urls = response_json.get('photoUrls')
     investment_site.extra_data = extra_data
-    investment_site.detail_url = (
+    investment_site.url = (
         'https://investmoscow.ru/business/'
-        f'sez-technopolis-moscow/{investment_site.investment_site_id}'
+        f'sez-technopolis-moscow/{investment_site.external_id}'
     )
     investment_site.save(
-        update_fields=['photo_urls', 'extra_data', 'detail_url'],
+        update_fields=['photo_urls', 'extra_data', 'url'],
     )
 
 
@@ -141,11 +139,11 @@ def parsing_investment_catalog_3(
     investment_site: InvestmentObject,
 ):
     """Парсинг технопарков."""
-    # Формируем запрос к api.
+    # Формируем url и совершаем запрос к api.
     url_for_parsing = URL_MAPPING.get(
-        investment_site.inobject_type,
+        investment_site.object_type,
     ).format(
-        id=investment_site.investment_site_id,
+        id=investment_site.external_id,
     )
     response_json = requests.get(
         url=url_for_parsing,
@@ -173,12 +171,12 @@ def parsing_investment_catalog_3(
 
     investment_site.photo_urls = response_json.get('photoUrls')
     investment_site.extra_data = extra_data
-    investment_site.detail_url = (
+    investment_site.url = (
         'https://investmoscow.ru/business/'
-        f'invest-catalog/{investment_site.investment_site_id}'
+        f'invest-catalog/{investment_site.external_id}'
     )
     investment_site.save(
-        update_fields=['photo_urls', 'extra_data', 'detail_url'],
+        update_fields=['photo_urls', 'extra_data', 'url'],
     )
 
 
@@ -186,11 +184,11 @@ def parsing_industrial_site_4(
     investment_site: InvestmentObject,
 ):
     """Парсинг промплощадок."""
-    # Формируем запрос к api.
+    # Формируем url и совершаем запрос к api.
     url_for_parsing = URL_MAPPING.get(
-        investment_site.inobject_type,
+        investment_site.object_type,
     ).format(
-        id=investment_site.investment_site_id,
+        id=investment_site.external_id,
     )
     response_json = requests.get(
         url=url_for_parsing,
@@ -223,12 +221,12 @@ def parsing_industrial_site_4(
 
     investment_site.photo_urls = response_json.get('photoUrls')
     investment_site.extra_data = extra_data
-    investment_site.detail_url = (
+    investment_site.url = (
         'https://investmoscow.ru/business/site-details/'
-        f'room/{investment_site.investment_site_id}'
+        f'room/{investment_site.external_id}'
     )
     investment_site.save(
-        update_fields=['photo_urls', 'extra_data', 'detail_url'],
+        update_fields=['photo_urls', 'extra_data', 'url'],
     )
 
 
@@ -236,11 +234,11 @@ def parsing_industrial_site_5(
     investment_site: InvestmentObject,
 ):
     """Парсинг промплощадок (земельных участков)."""
-    # Формируем запрос к api.
+    # Формируем url и совершаем запрос к api.
     url_for_parsing = URL_MAPPING.get(
-        investment_site.inobject_type,
+        investment_site.object_type,
     ).format(
-        id=investment_site.investment_site_id,
+        id=investment_site.external_id,
     )
     response_json = requests.get(
         url=url_for_parsing,
@@ -272,12 +270,12 @@ def parsing_industrial_site_5(
 
     investment_site.photo_urls = response_json.get('photoUrls')
     investment_site.extra_data = extra_data
-    investment_site.detail_url = (
+    investment_site.url = (
         'https://investmoscow.ru/business/site-details/'
-        f'room/{investment_site.investment_site_id}'
+        f'room/{investment_site.external_id}'
     )
     investment_site.save(
-        update_fields=['photo_urls', 'extra_data', 'detail_url'],
+        update_fields=['photo_urls', 'extra_data', 'url'],
     )
 
 
@@ -285,11 +283,11 @@ def parsing_krt_6(
     investment_site: InvestmentObject,
 ):
     """Парсинг КРТ."""
-    # Формируем запрос к api.
+    # Формируем url и совершаем запрос к api.
     url_for_parsing = URL_MAPPING.get(
-        investment_site.inobject_type,
+        investment_site.object_type,
     ).format(
-        id=investment_site.investment_site_id,
+        id=investment_site.external_id,
     )
     response_json = requests.get(
         url=url_for_parsing,
@@ -321,12 +319,12 @@ def parsing_krt_6(
 
     investment_site.photo_urls = response_json.get('photoUrls')
     investment_site.extra_data = extra_data
-    investment_site.detail_url = (
+    investment_site.url = (
         'https://investmoscow.ru/business/'
-        f'krt/{investment_site.investment_site_id}'
+        f'krt/{investment_site.external_id}'
     )
     investment_site.save(
-        update_fields=['photo_urls', 'extra_data', 'detail_url'],
+        update_fields=['photo_urls', 'extra_data', 'url'],
     )
 
 

@@ -38,6 +38,7 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
             'user',
             'anonymous_user_id',
             'investment_objects',
+            'messages',
             'is_actual',
             'permission_rules',
             'created_at',

@@ -9,6 +9,7 @@ logger = logging.getLogger('django')
 
 
 def parsing_tender():
+    """Парсинг тендеров с сайта torgi.gov.ru."""
     # Формируем запрос к api для получения количества страниц.
     first_10_tender_json = requests.get(
         url=(
@@ -25,7 +26,7 @@ def parsing_tender():
     total_pages = first_10_tender_json['totalPages']
     # Проходимся по всем страницам и получаем информацию.
     for number_page in range(total_pages):
-        tender_json = requests.get(
+        tenders_json = requests.get(
             url=(
                 'https://torgi.gov.ru/new/api/public/notices/search'
                 '?subjRF=77,50'
@@ -37,7 +38,7 @@ def parsing_tender():
             ),
             timeout=15,
         ).json()
-        for entity in tender_json['content']:
+        for entity in tenders_json['content']:
             tender_id = entity['id']
             tender_url = (
                 'https://torgi.gov.ru/new/api/public/notices/'
@@ -51,12 +52,13 @@ def parsing_tender():
             tender, create = Tender.objects.get_or_create(
                 tender_id=tender_id,
                 bidding_type=tender_json.get('biddType', {}).get('name'),
-                detail_url=f'https://torgi.gov.ru/new/public/notices/view/{tender_id}',
+                url=f'https://torgi.gov.ru/new/public/notices/view/{tender_id}',
             )
 
             for lot in tender_json.get('lots'):
                 logger.info(
-                    f"Найдено лотов: {len(tender_json.get('lots'))}. Идет создание...",
+                    f"Найдено лотов: {len(tender_json.get('lots'))}. "
+                    'Идет создание...',
                 )
 
                 extra_data = {
@@ -67,7 +69,8 @@ def parsing_tender():
                     'Начальная цена': lot.get('deposit', ''),
                     'Шаг аукциона': lot.get('priceStep', ''),
                     'Размер задатка': lot.get('priceMin', ''),
-                    'Форма собственности': lot.get('ownershipForm', {}).get('name'),
+                    'Форма собственности':
+                        lot.get('ownershipForm', {}).get('name'),
                     'Местонахождение имущества': lot.get('estateAddress', ''),
                     **{
                         data_json.get('name'): data_json.get('characteristicValue')
@@ -79,13 +82,18 @@ def parsing_tender():
                 TenderLot.objects.get_or_create(
                     tender=tender,
                     tender_lot_id=lot['id'],
-                    detail_url=f"https://torgi.gov.ru/new/public/lots/lot/{lot['id']}/(lotInfo:info)",
+                    url=(
+                        'https://torgi.gov.ru/new/public/lots/lot/'
+                        f"{lot['id']}/(lotInfo:info)"
+                    ),
                     name=lot.get('lotName'),
                     description=lot.get('lotDescription'),
                     extra_data=extra_data
                 )
 
             logger.info(f"Обработано {entity['id']}")
+
+            time.sleep(0.5)
 
         time.sleep(1)
         logger.info(f"Обработана {number_page}/{total_pages}")

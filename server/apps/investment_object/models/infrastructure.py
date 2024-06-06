@@ -2,13 +2,9 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from server.apps.investment_object.services.enums import \
+    InfrastructureAvailability
 from server.apps.services.base_model import AbstractBaseModel
-
-
-class InfrastructureAvailability(models.TextChoices):
-
-    POSSIBLE_CREATION = 'possible_creation'
-    YES = 'yes'
 
 
 class Infrastructure(AbstractBaseModel):
@@ -50,11 +46,19 @@ class Infrastructure(AbstractBaseModel):
     availability = models.CharField(
         verbose_name=_('Наличие'),
         max_length=settings.MAX_STRING_LENGTH,
+        choices=InfrastructureAvailability.choices,
+        default=InfrastructureAvailability.NOT_DATA,
     )
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Инфраструктура')
         verbose_name_plural = _('Инфраструктуры')
+        constraints = [
+            models.CheckConstraint(
+                name='availability',
+                check=models.Q(availability__in=InfrastructureAvailability.values),
+            ),
+        ]
 
     def __str__(self):
         return self.name

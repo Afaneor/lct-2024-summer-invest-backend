@@ -5,6 +5,7 @@ from server.apps.investment_object.models import (
     Infrastructure,
     InvestmentObject,
     Privilege,
+    ReadyBusiness,
     RealEstate,
     Restriction,
     SpecializedSite,
@@ -47,7 +48,7 @@ class TenderAdmin(admin.ModelAdmin[Tender]):
         'id',
         'tender_id',
         'bidding_type',
-        'detail_url',
+        'url',
     )
     list_filter = (
         'bidding_type',
@@ -55,7 +56,7 @@ class TenderAdmin(admin.ModelAdmin[Tender]):
     search_fields = (
         'tender_id',
         'bidding_type',
-        'detail_url',
+        'url',
     )
     ordering = (
         'id',
@@ -71,7 +72,7 @@ class TenderLotAdmin(admin.ModelAdmin[TenderLot]):
         'tender',
         'tender_lot_id',
         'name',
-        'detail_url',
+        'url',
     )
     list_filter = (
         'tender__bidding_type',
@@ -79,7 +80,7 @@ class TenderLotAdmin(admin.ModelAdmin[TenderLot]):
     search_fields = (
         'tender_lot_id',
         'name',
-        'detail_url',
+        'url',
     )
     ordering = (
         'id',
@@ -93,3 +94,4 @@ admin.site.register(RealEstate)
 admin.site.register(Restriction)
 admin.site.register(SpecializedSite)
 admin.site.register(Support)
+admin.site.register(ReadyBusiness)

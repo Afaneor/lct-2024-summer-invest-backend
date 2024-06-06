@@ -8,11 +8,11 @@ from server.apps.services.base_model import AbstractBaseModel
 class SpecializedSite(AbstractBaseModel):
     """Специализированная площадка."""
 
-    investment_object = models.ForeignKey(
+    investment_object = models.OneToOneField(
         to='investment_object.InvestmentObject',
         verbose_name=_('Специализированная площадка'),
         on_delete=models.CASCADE,
-        related_name='specialized_sites'
+        related_name='specialized_site'
     )
     sez = models.CharField(
         verbose_name=_('Особая экономическая зона'),
@@ -44,10 +44,10 @@ class SpecializedSite(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    number_residents = models.CharField(
+    number_residents = models.IntegerField(
         verbose_name=_('Количество резидентов'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
+        null=True,
     )
     document_url = models.CharField(
         verbose_name=_('Документы по объекту'),
@@ -64,20 +64,19 @@ class SpecializedSite(AbstractBaseModel):
         blank=True,
         null=True,
     )
+    minimum_rental_price = models.FloatField(
+        verbose_name=_('Минимальная стоимость аренды, руб./кв.м/год'),
+        blank=True,
+        null=True,
+    )
     total_area = models.FloatField(
         verbose_name=_('Общая площадь, кв. м'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
         null=True,
     )
-    minimum_rental_price = models.FloatField(
-        verbose_name=_('Минимальная стоимость аренды, руб./кв.м/год'),
-        blank=True,
-        null=True,
-    )
     is_possibility_redemption = models.BooleanField(
         verbose_name=_('Возможность выкупа помещения'),
-        max_length=settings.MAX_STRING_LENGTH,
         null=True,
         blank=True,
     )
@@ -116,40 +115,47 @@ class SpecializedSite(AbstractBaseModel):
     )
     website = models.CharField(
         verbose_name=_('Ссылка на сайт'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     working_hours = models.CharField(
         verbose_name=_('Время работы'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     income_tax = models.CharField(
         verbose_name=_('Налог на прибыль'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     property_tax = models.CharField(
         verbose_name=_('Налог на имущество'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     land_tax = models.CharField(
         verbose_name=_('Земельный налог'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     transport_tax = models.CharField(
         verbose_name=_('Транспортный налог'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     insurance_premiums = models.CharField(
         verbose_name=_('Страховые взносы'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     privileges = models.ManyToManyField(
         to='investment_object.Privilege',
         verbose_name=_('Льготы'),
-        related_name='specialized_sites'
+        related_name='specialized_sites',
+        blank=True,
     )
     is_free_customs_zone_regime = models.BooleanField(
         verbose_name=_('Наличие режима свободной таможенной зоны'),
-        max_length=settings.MAX_STRING_LENGTH,
         null=True,
         blank=True,
     )
@@ -159,21 +165,25 @@ class SpecializedSite(AbstractBaseModel):
     )
     minimum_investment_amount = models.CharField(
         verbose_name=_('Минимальный объем инвестиций'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     urban_planning = models.CharField(
         verbose_name=_('Градостроительные характеристики и ограничения'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     longitude = models.DecimalField(
+        verbose_name=_('Долгота'),
         decimal_places=3,
         max_digits=9,
-        verbose_name=_('Долгота'),
+        null=True,
     )
     latitude = models.DecimalField(
+        verbose_name=_('Широта'),
         decimal_places=3,
         max_digits=9,
-        verbose_name=_('Широта'),
+        null=True,
     )
 
     class Meta(AbstractBaseModel.Meta):

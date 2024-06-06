@@ -14,7 +14,7 @@ class TenderLotSerializer(ModelSerializerWithPermission):
             'name',
             'description',
             'extra_data',
-            'detail_url',
+            'url',
             'created_at',
             'updated_at',
         )

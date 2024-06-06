@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from server.apps.personal_cabinet.api.serializers.territorial_location import (
+from server.apps.personal_cabinet.api.serializers import (
+    BaseSectorSerializer,
+    BaseSubSectorSerializer,
     BaseTerritorialLocationSerializer,
 )
 from server.apps.personal_cabinet.models import Business
@@ -16,6 +18,8 @@ class BusinessSerializer(ModelSerializerWithPermission):
     """
 
     territorial_location = BaseTerritorialLocationSerializer()
+    sector = BaseSectorSerializer()
+    sub_sector = BaseSubSectorSerializer()
 
     class Meta:
         model = Business
@@ -50,40 +54,6 @@ class BusinessSerializer(ModelSerializerWithPermission):
             'permission_rules',
             'created_at',
             'updated_at',
-        )
-
-
-class BaseBusinessSerializer(ModelSerializerWithPermission):
-    """Информация о бизнесе для отчета."""
-
-    territorial_location = BaseTerritorialLocationSerializer()
-
-    class Meta:
-        model = Business
-        fields = (
-            'type_business',
-            'inn',
-            'sector',
-            'sub_sector',
-            'territorial_location',
-            'short_business_name',
-            'full_business_name',
-            'management_name',
-            'management_position',
-            'full_opf',
-            'short_opf',
-            'okved',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'address',
-            'country',
-            'region',
-            'city_area',
-            'city_district',
-            'phone',
-            'email',
-            'site',
         )
 
 

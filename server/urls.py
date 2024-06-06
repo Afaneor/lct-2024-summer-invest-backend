@@ -20,10 +20,8 @@ from server.apps.investment_object.api.routers import (
 from server.apps.personal_cabinet.api.routers import (
     router as personal_cabinet_router,
 )
-from server.apps.support.api.routers import (
-    router as support_router,
-)
 from server.apps.services.custom_router.api_router import router
+from server.apps.support.api.routers import router as support_router
 from server.apps.user.api.routers import router as user_router
 from server.url_components import (
     admin_urlpatterns,

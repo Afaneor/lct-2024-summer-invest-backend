@@ -20,21 +20,3 @@ class SectorSerializer(ModelSerializerWithPermission):
             'created_at',
             'updated_at',
         )
-
-
-class BaseSectorSerializer(ModelSerializerWithPermission):
-    """Сериалайзер оборудования."""
-
-    tags = TagListSerializerField()
-
-    class Meta:
-        model = Sector
-        fields = (
-            'id',
-            'name',
-            'slug',
-            'tags',
-            'permission_rules',
-            'created_at',
-            'updated_at',
-        )

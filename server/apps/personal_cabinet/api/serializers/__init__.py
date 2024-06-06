@@ -1,17 +1,21 @@
-from server.apps.personal_cabinet.api.serializers.business import (
+from server.apps.personal_cabinet.api.serializers.base_data import (
     BaseBusinessSerializer,
+    BaseMessageSerializer,
+    BaseSectorSerializer,
+    BaseSubSectorSerializer,
+    BaseTerritorialLocationSerializer,
+)
+from server.apps.personal_cabinet.api.serializers.business import (
     BusinessSerializer,
     CreateBusinessByInnSerializer,
     CreateBusinessSerializer,
     UpdateBusinessSerializer,
 )
 from server.apps.personal_cabinet.api.serializers.message import (
-    BaseMessageSerializer,
     CreateMessageSerializer,
     MessageSerializer,
 )
 from server.apps.personal_cabinet.api.serializers.sector import (
-    BaseSectorSerializer,
     SectorSerializer,
 )
 from server.apps.personal_cabinet.api.serializers.selected_investment_object import (
@@ -26,12 +30,12 @@ from server.apps.personal_cabinet.api.serializers.sub_sector import (
     SubSectorSerializer,
 )
 from server.apps.personal_cabinet.api.serializers.territorial_location import (
-    BaseTerritorialLocationSerializer,
     TerritorialLocationSerializer,
 )
 
 __all__ = [
     'BaseBusinessSerializer',
+    'BaseSubSectorSerializer',
     'SubSectorSerializer',
     'CreateBusinessSerializer',
     'UpdateBusinessSerializer',

@@ -48,7 +48,11 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
 
     serializer_class = SelectionRequestSerializer
     create_serializer_class = CreateSelectionRequestSerializer
-    queryset = SelectionRequest.objects.select_related('user').prefetch_related('investment_objects')
+    queryset = SelectionRequest.objects.select_related(
+        'user',
+    ).prefetch_related(
+        'investment_objects',
+    )
     search_fields = (
         'user__email',
         'user__first_name',
@@ -109,7 +113,12 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
             )
 
         return Response(
-            data={'detail': 'Здравствуйте! Я помогу вам с подбором инвестиционных площадок!'},
+            data={
+                'detail': (
+                    'Здравствуйте! Я помогу вам с подбором '
+                    'инвестиционных площадок!'
+                ),
+            },
             status=status.HTTP_200_OK,
         )
 

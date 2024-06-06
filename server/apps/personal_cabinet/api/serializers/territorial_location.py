@@ -22,17 +22,3 @@ class TerritorialLocationSerializer(ModelSerializerWithPermission):
             'updated_at',
         )
 
-
-class BaseTerritorialLocationSerializer(ModelSerializerWithPermission):
-    """Сериалайзер территориального расположения для других сериализаторов."""
-
-    class Meta:
-        model = TerritorialLocation
-        fields = (
-            'id',
-            'shot_name',
-            'full_name',
-            'permission_rules',
-            'created_at',
-            'updated_at',
-        )

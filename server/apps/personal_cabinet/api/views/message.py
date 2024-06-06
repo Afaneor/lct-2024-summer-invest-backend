@@ -114,7 +114,9 @@ class MessageViewSet(RetrieveListCreateViewSet):
             return queryset
 
         if user.is_authenticated:
-            return queryset.filter(selection_request__in=user.selection_requests)
+            return queryset.filter(
+                selection_request__in=user.selection_requests,
+            )
 
         selection_requests = SelectionRequest.objects.filter(
             anonymous_user_id=self.request.headers.get('GENERATE_USER_ID')

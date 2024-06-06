@@ -11,4 +11,5 @@ class SupportConfig(AppConfig):
     def ready(self) -> None:
         """Подключение прав происходит при подключении app."""
         import server.apps.support.api.routers
+
         # import server.apps.support.permissions

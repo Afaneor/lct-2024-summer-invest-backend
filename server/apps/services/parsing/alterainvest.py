@@ -10,7 +10,7 @@ from server.apps.investment_object.models import ReadyBusiness
 logger = logging.getLogger('django')
 
 
-def parsing_ready_business():
+def alterainvest_parsing_ready_business():
     """Парсинг готового бизнеса с сайта alterainvest.ru."""
     # Формируем запрос к api для получения количества страниц.
     all_business_response = requests.get(

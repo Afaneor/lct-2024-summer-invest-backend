@@ -32,13 +32,13 @@ def send_confirm_email(  # noqa: WPS210, C901
         'user': user,
         'activate_url': url_without_api,
         'year': now().year,
-        'company': 'HInCal',
+        'company': 'DOLMA',
     }
     name_template = 'email/confirm_email.html'
     template = get_template(name_template).render(context)
     try:
         send_mail(
-            subject=_('Регистрация в HInCal!'),  # type: ignore
+            subject=_('Регистрация в DOLMA!'),  # type: ignore
             message=None,  # type: ignore
             from_email=None,
             recipient_list=[user.email],

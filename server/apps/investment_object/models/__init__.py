@@ -12,9 +12,9 @@ from server.apps.investment_object.models.restriction import Restriction
 from server.apps.investment_object.models.specialized_site import (
     SpecializedSite,
 )
-from server.apps.investment_object.models.support import Support
 from server.apps.investment_object.models.tender import Tender
 from server.apps.investment_object.models.tender_lot import TenderLot
+from server.apps.support.models.support import Support
 
 __all__ = [
     'EconomicActivity',

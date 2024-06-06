@@ -3,8 +3,8 @@
 
 FROM hub.letsnova.com/p/python:3.11-slim-bookworm AS base_build
 
-LABEL maintainer="aaa@tech.ru"
-LABEL vendor="aaa"
+LABEL maintainer="dolma@tech.ru"
+LABEL vendor="dolma"
 
 ENV \
   # build:

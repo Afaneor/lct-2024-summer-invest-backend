@@ -2,14 +2,16 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-from server.apps.investment_object.services.parsing.website.alterainvest import (
+from server.apps.investment_object.services.parsing.alterainvest import (
     parsing_ready_business,
 )
-from server.apps.investment_object.services.parsing.website.torgi_gov import (
+from server.apps.investment_object.services.parsing.torgi_gov import (
     parsing_tender,
 )
-from server.apps.investment_object.services.parsing.xlsx.file_with_data import (
-    parsing_specialized_site, parsing_real_estate, parsing_support,
+from server.apps.investment_object.services.parsing.xlsx_file import (
+    parsing_real_estate,
+    parsing_specialized_site,
+    parsing_support,
 )
 
 logger = logging.getLogger('django')

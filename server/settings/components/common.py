@@ -48,7 +48,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     # Your apps go here:
     'server.apps.personal_cabinet',
     'server.apps.investment_object',
-    # 'server.apps.support',
+    'server.apps.support',
     'server.apps.user',
 
     # documentation
@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('POSTGRES_DB', default='hincal'),
+        'NAME': config('POSTGRES_DB', default='dolma'),
         'USER': config('POSTGRES_USER', default='postgres'),
         'PASSWORD': config('POSTGRES_PASSWORD', default=''),
         'HOST': config('DJANGO_DATABASE_HOST', default='localhost'),

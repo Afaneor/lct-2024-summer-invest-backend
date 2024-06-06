@@ -8,7 +8,7 @@ from server.apps.investment_object.models import Tender, TenderLot
 logger = logging.getLogger('django')
 
 
-def parsing_tender():
+def torgi_gov_parsing_tender():
     """Парсинг тендеров с сайта torgi.gov.ru."""
     # Формируем запрос к api для получения количества страниц.
     first_10_tender_json = requests.get(

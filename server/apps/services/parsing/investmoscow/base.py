@@ -1,19 +1,14 @@
 import logging
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import requests
 
 from server.apps.investment_object.models.investment_object import (
     InvestmentObject,
 )
-from server.apps.investment_object.services.parsing.website.investment_object_type import (
-    parsing_industrial_site_4,
-    parsing_industrial_site_5,
-    parsing_investment_catalog_3,
-    parsing_krt_6,
-    parsing_technopark_1,
-    parsing_technopolis_2,
-)
+
+logger = logging.getLogger('django')
+
 
 FUNCTION_MAP: Dict[int, Any] = {
     1: parsing_technopark_1,
@@ -23,8 +18,6 @@ FUNCTION_MAP: Dict[int, Any] = {
     5: parsing_industrial_site_5,
     6: parsing_krt_6,
 }
-
-logger = logging.getLogger('django')
 
 
 def parsing_investmoscow():

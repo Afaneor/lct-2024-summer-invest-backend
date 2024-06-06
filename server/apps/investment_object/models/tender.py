@@ -15,6 +15,7 @@ class Tender(AbstractBaseModel):
     )
     bidding_type = models.CharField(
         verbose_name=_('Вид торгов'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     extra_data = models.JSONField(
@@ -22,7 +23,7 @@ class Tender(AbstractBaseModel):
         null=True,
         blank=True,
     )
-    detail_url = models.CharField(
+    url = models.CharField(
         verbose_name=_('Ссылка на torgi.gov.ru'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,

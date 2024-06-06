@@ -4,9 +4,9 @@ from typing import Any, Dict
 import requests
 
 from server.apps.investment_object.models.investment_object import (
-    InvestmentSite,
+    InvestmentObject,
 )
-from server.apps.investment_object.services.parsing.website.inobject_type import (
+from server.apps.investment_object.services.parsing.website.investment_object_type import (
     parsing_industrial_site_4,
     parsing_industrial_site_5,
     parsing_investment_catalog_3,
@@ -27,13 +27,17 @@ FUNCTION_MAP: Dict[int, Any] = {
 logger = logging.getLogger('django')
 
 
-def parsing_investment_site():
+def parsing_investmoscow():
+    """Парсинг данных с сайта investmoscow.ru"""
+    # Получаем https://investmoscow.ru/about-moscow/investment-map-v2
     response = requests.post(
         url=(
             'https://api.investmoscow.ru/investmoscow/investment-map/'
             'v1/investmentPlatform/searchInvestmentObjects'
         ),
-        headers={'Content-Type': 'application/json'},
+        headers={
+            'Content-Type': 'application/json'
+        },
         json={
             'PageNumber': 1,
             'PageSize': 500,
@@ -43,13 +47,31 @@ def parsing_investment_site():
         timeout=15,
     )
     for entity in response.json()['entities']:
-        investment_site, created = InvestmentSite.objects.get_or_create(
-            investment_site_id=entity.get('investmentPlatformId'),
+        if entity.get('coords'):
+            if entity.get('coords').get('type') == 'Point':
+                longitude = entity.get('coords').get('coordinates')[0]
+                latitude = entity.get('coords').get('coordinates')[1]
+            elif entity.get('coords').get('type') == 'Polygon':
+                longitude = entity.get('coords').get('coordinates')[0][0][0]
+                latitude = entity.get('coords').get('coordinates')[0][0][1]
+            elif entity.get('coords').get('type') == 'MultiPolygon':
+                longitude = entity.get('coords').get('coordinates')[0][0][0][0]
+                latitude = entity.get('coords').get('coordinates')[0][0][0][1]
+            else:
+                longitude = None
+                latitude = None
+        else:
+            longitude = None
+            latitude = None
+
+        investment_site, created = InvestmentObject.objects.get_or_create(
+            external_id=entity.get('investmentPlatformId'),
             defaults={
                 'main_photo_url': entity.get('previewImgUrl'),
                 'name': entity.get('name'),
-                'coordinates': entity.get('coords'),
-                'inobject_type': entity.get('type'),
+                'longitude': longitude,
+                'latitude': latitude,
+                'object_type': entity.get('type'),
             },
         )
         FUNCTION_MAP.get(entity.get('type'))(

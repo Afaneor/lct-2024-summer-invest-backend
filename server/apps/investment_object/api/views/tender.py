@@ -18,7 +18,7 @@ class TenderFilter(
             'id',
             'tender_id',
             'bidding_type',
-            'detail_url',
+            'url',
         )
 
 

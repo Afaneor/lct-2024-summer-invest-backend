@@ -43,6 +43,7 @@ class InvestmentObject(AbstractBaseModel):
     url = models.CharField(
         verbose_name=_('Ссылка на investmoscom.ru'),
         max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
     )
     extra_data = models.JSONField(
         verbose_name=_('Дополнительные сведения с investmoscom.ru'),
@@ -53,11 +54,13 @@ class InvestmentObject(AbstractBaseModel):
         verbose_name=_('Долгота'),
         decimal_places=3,
         max_digits=9,
+        null=True,
     )
     latitude = models.DecimalField(
         verbose_name=_('Широта'),
         decimal_places=3,
         max_digits=9,
+        null=True,
     )
 
     class Meta(AbstractBaseModel.Meta):

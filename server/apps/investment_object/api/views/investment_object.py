@@ -30,7 +30,7 @@ class InvestmentObjectViewSet(BaseReadOnlyViewSet):
     serializer_class = InvestmentObjectSerializer
     queryset = InvestmentObject.objects.all()
     search_fields = (
-        'investment_site_id',
+        'external_id',
         'name',
     )
     ordering_fields = '__all__'

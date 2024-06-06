@@ -8,9 +8,8 @@ from server.apps.services.base_model import AbstractBaseModel
 class Restriction(AbstractBaseModel):
     """Ограничения по видам деятельности."""
 
-    name = models.CharField(
+    name = models.TextField(
         verbose_name=_('Название'),
-        max_length=settings.MAX_STRING_LENGTH,
     )
 
     class Meta(AbstractBaseModel.Meta):

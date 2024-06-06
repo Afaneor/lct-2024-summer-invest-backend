@@ -12,7 +12,7 @@ class TenderSerializer(ModelSerializerWithPermission):
             'tender_id',
             'bidding_type',
             'extra_data',
-            'detail_url',
+            'url',
             'created_at',
             'updated_at',
         )

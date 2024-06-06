@@ -19,6 +19,7 @@ class SelectionRequest(AbstractBaseModel):
     anonymous_user_id = models.CharField(
         verbose_name=_('ID анонимного пользователя. Приходит с front'),
         max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
     )
     is_actual = models.BooleanField(
         verbose_name=_('Актуальный ли запрос на подбор или нет'),

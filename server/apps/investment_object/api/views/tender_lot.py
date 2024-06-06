@@ -18,7 +18,7 @@ class TenderLotFilter(
             'id',
             'tender_lot_id',
             'name',
-            'detail_url',
+            'url',
         )
 
 

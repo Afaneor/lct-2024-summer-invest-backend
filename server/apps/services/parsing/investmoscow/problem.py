@@ -22,7 +22,7 @@ def parsing_problem():
             for theme in subcategory.get('themes', []):
                 for problem in theme.get('problems', []):
                     external_id = problem.get('id')
-                    ProblemReport.objects.get_or_create(
+                    problem, created = ProblemReport.objects.get_or_create(
                         external_id=problem.get('id'),
                         defaults={
                             'name': problem.get('name'),
@@ -40,3 +40,4 @@ def parsing_problem():
                             ),
                         },
                     )
+                    logger.info(f'Обработана запись: {problem.name}')

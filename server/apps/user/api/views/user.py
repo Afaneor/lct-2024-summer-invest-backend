@@ -76,7 +76,7 @@ class UserViewSet(RetrieveListUpdateViewSet):
         'reset_password_process': None,
         'change_password': 'action_is_authenticated',
         'get_info': 'action_is_authenticated',
-        'logout': 'action_is_authenticated',
+        'logout': 'testabc',
     }
 
     def get_queryset(self):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from server.apps.support.models import ProblemReport
+from server.apps.support.models import ProblemReport, ServiceSupport
 
 
 @admin.register(ProblemReport)
@@ -28,3 +28,6 @@ class ProblemReportAdmin(admin.ModelAdmin[ProblemReport]):
     ordering = (
         'id',
     )
+
+
+admin.site.register(ServiceSupport)

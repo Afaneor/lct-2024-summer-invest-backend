@@ -95,11 +95,11 @@ class MessageViewSet(RetrieveListCreateViewSet):
         Сохраняем сообщение от пользователя и отправляем данные в ChatGpt.
         """
         serializer.save()
-        send_data_in_chat_gpt(
-            user_text=serializer.validated_data['text'],
-            message_id=serializer.instance.id,
-            selection_request_id=serializer.instance.selection_request.id,
-        )
+        # send_data_in_chat_gpt(
+        #     user_text=serializer.validated_data['text'],
+        #     message_id=serializer.instance.id,
+        #     selection_request_id=serializer.instance.selection_request.id,
+        # )
 
     def get_queryset(self):
         """

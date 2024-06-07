@@ -102,23 +102,22 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         """
         Получение актуального запроса на подбор площадок.
         """
-        actual_selection_request = SelectionRequest.objects.filter(
-            is_actual=True,
-        )
-        if actual_selection_request.exists():
-            serializer = self.get_serializer(actual_selection_request.first())
-            return Response(
-                data=serializer.data,
-                status=status.HTTP_200_OK,
+        if request.user.is_authenticated:
+            actual_selection_request = SelectionRequest.objects.filter(
+                is_actual=True,
+                user=request.user,
             )
 
+        else:
+            generate_user_id = self.request.headers.get('GENERATE-USER-ID')
+            actual_selection_request = SelectionRequest.objects.get_or_create(
+                is_actual=True,
+                anonymous_user_id=generate_user_id,
+            )
+
+        serializer = self.get_serializer(actual_selection_request.first())
         return Response(
-            data={
-                'detail': (
-                    'Здравствуйте! Я помогу вам с подбором '
-                    'инвестиционных площадок!'
-                ),
-            },
+            data=serializer.data,
             status=status.HTTP_200_OK,
         )
 
@@ -126,7 +125,6 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         methods=['POST'],
         url_path='completed',
         detail=False,
-        serializer_class=SelectionRequestSerializer,
     )
     def completed(
         self,
@@ -140,7 +138,4 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         ).update(
             is_actual=False,
         )
-        return Response(
-            data={'detail': 'Если появятся вопросы, вы знаете где меня найти!'},
-            status=status.HTTP_200_OK,
-        )
+        return Response(status=status.HTTP_200_OK)

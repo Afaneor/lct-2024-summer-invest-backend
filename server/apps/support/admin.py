@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from server.apps.support.models import (
-    ProblemReport,
-)
+from server.apps.support.models import ProblemReport
 
 
 @admin.register(ProblemReport)

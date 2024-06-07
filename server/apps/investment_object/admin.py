@@ -8,8 +8,8 @@ from server.apps.investment_object.models import (
     ReadyBusiness,
     RealEstate,
     Restriction,
-    SpecializedSite,
     ServiceSupport,
+    SpecializedSite,
     Tender,
     TenderLot,
 )

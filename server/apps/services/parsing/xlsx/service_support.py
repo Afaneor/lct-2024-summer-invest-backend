@@ -8,7 +8,6 @@ from server.apps.investment_object.models.economic_activity import (
 )
 from server.apps.investment_object.models.restriction import Restriction
 from server.apps.services.parsing.xlsx.base import get_correct_data
-
 from server.apps.support.models import ServiceSupport
 from server.settings.components import BASE_DIR
 

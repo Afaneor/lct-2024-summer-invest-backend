@@ -1,20 +1,18 @@
-from server.apps.investment_object.models import TenderLot
+from server.apps.investment_object.models import ReadyBusiness
 from server.apps.services.serializers import ModelSerializerWithPermission
 
 
-class TenderLotSerializer(ModelSerializerWithPermission):
-    """Сериалайзер лот тендера."""
+class ReadyBusinessSerializer(ModelSerializerWithPermission):
+    """Сериалайзер готового бизнеса."""
 
     class Meta:
-        model = TenderLot
+        model = ReadyBusiness
         fields = (
             'id',
-            'tender',
-            'tender_lot_id',
+            'external_id',
             'name',
             'description',
             'extra_data',
-            'url',
             'permission_rules',
             'created_at',
             'updated_at',

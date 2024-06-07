@@ -15,7 +15,6 @@ class ReadyBusiness(AbstractBaseModel):
     name = models.CharField(
         verbose_name=_('Название'),
         max_length=settings.MAX_STRING_LENGTH,
-
     )
     description = models.TextField(
         verbose_name=_('Описание'),

@@ -119,6 +119,6 @@ class MessageViewSet(RetrieveListCreateViewSet):
             )
 
         selection_requests = SelectionRequest.objects.filter(
-            anonymous_user_id=self.request.headers.get('GENERATE-USER-ID')
+            anonymous_user_id=self.request.headers.get('Generated-User-Id')
         )
         return queryset.filter(selection_request__in=selection_requests)

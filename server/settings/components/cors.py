@@ -27,6 +27,7 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+    'generated-user-id',
 ]
 CORS_PREFLIGHT_MAX_AGE = config(
     'CORS_PREFLIGHT_MAX_AGE',

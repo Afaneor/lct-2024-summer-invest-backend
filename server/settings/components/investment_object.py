@@ -39,3 +39,4 @@ DJANGO_SUPERUSER_PASSWORD = config(
     default='1234',
     cast=str
 )
+

@@ -6,6 +6,9 @@ import requests
 from server.apps.investment_object.models.investment_object import (
     InvestmentObject,
 )
+from server.apps.services.parsing.investmoscow.investment_object import \
+    parsing_technopark_1, parsing_technopolis_2, parsing_investment_catalog_3, \
+    parsing_industrial_site_4, parsing_industrial_site_5, parsing_krt_6
 
 logger = logging.getLogger('django')
 

@@ -13,7 +13,7 @@ from server.apps.investment_object.models.economic_activity import (
 )
 from server.apps.investment_object.models.privilege import Privilege
 from server.apps.investment_object.models.restriction import Restriction
-from server.apps.investment_object.services.parsing.xlsx.base import (
+from server.apps.services.parsing.xlsx.base import (
     ObjectType,
     clear_data,
     get_correct_data,

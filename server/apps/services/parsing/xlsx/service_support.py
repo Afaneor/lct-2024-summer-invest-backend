@@ -7,10 +7,9 @@ from server.apps.investment_object.models.economic_activity import (
     EconomicActivity,
 )
 from server.apps.investment_object.models.restriction import Restriction
-from server.apps.investment_object.services.parsing.xlsx.base import (
-    get_correct_data,
-)
-from server.apps.support.models import Support
+from server.apps.services.parsing.xlsx.base import get_correct_data
+
+from server.apps.support.models import ServiceSupport
 from server.settings.components import BASE_DIR
 
 logger = logging.getLogger('django')
@@ -32,7 +31,7 @@ def parsing_support():
                     if row[13].lower() == 'нет'
                     else True
                 )
-                support, s_created = Support.objects.update_or_create(
+                support, s_created = ServiceSupport.objects.update_or_create(
                     name=row[1],
                     defaults={
                         'region': get_correct_data(row[0]),

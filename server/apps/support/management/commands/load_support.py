@@ -2,7 +2,7 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-from server.apps.services.parsing.investmoscow.problem import parsing_problem
+from server.apps.services.parsing.investmoscow.problem_report import parsing_problem
 
 logger = logging.getLogger('django')
 

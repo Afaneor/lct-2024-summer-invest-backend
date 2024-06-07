@@ -14,7 +14,7 @@ from server.apps.investment_object.models.economic_activity import (
 from server.apps.investment_object.services.enums import (
     InfrastructureAvailability,
 )
-from server.apps.investment_object.services.parsing.xlsx.base import (
+from server.apps.services.parsing.xlsx.base import (
     ObjectType,
     clear_data,
     get_correct_data,

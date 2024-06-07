@@ -109,7 +109,7 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
             )
 
         else:
-            generate_user_id = self.request.headers.get('Generated-User-Id')
+            generate_user_id = self.request.headers.get('GENERATED-USER-ID')
             actual_selection_request = SelectionRequest.objects.get_or_create(
                 is_actual=True,
                 anonymous_user_id=generate_user_id,

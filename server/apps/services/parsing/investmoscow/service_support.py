@@ -4,7 +4,7 @@ import requests
 
 from server.apps.services.parsing.xlsx.base import clear_data
 from server.apps.support.models import ServiceSupport
-from server.apps.support.services.enums import TypeService
+from server.apps.support.services.enums import TypeServiceSupport
 
 logger = logging.getLogger('django')
 
@@ -43,8 +43,8 @@ def parsing_service_support():
         )
         entity_response = requests.get(url=entity_url).json()['information']
         type_services = {
-            'меры поддержки': TypeService.SUPPORT_MEASURE,
-            'услуги': TypeService.SERVICE,
+            'меры поддержки': TypeServiceSupport.SUPPORT_MEASURE,
+            'услуги': TypeServiceSupport.SERVICE,
         }
         services = ServiceSupport.objects.filter(
             name=entity.get('name'),

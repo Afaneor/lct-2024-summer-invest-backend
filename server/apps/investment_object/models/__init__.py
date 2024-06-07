@@ -12,7 +12,6 @@ from server.apps.investment_object.models.restriction import Restriction
 from server.apps.investment_object.models.specialized_site import (
     SpecializedSite,
 )
-from server.apps.investment_object.models.tender import Tender
 from server.apps.investment_object.models.tender_lot import TenderLot
 from server.apps.support.models.service_support import ServiceSupport
 
@@ -26,6 +25,5 @@ __all__ = [
     'Restriction',
     'SpecializedSite',
     'ServiceSupport',
-    'Tender',
     'TenderLot',
 ]

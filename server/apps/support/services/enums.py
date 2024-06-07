@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class TypeService(models.TextChoices):
+class TypeServiceSupport(models.TextChoices):
     """Тип сервиса."""
 
     SERVICE = 'service', _('Услуга')

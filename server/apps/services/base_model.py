@@ -10,8 +10,14 @@ class AbstractBaseModel(  # type: ignore
 ):
     """Базовая модель."""
 
-    created_at = models.DateTimeField(_('Создан'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Изменен'), auto_now=True)
+    created_at = models.DateTimeField(
+        verbose_name=_('Создан'),
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        verbose_name=_('Изменен'),
+        auto_now=True,
+    )
 
     class Meta:
         abstract = True

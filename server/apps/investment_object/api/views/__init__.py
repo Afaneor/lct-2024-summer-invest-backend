@@ -20,7 +20,6 @@ from server.apps.investment_object.api.views.restriction import (
 from server.apps.investment_object.api.views.specialized_site import (
     SpecializedSiteViewSet,
 )
-from server.apps.investment_object.api.views.tender import TenderViewSet
 from server.apps.investment_object.api.views.tender_lot import TenderLotViewSet
 
 __all__ = [
@@ -31,7 +30,5 @@ __all__ = [
     'RealEstateViewSet',
     'RestrictionViewSet',
     'ReadyBusinessViewSet',
-    'TenderViewSet',
     'SpecializedSiteViewSet',
-    'TenderLotViewSet',
 ]

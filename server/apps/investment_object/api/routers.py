@@ -10,7 +10,6 @@ from server.apps.investment_object.api.views import (
     RestrictionViewSet,
     SpecializedSiteViewSet,
     TenderLotViewSet,
-    TenderViewSet,
 )
 from server.apps.services.custom_router.api_router import ApiRouter
 
@@ -49,5 +48,4 @@ router.register(
     SpecializedSiteViewSet,
     'specialized-sites',
 )
-router.register('tenders', TenderViewSet, 'tenders')
 router.register('tender-lots', TenderLotViewSet, 'tender-lots')

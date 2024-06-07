@@ -30,7 +30,7 @@ class InvestmentObject(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    object_type = models.IntegerField(
+    object_type = models.CharField(
         verbose_name=_('Тип объекта'),
         choices=ObjectType.choices,
         default=ObjectType.NOT_DATA,

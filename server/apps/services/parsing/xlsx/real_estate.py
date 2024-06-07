@@ -36,7 +36,7 @@ def parsing_real_estate():
                 object_type = (
                     ObjectType.BUILDING.value
                     if row[11] and [11] == 'Помещение'
-                    else ObjectType.LAND.value
+                    else ObjectType.LAND_PLOT.value
                 )
                 is_cupping = (
                     False

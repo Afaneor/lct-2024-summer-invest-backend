@@ -8,6 +8,12 @@ from server.apps.services.base_model import AbstractBaseModel
 class ReadyBusiness(AbstractBaseModel):
     """Готовый бизнес."""
 
+    investment_object = models.OneToOneField(
+        to='investment_object.InvestmentObject',
+        verbose_name=_('Специализированная площадка'),
+        on_delete=models.CASCADE,
+        related_name='ready_business'
+    )
     external_id = models.IntegerField(
         verbose_name=_('Id объекта на alterainvest.ru'),
         null=True,

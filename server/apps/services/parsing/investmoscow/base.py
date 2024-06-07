@@ -6,9 +6,10 @@ import requests
 from server.apps.investment_object.models.investment_object import (
     InvestmentObject,
 )
+from server.apps.investment_object.services.enums import ObjectType
 from server.apps.services.parsing.investmoscow.investment_object import (
+    parsing_industrial_land_5,
     parsing_industrial_site_4,
-    parsing_industrial_site_5,
     parsing_investment_catalog_3,
     parsing_krt_6,
     parsing_technopark_1,
@@ -23,8 +24,17 @@ FUNCTION_MAP: Dict[int, Any] = {
     2: parsing_technopolis_2,
     3: parsing_investment_catalog_3,
     4: parsing_industrial_site_4,
-    5: parsing_industrial_site_5,
+    5: parsing_industrial_land_5,
     6: parsing_krt_6,
+}
+
+object_type = {
+    1: ObjectType.TECHNOPARK,
+    2: ObjectType.TECHNOPOLIS,
+    3: ObjectType.LAND_PLOT,
+    4: ObjectType.BUILDING,
+    5: ObjectType.LAND_PLOT,
+    6: ObjectType.CDT,
 }
 
 
@@ -72,7 +82,7 @@ def parsing_investmoscow():
                 'name': entity.get('name'),
                 'longitude': longitude,
                 'latitude': latitude,
-                'object_type': entity.get('type'),
+                'object_type': object_type.get(entity.get('type')),
             },
         )
         FUNCTION_MAP.get(entity.get('type'))(

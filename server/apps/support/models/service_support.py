@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from server.apps.services.base_model import AbstractBaseModel
-from server.apps.support.services.enums import TypeService
+from server.apps.support.services.enums import TypeServiceSupport
 
 
 class ServiceSupport(AbstractBaseModel):
@@ -14,10 +14,10 @@ class ServiceSupport(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    type_service = models.CharField(
+    type_service_support = models.CharField(
         verbose_name=_('Тип сервиса'),
         max_length=settings.MAX_STRING_LENGTH,
-        choices=TypeService.choices,
+        choices=TypeServiceSupport.choices,
     )
     name = models.CharField(
         verbose_name=_('Название'),
@@ -91,8 +91,8 @@ class ServiceSupport(AbstractBaseModel):
         verbose_name_plural = _('Сервисы поддержки')
         constraints = [
             models.CheckConstraint(
-                name='type_service_valid',
-                check=models.Q(type_service__in=TypeService.values),
+                name='type_service_support_valid',
+                check=models.Q(type_service_support__in=TypeServiceSupport.values),
             ),
         ]
 

@@ -3,19 +3,20 @@ import time
 
 import requests
 
-from server.apps.investment_object.models import Tender, TenderLot
+from server.apps.investment_object.models import InvestmentObject, TenderLot
+from server.apps.investment_object.services.enums import ObjectType
 
 logger = logging.getLogger('django')
 
 
-def torgi_gov_parsing_tender():
+def parsing_tender_lot():
     """Парсинг тендеров с сайта torgi.gov.ru."""
     # Формируем запрос к api для получения количества страниц.
-    first_10_tender_json = requests.get(
+    # https://torgi.gov.ru/new/public/lots/reg.
+    first_10_tender_lots_json = requests.get(
         url=(
-            'https://torgi.gov.ru/new/api/public/notices/search'
-            '?subjRF=77,50'
-            '&noticeStatus=PUBLISHED,APPLICATIONS_SUBMISSION'
+            'https://torgi.gov.ru/new/api/public/lotcards/search'
+            '?dynSubjRF=78,53&lotStatus=PUBLISHED,APPLICATIONS_SUBMISSION'
             '&byFirstVersion=true'
             '&withFacets=true'
             '&size=10'
@@ -23,73 +24,108 @@ def torgi_gov_parsing_tender():
         ),
         timeout=15,
     ).json()
-    total_pages = first_10_tender_json['totalPages']
+    total_pages = first_10_tender_lots_json['totalPages']
+
     # Проходимся по всем страницам и получаем информацию.
-    for number_page in range(total_pages):
-        tenders_json = requests.get(
+    # range(total_pages)
+    for number_page in range(10):
+        tender_lots_json = requests.get(
             url=(
-                'https://torgi.gov.ru/new/api/public/notices/search'
-                '?subjRF=77,50'
-                '&noticeStatus=PUBLISHED,APPLICATIONS_SUBMISSION'
+                'https://torgi.gov.ru/new/api/public/lotcards/search'
+                '?dynSubjRF=78,53'
+                '&lotStatus=PUBLISHED,APPLICATIONS_SUBMISSION'
                 '&byFirstVersion=true'
+                '&withFacets=false'
                 f'&page={number_page}'
-                f'&size=10'
-                f'&sort=firstVersionPublicationDate,desc'
+                '&size=10'
+                '&sort=firstVersionPublicationDate,desc'
             ),
             timeout=15,
         ).json()
-        for entity in tenders_json['content']:
-            tender_id = entity['id']
-            tender_url = (
-                'https://torgi.gov.ru/new/api/public/notices/'
-                f'noticeNumber/{tender_id}'
+        # В рамках страницы получаем информацию о лоте.
+        # Берем его id, чтобы получить детальную информацию.
+        for entity in tender_lots_json['content']:
+            # Получаем id и делаем запрос.
+            tender_lot_id = entity['id']
+            tender_lot_url = (
+                f'https://torgi.gov.ru/new/api/public/lotcards/{tender_lot_id}'
             )
-            tender_json = requests.get(
-                url=tender_url,
+            tender_lot_json = requests.get(
+                url=tender_lot_url,
                 timeout=15,
             ).json()
 
-            tender, create = Tender.objects.get_or_create(
-                tender_id=tender_id,
-                bidding_type=tender_json.get('biddType', {}).get('name'),
-                url=f'https://torgi.gov.ru/new/public/notices/view/{tender_id}',
+            # Формируем дополнительную информацию.
+            extra_data = {
+                'Предмет торгов (наименование лота)': tender_lot_json.get('lotName', ''),
+                'Описание лота': tender_lot_json.get('lotDescription', ''),
+                'Вид торгов': tender_lot_json.get('biddType', {}).get('name'),
+                'Категория объекта': tender_lot_json.get('category', {}).get('name'),
+                'Начальная цена': tender_lot_json.get('deposit', ''),
+                'Шаг аукциона': tender_lot_json.get('priceStep', ''),
+                'Размер задатка': tender_lot_json.get('priceMin', ''),
+                'Форма собственности':
+                    tender_lot_json.get('ownershipForm', {}).get('name'),
+                'Местонахождение имущества': tender_lot_json.get('estateAddress', ''),
+                **{
+                    data_json.get('name'): data_json.get('characteristicValue')
+                    for data_json in tender_lot_json.get('characteristics')
+                    if data_json.get('name')
+                },
+            }
+
+            # Получаем фотографии
+            main_photo_url = (
+                tender_lot_json.get('lotImages')[0]
+                if tender_lot_json.get('lotImages')
+                else ''
+            )
+            photo_urls = [
+                (
+                    'https://torgi.gov.ru/new/file-store/v1/'
+                    f'{photo}?disposition=inline&resize=600x600!'
+                )
+                for photo in tender_lot_json.get('lotImages')
+            ]
+
+            # Получаем тип.
+            object_type = tender_lot_json.get('category', {}).get('name')
+            if object_type.lower().find('земл') >= 0:
+                object_type = ObjectType.LAND_PLOT
+            elif object_type.lower().find('помещ') >= 0:
+                object_type = ObjectType.BUILDING
+            else:
+                object_type = ObjectType.OTHER
+
+            # Получаем корректное имя лота тендера.
+            name = tender_lot_json.get('lotName')
+            if len(name) > 150:
+                name = name.split(',')[0]
+
+            investment_object, io_created = InvestmentObject.objects.get_or_create(
+                name=name,
+                defaults={
+                    'main_photo_url': (
+                        'https://torgi.gov.ru/new/file-store/v1/'
+                        f'{main_photo_url}?disposition=inline&resize=600x600!'
+                    ),
+                    'photo_urls': photo_urls,
+                    'object_type': object_type,
+                },
             )
 
-            for lot in tender_json.get('lots'):
-                logger.info(
-                    f"Найдено лотов: {len(tender_json.get('lots'))}. "
-                    'Идет создание...',
-                )
-
-                extra_data = {
-                    'Предмет торгов (наименование лота)': lot.get('lotName', ''),
-                    'Описание лота': lot.get('lotDescription', ''),
-                    'Вид торгов': lot.get('biddType', {}).get('name'),
-                    'Категория объекта': lot.get('category', {}).get('name'),
-                    'Начальная цена': lot.get('deposit', ''),
-                    'Шаг аукциона': lot.get('priceStep', ''),
-                    'Размер задатка': lot.get('priceMin', ''),
-                    'Форма собственности':
-                        lot.get('ownershipForm', {}).get('name'),
-                    'Местонахождение имущества': lot.get('estateAddress', ''),
-                    **{
-                        data_json.get('name'): data_json.get('characteristicValue')
-                        for data_json in lot.get('characteristics')
-                        if data_json.get('name')
-                    },
-                }
-
-                TenderLot.objects.get_or_create(
-                    tender=tender,
-                    tender_lot_id=lot['id'],
-                    url=(
-                        'https://torgi.gov.ru/new/public/lots/lot/'
-                        f"{lot['id']}/(lotInfo:info)"
-                    ),
-                    name=lot.get('lotName'),
-                    description=lot.get('lotDescription'),
-                    extra_data=extra_data
-                )
+            # Формирование лота.
+            TenderLot.objects.get_or_create(
+                investment_object=investment_object,
+                bidding_type=tender_lot_json.get('biddType', {}).get('name'),
+                tender_lot_id=tender_lot_id,
+                url=(
+                    'https://torgi.gov.ru/new/public/lots/lot/'
+                    f'{tender_lot_id}/(lotInfo:info)?fromRec=false'
+                ),
+                description=tender_lot_json.get('lotDescription'),
+                extra_data=extra_data
+            )
 
             logger.info(f"Обработано {entity['id']}")
 

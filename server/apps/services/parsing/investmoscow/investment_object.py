@@ -262,7 +262,7 @@ def parsing_industrial_site_4(
     )
 
 
-def parsing_industrial_site_5(
+def parsing_industrial_land_5(
     investment_site: InvestmentObject,
 ):
     """Парсинг промплощадок (земельных участков)."""

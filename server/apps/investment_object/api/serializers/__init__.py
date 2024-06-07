@@ -30,9 +30,6 @@ from server.apps.investment_object.api.serializers.restriction import (
 from server.apps.investment_object.api.serializers.specialized_site import (
     SpecializedSiteSerializer,
 )
-from server.apps.investment_object.api.serializers.tender import (
-    TenderSerializer,
-)
 from server.apps.investment_object.api.serializers.tender_lot import (
     TenderLotSerializer,
 )
@@ -49,7 +46,6 @@ __all__ = [
     'InvestmentObjectSerializer',
     'PrivilegeSerializer',
     'ReadyBusinessSerializer',
-    'TenderSerializer',
     'SpecializedSiteSerializer',
     'TenderLotSerializer',
     'RealEstateSerializer',

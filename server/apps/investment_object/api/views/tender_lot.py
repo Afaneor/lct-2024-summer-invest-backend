@@ -16,8 +16,7 @@ class TenderLotFilter(
         model = TenderLot
         fields = (
             'id',
-            'tender_lot_id',
-            'name',
+            'investment_object',
             'url',
         )
 
@@ -28,9 +27,8 @@ class TenderLotViewSet(BaseReadOnlyViewSet):
     serializer_class = TenderLotSerializer
     queryset = TenderLot.objects.all()
     search_fields = (
-        'tender__tender_id',
+        'investment_object__name',
         'tender_lot_id',
-        'name',
     )
     ordering_fields = '__all__'
     filterset_class = TenderLotFilter

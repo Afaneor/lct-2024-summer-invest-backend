@@ -8,20 +8,21 @@ from server.apps.services.base_model import AbstractBaseModel
 class TenderLot(AbstractBaseModel):
     """Лот тендера."""
 
-    tender = models.ForeignKey(
-        to='investment_object.Tender',
-        verbose_name=_('Тендер'),
+    investment_object = models.OneToOneField(
+        to='investment_object.InvestmentObject',
+        verbose_name=_('Специализированная площадка'),
         on_delete=models.CASCADE,
-        related_name='lots'
+        related_name='tender_lot'
+    )
+    bidding_type = models.CharField(
+        verbose_name=_('Вид торгов'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
     )
     tender_lot_id = models.CharField(
         verbose_name=_('Id лота тендера'),
         max_length=settings.MAX_STRING_LENGTH,
         unique=True,
-    )
-    name = models.TextField(
-        verbose_name=_('Название лота'),
-        blank=True,
     )
     description = models.TextField(
         verbose_name=_('Название лота'),
@@ -43,4 +44,4 @@ class TenderLot(AbstractBaseModel):
         verbose_name_plural = _('Лоты тендера')
 
     def __str__(self):
-        return str(self.tender)
+        return self.name

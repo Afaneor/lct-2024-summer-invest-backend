@@ -9,6 +9,7 @@ from server.apps.investment_object.models.economic_activity import (
 from server.apps.investment_object.models.restriction import Restriction
 from server.apps.services.parsing.xlsx.base import get_correct_data
 from server.apps.support.models import ServiceSupport
+from server.apps.support.services.enums import TypeServiceSupport
 from server.settings.components import BASE_DIR
 
 logger = logging.getLogger('django')
@@ -34,6 +35,7 @@ def parsing_support():
                     name=row[1],
                     defaults={
                         'region': get_correct_data(row[0]),
+                        'type_service_support': TypeServiceSupport.SUPPORT_MEASURE,
                         'support_type': get_correct_data(row[2]).lower(),
                         'support_level': get_correct_data(row[3]).lower(),
                         'description': get_correct_data(row[4]),

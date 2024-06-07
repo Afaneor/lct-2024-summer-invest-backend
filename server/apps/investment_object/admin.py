@@ -8,9 +8,7 @@ from server.apps.investment_object.models import (
     ReadyBusiness,
     RealEstate,
     Restriction,
-    ServiceSupport,
     SpecializedSite,
-    Tender,
     TenderLot,
 )
 
@@ -40,46 +38,20 @@ class InvestmentObjectAdmin(admin.ModelAdmin[InvestmentObject]):
     )
 
 
-@admin.register(Tender)
-class TenderAdmin(admin.ModelAdmin[Tender]):
-    """Тендер."""
-
-    list_display = (
-        'id',
-        'tender_id',
-        'bidding_type',
-        'url',
-    )
-    list_filter = (
-        'bidding_type',
-    )
-    search_fields = (
-        'tender_id',
-        'bidding_type',
-        'url',
-    )
-    ordering = (
-        'id',
-    )
-
-
 @admin.register(TenderLot)
 class TenderLotAdmin(admin.ModelAdmin[TenderLot]):
     """Лот тендера."""
 
     list_display = (
         'id',
-        'tender',
         'tender_lot_id',
-        'name',
         'url',
     )
     list_filter = (
-        'tender__bidding_type',
+        'bidding_type',
     )
     search_fields = (
         'tender_lot_id',
-        'name',
         'url',
     )
     ordering = (

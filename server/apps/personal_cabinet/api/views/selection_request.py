@@ -103,19 +103,19 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         Получение актуального запроса на подбор площадок.
         """
         if request.user.is_authenticated:
-            actual_selection_request = SelectionRequest.objects.filter(
+            actual_selection_request, created = SelectionRequest.objects.get_or_create(
                 is_actual=True,
                 user=request.user,
             )
 
         else:
             generate_user_id = self.request.headers.get('GENERATED-USER-ID')
-            actual_selection_request = SelectionRequest.objects.get_or_create(
+            actual_selection_request, created = SelectionRequest.objects.get_or_create(
                 is_actual=True,
                 anonymous_user_id=generate_user_id,
             )
 
-        serializer = self.get_serializer(actual_selection_request.first())
+        serializer = self.get_serializer(actual_selection_request)
         return Response(
             data=serializer.data,
             status=status.HTTP_200_OK,

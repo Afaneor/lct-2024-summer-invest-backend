@@ -30,4 +30,4 @@ class ProblemReportAdmin(admin.ModelAdmin[ProblemReport]):
     )
 
 
-admin.register(ServiceSupport)
+admin.site.register(ServiceSupport)

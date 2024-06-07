@@ -96,6 +96,7 @@ class MessageViewSet(RetrieveListCreateViewSet):
         Сохраняем сообщение от пользователя и отправляем данные в ChatGpt.
         """
         serializer.save()
+        # FIXME: Логика по GPT
         # send_data_in_chat_gpt(
         #     user_text=serializer.validated_data['text'],
         #     message_id=serializer.instance.id,

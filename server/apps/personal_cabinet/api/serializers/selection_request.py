@@ -29,7 +29,7 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
 
     user = BaseInfoUserSerializer()
     investment_objects = BaseInvestmentObjectSerializer(many=True)
-    messages = BaseMessageSerializer(many=True)
+    messages = serializers.SerializerMethodField()
 
     class Meta:
         model = SelectionRequest
@@ -44,3 +44,10 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
             'created_at',
             'updated_at',
         )
+
+    def get_messages(self, selection_request: SelectionRequest):
+        """Сообщения для запроса."""
+        return BaseMessageSerializer(
+            selection_request.messages.all().order_by('id'),
+            many=True,
+        ).data

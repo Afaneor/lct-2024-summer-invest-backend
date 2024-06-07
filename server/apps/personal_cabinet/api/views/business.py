@@ -156,12 +156,11 @@ class BusinessViewSet(RetrieveListCreateUpdateDeleteViewSet):
     @action(
         methods=['PUT', 'PATCH'],
         url_path='update-business-by-inn',
-        detail=True,
+        detail=False,
     )
     def update_business_by_inn(
         self,
         request: Request,
-        pk: int,
     ):
         """Обновление бизнеса по ИНН."""
         business = self.get_object()

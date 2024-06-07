@@ -12,6 +12,7 @@ from server.apps.personal_cabinet.models.message import Message
 from server.apps.personal_cabinet.models.selection_request import (
     SelectionRequest,
 )
+from server.apps.personal_cabinet.services.enums import MessageOwnerType
 from server.apps.personal_cabinet.services.send_data_in_chat_gpt import (
     send_data_in_chat_gpt,
 )
@@ -100,6 +101,12 @@ class MessageViewSet(RetrieveListCreateViewSet):
         #     message_id=serializer.instance.id,
         #     selection_request_id=serializer.instance.selection_request.id,
         # )
+        Message.objects.create(
+            owner_type=MessageOwnerType.BOT,
+            selection_request=serializer.instance.selection_request,
+            text='Тестовое сообщение для Игоря',
+            parent=serializer.instance,
+        )
 
     def get_queryset(self):
         """

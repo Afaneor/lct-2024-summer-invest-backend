@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import httpx
 from django.conf import settings
@@ -87,15 +87,15 @@ def get_business_by_inn(inn: str) -> List[dict]:
     return response.get('suggestions')
 
 
-def update_or_create_business(inn: str, user_id: int) -> Tuple[Business, bool]:
+def update_or_create_business(
+    inn: str,
+    user_id: int,
+) -> Tuple[Optional[Business], bool]:
     """Выбираем нужную информацию о компании или ИП и сохраняем ее в БД.
 
     Информация берется из DaData.
     """
-    user = User.objects.get(id=user_id)
     business_information = get_business_by_inn(inn=inn)
-    sector = Sector.objects.get(slug='other')
-    sub_sector = SubSector.objects.get(slug='other')
     if business_information:
         business = business_information[0]
         data = business.get('data', {})
@@ -139,17 +139,7 @@ def update_or_create_business(inn: str, user_id: int) -> Tuple[Business, bool]:
                     else
                     ''
                 ),
-                'sector':  sector,
-                'sub_sector':  sub_sector,
             },
         )
-    else:
-        return Business.objects.update_or_create(
-            inn=inn,
-            defaults={
-                'type_business': TypeBusiness.PHYSICAL,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'middle_name': user.middle_name,
-            },
-        )
+
+    return None, False

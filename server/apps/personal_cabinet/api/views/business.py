@@ -122,7 +122,7 @@ class BusinessViewSet(RetrieveListCreateUpdateDeleteViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)  # noqa: WPS204
         try:
-            update_or_create_business(
+            business, created = update_or_create_business(
                 inn=serializer.validated_data['inn'],
                 user_id=request.user.id,
             )
@@ -137,8 +137,19 @@ class BusinessViewSet(RetrieveListCreateUpdateDeleteViewSet):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        if business:
+            detail = _('Информация о бизнесе найдена и добавлена')
+        else:
+            detail = _(
+                'Информация о бизнесе не найдена. '
+                'Проверьте указанный ИНН.'
+                'Также можете добавить организацию в ручную.'
+
+            )
+
         return Response(
-            data={'detail': _('Информация о бизнесе успешно добавлена')},
+            data={'detail': detail},
             status=status.HTTP_200_OK,
         )
 
@@ -155,7 +166,7 @@ class BusinessViewSet(RetrieveListCreateUpdateDeleteViewSet):
         """Обновление бизнеса по ИНН."""
         business = self.get_object()
         try:
-            update_or_create_business(
+            business, created = update_or_create_business(
                 inn=business.inn,
                 user_id=request.user.id,
             )
@@ -170,7 +181,16 @@ class BusinessViewSet(RetrieveListCreateUpdateDeleteViewSet):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        if business:
+            detail = _('Информация о бизнесе успешно обновлена')
+        else:
+            detail = _(
+                'Информация о бизнесе  не найдена. '
+                'Информация не обновлена',
+            )
+
         return Response(
-            data={'detail': _('Информация о бизнесе успешно обновлена')},
+            data={'detail': detail},
             status=status.HTTP_200_OK,
         )

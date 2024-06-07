@@ -40,7 +40,7 @@ def parsing_support():
                         'description': get_correct_data(row[4]),
                         'legal_act': get_correct_data(row[5]),
                         'url_legal_act': get_correct_data(row[6]),
-                        'application_form_link': get_correct_data(row[8]),
+                        'url_application_form': get_correct_data(row[8]),
                         'name_responsible_body': get_correct_data(row[9]),
                         'is_msp_roster': is_msp_roster,
                         'applicant_requirement': get_correct_data(row[14]),

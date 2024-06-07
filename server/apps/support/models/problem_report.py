@@ -20,9 +20,8 @@ class ProblemReport(AbstractBaseModel):
     external_theme_id = models.IntegerField(
         verbose_name=_('Id подкатегории проблемы на investmoscom.ru'),
     )
-    name = models.CharField(
+    name = models.TextField(
         verbose_name=_('Название проблемы'),
-        max_length=settings.MAX_STRING_LENGTH,
     )
     category_name = models.CharField(
         verbose_name=_('Название категории'),

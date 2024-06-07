@@ -1008,7 +1008,7 @@ class Migration(migrations.Migration):
                     models.TextField(blank=True, verbose_name='Ссылка на НПА'),
                 ),
                 (
-                    'application_form_link',
+                    'url_application_form',
                     models.CharField(
                         blank=True,
                         max_length=255,

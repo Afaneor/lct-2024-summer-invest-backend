@@ -46,7 +46,7 @@ class ServiceSupport(AbstractBaseModel):
         verbose_name=_('Ссылка на НПА'),
         blank=True,
     )
-    application_form_link = models.CharField(
+    url_application_form = models.CharField(
         verbose_name=_('Ссылка на форму подачи заявки'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,

@@ -16,7 +16,7 @@ class ObjectType(Enum):
 
 def get_correct_data(row_data: Any, default: Any = ''):
     """Получение корректных значений."""
-    return row_data if row_data else default
+    return clear_data(row_data=row_data) if row_data else default
 
 
 def delete_html(row_data: Any) -> Any:
@@ -31,7 +31,7 @@ def delete_html(row_data: Any) -> Any:
     return row_data
 
 
-def clear_data(row_data: str):
+def clear_data(row_data: Any) -> Any:
     """Очистка данных от пробелов и лишних символов."""
     if isinstance(row_data, str):
         row_data = row_data.strip()

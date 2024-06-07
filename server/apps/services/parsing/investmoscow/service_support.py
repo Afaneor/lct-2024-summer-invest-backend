@@ -9,7 +9,7 @@ from server.apps.support.services.enums import TypeService
 logger = logging.getLogger('django')
 
 
-def parsing_service():
+def parsing_service_support():
     """Парсинг сервисов investmoscow.ru"""
     # Получаем https://investmoscow.ru/catalog/search
     response = requests.post(
@@ -18,7 +18,17 @@ def parsing_service():
             'services/searchPublished'
         ),
         headers={
-            'Content-Type': 'application/json'
+            "accept": "application/json",
+            "accept-language": "ru-RU",
+            "content-type": "application/json",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "x-requested-with": "XMLHttpRequest"
         },
         json={
             'PageNumber': 1,
@@ -31,7 +41,7 @@ def parsing_service():
             'https://api.investmoscow.ru/common/usoz-services/v1/services/'
             f"getPublishedService/{entity.get('id')}"
         )
-        entity_response = requests.get(url=entity_url).json()
+        entity_response = requests.get(url=entity_url).json()['information']
         type_services = {
             'меры поддержки': TypeService.SUPPORT_MEASURE,
             'услуги': TypeService.SERVICE,
@@ -45,6 +55,16 @@ def parsing_service():
             service.external_id = entity.get('id')
             service.url = entity_url
         else:
+            applicant_requirement = ''
+            for item in entity_response.get('applicantRequirements').get('items'):
+                item = clear_data(row_data=item.get('description'))
+                applicant_requirement += f'- {item}\n'
+
+            applicant_procedure = ''
+            for index, item in enumerate(entity_response.get('considerationProcedure').get('procedures')):
+                item = clear_data(row_data=item)
+                applicant_requirement += f'- {item}\n'
+
             service, created = ServiceSupport.objects.get_or_create(
                 external_id=entity.get('id'),
                 defaults={
@@ -52,11 +72,11 @@ def parsing_service():
                     'type_service':
                         clear_data(
                             row_data=type_services.get(
-                                entity.get('serviceTypeName'),
+                                entity.get('serviceTypeName', ''),
                             ),
                         ),
                     'name':
-                        clear_data(row_data=entity.get('name')),
+                        clear_data(row_data=entity.get('name', '')),
                     'support_type':
                         clear_data(
                             row_data=entity.get('categoryName', '').lower(),
@@ -65,19 +85,19 @@ def parsing_service():
                     'description':
                         clear_data(
                             row_data=entity_response.get(
-                                'common',
+                                'common', {},
                             ).get(
-                                'fullDescription',
+                                'fullDescription', '',
                             )
                         ),
                     'legal_act':
                         clear_data(
                             row_data=entity_response.get(
-                                'reasons',
+                                'reasons', {},
                             ).get(
-                                'regulatoryLegalActs',
+                                'regulatoryLegalActs', [{}],
                             )[0].get(
-                                'name'
+                                'name', '',
                             )
                         ),
                     'url_legal_act':
@@ -85,14 +105,31 @@ def parsing_service():
                             row_data=entity_response.get(
                                 'reasons',
                             ).get(
-                                'regulatoryLegalActs',
+                                'regulatoryLegalActs', [{}],
                             )[0].get(
-                                'link'
+                                'link',  '',
                             )
                         ),
+                    'url_application_form':
+                        clear_data(
+                            row_data=entity_response.get(
+                                'other', {},
+                            ).get(
+                                'descriptionLink', '',
+                            ),
+                        ),
+                    'name_responsible_body':
+                        clear_data(
+                            row_data=entity_response.get(
+                                'contacts', {},
+                            ).get(
+                                'responsibleAuthorityTitle', '',
+                            ),
+                        ),
+                    'applicant_requirement': applicant_requirement,
+                    'applicant_procedure': applicant_procedure,
                     'url': entity_url,
                 }
             )
-
 
         logger.info(f'Обработана запись: {service.name}')

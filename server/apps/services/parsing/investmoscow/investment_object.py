@@ -5,6 +5,7 @@ import requests
 from server.apps.investment_object.models.investment_object import (
     InvestmentObject,
 )
+from server.apps.services.parsing.xlsx.base import clear_data, get_correct_data
 
 URL_MAPPING: Dict[int, str] = {
     # ТЕХНОПАРКИ. https://investmoscow.ru/business/technoparks
@@ -46,15 +47,17 @@ def parsing_technopark_1(
 
     extra_data = {
         # Общая информация.
-        'Наименование': generic_info_tab.get('name', ''),
-        'Общая информация': generic_info_tab.get('generalInfo', ''),
+        'Наименование': get_correct_data(generic_info_tab.get('name')),
+        'Общая информация': get_correct_data(generic_info_tab.get('generalInfo')),
         'Специализация': ', '.join(generic_info_tab.get('specializations', [])),
         # Контакты.
-        'Адрес': contact_info_tab.get('address', ''),
-        'Управляющая компания': contact_info_tab.get('managementCompany', ''),
-        'Url сайта': contact_info_tab.get('url', ''),
-        'Контактное лицо': contact_info_tab.get('contactPerson', ''),
-        'Телефон': contact_info_tab.get('phone', ''),
+        'Адрес': get_correct_data(contact_info_tab.get('address')),
+        'Управляющая компания':
+            get_correct_data(contact_info_tab.get('managementCompany')),
+        'Url сайта': get_correct_data(contact_info_tab.get('url')),
+        'Контактное лицо':
+            get_correct_data(contact_info_tab.get('contactPerson')),
+        'Телефон': get_correct_data(contact_info_tab.get('phone')),
     }
 
     # Добавляем фотографии, если они есть
@@ -93,34 +96,60 @@ def parsing_technopolis_2(
     extra_data = {
         # Общая информация.
         'Наименование':
-            generic_info_tab.get('name', ''),
+            get_correct_data(generic_info_tab.get('name')),
         'Округ':
-            generic_info_tab.get('okrug', ''),
+            get_correct_data(generic_info_tab.get('okrug')),
         'Общая площадь, м2, га':
-            generic_info_tab.get('area', ''),
+            get_correct_data(generic_info_tab.get('area')),
         'Количество резидентов особой экономической зоны':
-            generic_info_tab.get('residentsCount', ''),
+            get_correct_data(generic_info_tab.get('residentsCount')),
         'Объем инвестиций, млрд руб':
-            generic_info_tab.get('investmentSize', ''),
+            get_correct_data(generic_info_tab.get('investmentSize')),
         'Количество рабочих мест':
-            generic_info_tab.get('workplacesCount', ''),
+            get_correct_data(generic_info_tab.get('workplacesCount')),
         # Инженерная инфраструктура.
         'Электроснабжение. Максимально допустимая мощность.':
-            engineering_infrastructure_tab.get('powerSupplyMaxAvailablePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get(
+                    'powerSupplyMaxAvailablePower',
+                ),
+            ),
         'Электроснабжение. Свободная мощность':
-            engineering_infrastructure_tab.get('powerSupplyFreePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get('powerSupplyFreePower'),
+            ),
         'Водоснабжение. Максимально допустимая мощность.':
-            engineering_infrastructure_tab.get('waterSupplyMaxAvailablePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get(
+                    'waterSupplyMaxAvailablePower',
+                ),
+            ),
         'Водоснабжение. Свободная мощность':
-            engineering_infrastructure_tab.get('waterSupplyFreePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get('waterSupplyFreePower'),
+            ),
         'Водоотведение. Максимально допустимая мощность.':
-            engineering_infrastructure_tab.get('sewersMaxAvailablePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get(
+                    'sewersMaxAvailablePower',
+                ),
+            ),
         'Водоотведение. Свободная мощность':
-            engineering_infrastructure_tab.get('sewersFreePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get('sewersFreePower'),
+            ),
         'Теплоснабжение. Максимально допустимая мощность.':
-            engineering_infrastructure_tab.get('heatingSupplyMaxAvailablePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get(
+                    'heatingSupplyMaxAvailablePower',
+                ),
+            ),
         'Теплоснабжение. Свободная мощность':
-            engineering_infrastructure_tab.get('heatingSupplyFreePower', ''),
+            get_correct_data(
+                engineering_infrastructure_tab.get(
+                    'heatingSupplyFreePower',
+                ),
+            ),
     }
 
     # Добавляем фотографии, если они есть
@@ -156,16 +185,17 @@ def parsing_investment_catalog_3(
 
     extra_data = {
         # Здание.
-        'Количество объектов': building_tab.get('count', '0'),
-        'Год постройки': building_tab.get('year', ''),
-        'Площадь постройки': building_tab.get('area', '0'),
+        'Количество объектов': clear_data(building_tab.get('count', '0')),
+        'Год постройки': get_correct_data(building_tab.get('year')),
+        'Площадь постройки': clear_data(building_tab.get('area', '0')),
         # Земельный участок.
-        'Площадь': land_plot_tab.get('area', ''),
-        'Единица изменения площади': land_plot_tab.get('areaUnit', ''),
-        'Кадастровый № ЗУ': land_plot_tab.get('cadastralNumber', ''),
-        'Дата ГПЗУ': land_plot_tab.get('gpzuDate', ''),
-        'Номер ГПЗУ': land_plot_tab.get('gpzuNumber', ''),
-        'ВРИ': land_plot_tab.get('vri', ''),
+        'Площадь': get_correct_data(land_plot_tab.get('area')),
+        'Единица изменения площади':
+            get_correct_data(land_plot_tab.get('areaUnit')),
+        'Кадастровый № ЗУ': get_correct_data(land_plot_tab.get('cadastralNumber')),
+        'Дата ГПЗУ': get_correct_data(land_plot_tab.get('gpzuDate')),
+        'Номер ГПЗУ': get_correct_data(land_plot_tab.get('gpzuNumber')),
+        'ВРИ': get_correct_data(land_plot_tab.get('vri')),
 
     }
 
@@ -203,20 +233,22 @@ def parsing_industrial_site_4(
 
     extra_data = {
         # Здание.
-        'Наименование': generic_info_tab.get('name', ''),
-        'Вид объекта': generic_info_tab.get('kind', ''),
-        'Адрес': generic_info_tab.get('address', ''),
-        'Округ': generic_info_tab.get('okrug', ''),
-        'Основная информация': generic_info_tab.get('desc', ''),
-        'Площадь земельного участка': generic_info_tab.get('groundArea', ''),
+        'Наименование': get_correct_data(generic_info_tab.get('name')),
+        'Вид объекта': get_correct_data(generic_info_tab.get('kind')),
+        'Адрес': get_correct_data(generic_info_tab.get('address')),
+        'Округ': get_correct_data(generic_info_tab.get('okrug')),
+        'Основная информация': get_correct_data(generic_info_tab.get('desc')),
+        'Площадь земельного участка':
+        get_correct_data(generic_info_tab.get('groundArea')),
         # Помещения под аренду.
-        'Парковка': room_for_rent_tab.get('parking', ''),
-        'Вода': room_for_rent_tab.get('water', ''),
-        'Отопление': room_for_rent_tab.get('heating', ''),
-        'Электроэнергия': room_for_rent_tab.get('electricity', ''),
-        'Площадь помещений под аренду': room_for_rent_tab.get('area', ''),
-        'Стоимость площадки': room_for_rent_tab.get('price', ''),
-        'Тип площадки': room_for_rent_tab.get('type', ''),
+        'Парковка': get_correct_data(room_for_rent_tab.get('parking')),
+        'Вода': get_correct_data(room_for_rent_tab.get('water')),
+        'Отопление': get_correct_data(room_for_rent_tab.get('heating')),
+        'Электроэнергия': get_correct_data(room_for_rent_tab.get('electricity')),
+        'Площадь помещений под аренду':
+        get_correct_data(room_for_rent_tab.get('area')),
+        'Стоимость площадки': get_correct_data(room_for_rent_tab.get('price')),
+        'Тип площадки': get_correct_data(room_for_rent_tab.get('type')),
     }
 
     investment_site.photo_urls = response_json.get('photoUrls')
@@ -253,19 +285,30 @@ def parsing_industrial_site_5(
 
     extra_data = {
         # Общая информация.
-        'Наименование': generic_info_tab.get('name', ''),
-        'Вид объекта': generic_info_tab.get('kind', ''),
-        'Адрес': generic_info_tab.get('address', ''),
-        'Округ': generic_info_tab.get('okrug', ''),
-        'Кадастровый номер земельного участка': generic_info_tab.get('cadastrNumber', ''),
-        'Основная информация': generic_info_tab.get('desc', ''),
-        'Площадь земельного участка': generic_info_tab.get('groundArea', ''),
-        'Назначение земельного участка': generic_info_tab.get('landPurpose', ''),
-        'Требуется внести изменения ПЗЗ г. Москвы': generic_info_tab.get('needToMakeChangesToPzzOfMoscow', False),
+        'Наименование': get_correct_data(generic_info_tab.get('name')),
+        'Вид объекта': get_correct_data(generic_info_tab.get('kind')),
+        'Адрес': get_correct_data(generic_info_tab.get('address')),
+        'Округ': get_correct_data(generic_info_tab.get('okrug')),
+        'Кадастровый номер земельного участка':
+            get_correct_data(generic_info_tab.get('cadastrNumber')),
+        'Основная информация': get_correct_data(generic_info_tab.get('desc')),
+        'Площадь земельного участка':
+            get_correct_data(generic_info_tab.get('groundArea')),
+        'Назначение земельного участка':
+            get_correct_data(generic_info_tab.get('landPurpose')),
+        'Требуется внести изменения ПЗЗ г. Москвы':
+            clear_data(generic_info_tab.get('needToMakeChangesToPzzOfMoscow', False)),
         # Технико-экономические показатели.
-        'Максимальный процент застройки': technical_and_economic_indicators_tab.get('maxBuildingPercent', ''),
-        'Плотность застройки': technical_and_economic_indicators_tab.get('maxDensity', ''),
-        'Высотность': technical_and_economic_indicators_tab.get('maxHeight', ''),
+        'Максимальный процент застройки':
+            get_correct_data(
+                technical_and_economic_indicators_tab.get('maxBuildingPercent'),
+            ),
+        'Плотность застройки': get_correct_data(
+            technical_and_economic_indicators_tab.get('maxDensity'),
+        ),
+        'Высотность': get_correct_data(
+            technical_and_economic_indicators_tab.get('maxHeight'),
+        ),
     }
 
     investment_site.photo_urls = response_json.get('photoUrls')
@@ -297,24 +340,31 @@ def parsing_krt_6(
 
     extra_data = {
         # Земельный участок.
-        'Кадастровый номер': response_json.get('cadastralNumber', ''),
-        'Площадь': response_json.get('area', ''),
-        'Округ': response_json.get('okrug', ''),
-        'Статус проекта': response_json.get('status', ''),
-        'Адрес': response_json.get('address', ''),
+        'Кадастровый номер':
+            get_correct_data(response_json.get('cadastralNumber')),
+        'Площадь': get_correct_data(response_json.get('area')),
+        'Округ': get_correct_data(response_json.get('okrug')),
+        'Статус проекта': get_correct_data(response_json.get('status')),
+        'Адрес': get_correct_data(response_json.get('address')),
         # Технико-экономические показатели.
-        'Площадь застройки производственного назначения': response_json.get('areaProduction', ''),
-        'Площадь застройки общественно-делового назначения': response_json.get('areaPublicAndBusiness', ''),
-        'Суммарная поэтажная площадь застройки в ГНС': response_json.get('areaSumGNS', ''),
-        'Площадь существующей застройки': response_json.get('areaExistingConstruction', ''),
-        'Количество правообладателей': response_json.get('numberOwners', ''),
-        'Количество рабочих мест': response_json.get('numberWorkplaces', ''),
-        'Выкуп ЗИК': response_json.get('buybackZIK', ''),
-        'Виды разрешенного использования': get_correct_data_from_dict(
-            key_name='name',
-            all_data_json=response_json.get('vriZu', []),
-        ),
-
+        'Площадь застройки производственного назначения':
+            get_correct_data(response_json.get('areaProduction')),
+        'Площадь застройки общественно-делового назначения':
+            get_correct_data(response_json.get('areaPublicAndBusiness')),
+        'Суммарная поэтажная площадь застройки в ГНС':
+            get_correct_data(response_json.get('areaSumGNS')),
+        'Площадь существующей застройки':
+            get_correct_data(response_json.get('areaExistingConstruction')),
+        'Количество правообладателей':
+            get_correct_data(response_json.get('numberOwners')),
+        'Количество рабочих мест':
+            get_correct_data(response_json.get('numberWorkplaces')),
+        'Выкуп ЗИК': get_correct_data(response_json.get('buybackZIK')),
+        'Виды разрешенного использования':
+            get_correct_data_from_dict(
+                key_name='name',
+                all_data_json=response_json.get('vriZu', []),
+            ),
     }
 
     investment_site.photo_urls = response_json.get('photoUrls')

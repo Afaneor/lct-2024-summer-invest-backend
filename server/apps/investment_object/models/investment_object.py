@@ -2,16 +2,10 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from server.apps.investment_object.services.enums import ObjectType
 from server.apps.services.base_model import AbstractBaseModel
 
 
-# Тип инвестиционной площадка.
-# 1 - Технопарк.
-# 2 - Технополис.
-# 3 - Земля.
-# 4 - Промплощадка
-# 5 - Участки для промышленности.
-# 6 - КРТ.
 class InvestmentObject(AbstractBaseModel):
     """
     Инвестиционный объект.
@@ -38,7 +32,8 @@ class InvestmentObject(AbstractBaseModel):
     )
     object_type = models.IntegerField(
         verbose_name=_('Тип объекта'),
-        null=True,
+        choices=ObjectType.choices,
+        default=ObjectType.NOT_DATA,
     )
     url = models.CharField(
         verbose_name=_('Ссылка на investmoscom.ru'),
@@ -66,6 +61,12 @@ class InvestmentObject(AbstractBaseModel):
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Инвестиционный объект')
         verbose_name_plural = _('Инвестиционные объекты')
+        constraints = [
+            models.CheckConstraint(
+                name='object_type_valid',
+                check=models.Q(object_type__in=ObjectType.values),
+            ),
+        ]
 
     def __str__(self):
         return self.name

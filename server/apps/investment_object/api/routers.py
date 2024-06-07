@@ -6,6 +6,9 @@ from server.apps.investment_object.api.views import (
     InvestmentObjectViewSet,
     PrivilegeViewSet,
     ReadyBusinessViewSet,
+    RealEstateViewSet,
+    RestrictionViewSet,
+    SpecializedSiteViewSet,
     TenderLotViewSet,
     TenderViewSet,
 )
@@ -22,10 +25,29 @@ class InvestmentSiteAPIRootView(APIRootView):
 router = ApiRouter()
 
 router.APIRootView = InvestmentSiteAPIRootView
-router.register('economic-activities', EconomicActivityViewSet, 'economic-activities')
-router.register('infrastructures', InfrastructureViewSet, 'infrastructures')
+router.register(
+    'economic-activities',
+    EconomicActivityViewSet,
+    'economic-activities',
+)
+router.register(
+    'infrastructures',
+    InfrastructureViewSet,
+    'infrastructures',
+)
 router.register('privileges', PrivilegeViewSet, 'privilege')
 router.register('ready-businesses', ReadyBusinessViewSet, 'ready-businesses')
-router.register('investment-objects', InvestmentObjectViewSet, 'investment-objects')
+router.register(
+    'investment-objects',
+    InvestmentObjectViewSet,
+    'investment-objects',
+)
+router.register('real-estates', RealEstateViewSet, 'real-estates')
+router.register('restrictions', RestrictionViewSet, 'restrictions')
+router.register(
+    'specialized-sites',
+    SpecializedSiteViewSet,
+    'specialized-sites',
+)
 router.register('tenders', TenderViewSet, 'tenders')
 router.register('tender-lots', TenderLotViewSet, 'tender-lots')

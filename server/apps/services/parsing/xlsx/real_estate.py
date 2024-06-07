@@ -13,12 +13,9 @@ from server.apps.investment_object.models.economic_activity import (
 )
 from server.apps.investment_object.services.enums import (
     InfrastructureAvailability,
-)
-from server.apps.services.parsing.xlsx.base import (
     ObjectType,
-    clear_data,
-    get_correct_data,
 )
+from server.apps.services.parsing.xlsx.base import clear_data, get_correct_data
 from server.settings.components import BASE_DIR
 
 logger = logging.getLogger('django')

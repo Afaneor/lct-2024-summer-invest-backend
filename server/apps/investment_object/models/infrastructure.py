@@ -56,7 +56,7 @@ class Infrastructure(AbstractBaseModel):
         verbose_name_plural = _('Инфраструктуры')
         constraints = [
             models.CheckConstraint(
-                name='availability',
+                name='availability_valid',
                 check=models.Q(availability__in=InfrastructureAvailability.values),
             ),
         ]

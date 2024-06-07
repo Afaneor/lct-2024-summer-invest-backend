@@ -38,7 +38,7 @@ class Message(AbstractBaseModel):
         verbose_name_plural = _('Сообщения')
         constraints = [
             models.CheckConstraint(
-                name='owner_type',
+                name='owner_type_valid',
                 check=models.Q(owner_type__in=MessageOwnerType.values),
             ),
         ]

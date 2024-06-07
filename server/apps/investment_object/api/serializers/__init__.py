@@ -4,6 +4,7 @@ from server.apps.investment_object.api.serializers.base_data import (
     BaseInvestmentObjectSerializer,
     BasePrivilegeSerializer,
     BaseReadyBusinessSerializer,
+    BaseRestrictionSerializer,
 )
 from server.apps.investment_object.api.serializers.economic_activity import (
     EconomicActivitySerializer,
@@ -20,6 +21,15 @@ from server.apps.investment_object.api.serializers.privilege import (
 from server.apps.investment_object.api.serializers.ready_business import (
     ReadyBusinessSerializer,
 )
+from server.apps.investment_object.api.serializers.real_estate import (
+    RealEstateSerializer,
+)
+from server.apps.investment_object.api.serializers.restriction import (
+    RestrictionSerializer,
+)
+from server.apps.investment_object.api.serializers.specialized_site import (
+    SpecializedSiteSerializer,
+)
 from server.apps.investment_object.api.serializers.tender import (
     TenderSerializer,
 )
@@ -33,11 +43,15 @@ __all__ = [
     'BaseInvestmentObjectSerializer',
     'BasePrivilegeSerializer',
     'BaseReadyBusinessSerializer',
+    'BaseRestrictionSerializer',
     'EconomicActivitySerializer',
     'InfrastructureSerializer',
     'InvestmentObjectSerializer',
     'PrivilegeSerializer',
     'ReadyBusinessSerializer',
     'TenderSerializer',
+    'SpecializedSiteSerializer',
     'TenderLotSerializer',
+    'RealEstateSerializer',
+    'RestrictionSerializer',
 ]

@@ -15,7 +15,7 @@ class RealEstate(AbstractBaseModel):
         related_name='real_estate'
     )
     preferential_treatment = models.CharField(
-        verbose_name=_('Название'),
+        verbose_name=_('Преференциальный режим'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )

@@ -5,6 +5,7 @@ from server.apps.investment_object.models import (
     InvestmentObject,
     Privilege,
     ReadyBusiness,
+    Restriction,
 )
 
 
@@ -79,4 +80,15 @@ class BaseReadyBusinessSerializer(serializers.ModelSerializer):
             'name',
             'description',
             'extra_data',
+        )
+
+
+class BaseRestrictionSerializer(serializers.ModelSerializer):
+    """Сериалайзер ограничений по видам деятельности."""
+
+    class Meta:
+        model = Restriction
+        fields = (
+            'id',
+            'name',
         )

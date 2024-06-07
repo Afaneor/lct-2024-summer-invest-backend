@@ -91,7 +91,7 @@ class ServiceSupport(AbstractBaseModel):
         verbose_name_plural = _('Сервисы поддержки')
         constraints = [
             models.CheckConstraint(
-                name='type_service',
+                name='type_service_valid',
                 check=models.Q(type_service__in=TypeService.values),
             ),
         ]

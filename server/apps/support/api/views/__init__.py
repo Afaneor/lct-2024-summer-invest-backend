@@ -1,9 +1,9 @@
-from server.apps.investment_object.api.views.investment_object import (
-    InvestmentObjectViewSet,
+from server.apps.support.api.views.service_problem import (
+    ServiceProblemViewSet,
 )
-from server.apps.investment_object.api.views.tender_lot import TenderLotViewSet
+from server.apps.support.api.views.service_support import ServiceSupportViewSet
 
 __all__ = [
-    InvestmentObjectViewSet,
-    TenderLotViewSet,
+    'ServiceProblemViewSet',
+    'ServiceSupportViewSet',
 ]

@@ -14,28 +14,18 @@ class TenderLot(AbstractBaseModel):
         on_delete=models.CASCADE,
         related_name='tender_lot'
     )
-    bidding_type = models.CharField(
-        verbose_name=_('Вид торгов'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
-    tender_lot_id = models.CharField(
-        verbose_name=_('Id лота тендера'),
+    external_id = models.CharField(
+        verbose_name=_('Id объекта'),
         max_length=settings.MAX_STRING_LENGTH,
         unique=True,
     )
     description = models.TextField(
-        verbose_name=_('Название лота'),
+        verbose_name=_('Описание'),
         blank=True,
     )
     extra_data = models.JSONField(
         verbose_name=_('Дополнительные сведения'),
         null=True,
-        blank=True,
-    )
-    url = models.CharField(
-        verbose_name=_('Ссылка на torgi.gov.ru'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
 

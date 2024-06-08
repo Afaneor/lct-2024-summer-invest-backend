@@ -1,22 +1,21 @@
 from rest_framework.routers import APIRootView
 
-# from server.apps.investment_object.api.views import (
-#     InvestmentObjectViewSet,
-#     TenderLotViewSet,
-# )
+from server.apps.support.api.views import (
+    ServiceProblemViewSet,
+    ServiceSupportViewSet,
+)
 from server.apps.services.custom_router.api_router import ApiRouter
 
 
-class InvestmentSiteAPIRootView(APIRootView):
+class ServiceSupportAPIRootView(APIRootView):
     """Корневой view для app."""
 
-    __doc__ = 'Приложение для инвестиционных площадок'
-    name = 'investment_object'
+    __doc__ = 'Приложение для сервисов поддержки'
+    name = 'service_support'
 
 
 router = ApiRouter()
 
-router.APIRootView = InvestmentSiteAPIRootView
-# router.register('investment-objects', InvestmentObjectViewSet, 'investment-objects')
-# router.register('tenders', TenderViewSet, 'tenders')
-# router.register('tender-lots', TenderLotViewSet, 'tender-lots')
+router.APIRootView = ServiceSupportAPIRootView
+router.register('service-problems', ServiceProblemViewSet, 'service-problems')
+router.register('service-supports', ServiceSupportViewSet, 'service-supports')

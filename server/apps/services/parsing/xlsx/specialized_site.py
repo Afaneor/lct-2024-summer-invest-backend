@@ -131,7 +131,7 @@ def parsing_specialized_site():
                             economic_activity, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
-                                    'name': re.sub('\xa0', '', re.sub('\xa0', '', '-'.join(economic_activity_data[1:]))),
+                                    'name': re.sub('\xa0', '', re.sub('\xa0', '', '-'.join(economic_activity_data[1:]))).strip(),
                                 },
                             )
 
@@ -153,7 +153,7 @@ def parsing_specialized_site():
                     objects_for_add = []
                     for infrastructure_row_data in row[17].split('\n'):
                         infrastructure, created = Infrastructure.objects.get_or_create(
-                            name=infrastructure_row_data,
+                            name=infrastructure_row_data.replace('• ', ''),
                         )
                         objects_for_add.append(infrastructure)
                     specialized_site.infrastructures.set(objects_for_add)

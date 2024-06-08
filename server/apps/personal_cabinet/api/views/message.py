@@ -1,11 +1,4 @@
-import time
-
 import django_filters
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.request import Request
-from rest_framework.response import Response
-
 from server.apps.personal_cabinet.api.serializers import (
     CreateMessageSerializer,
     MessageSerializer,
@@ -15,9 +8,6 @@ from server.apps.personal_cabinet.models.selection_request import (
     SelectionRequest,
 )
 from server.apps.personal_cabinet.services.enums import MessageOwnerType
-from server.apps.personal_cabinet.services.send_data_in_chat_gpt import (
-    send_data_in_chat_gpt,
-)
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,

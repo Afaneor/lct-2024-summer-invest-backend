@@ -8,8 +8,19 @@ from server.apps.investment_object.models import (
     RealEstate,
     Restriction,
     SpecializedSite,
-    TenderLot, Infrastructure,
+    TenderLot, Infrastructure, TransactionForm,
 )
+
+
+class BaseTransactionFormSerializer(serializers.ModelSerializer):
+    """Сериалайзер формы транзакции."""
+
+    class Meta:
+        model = TransactionForm
+        fields = (
+            'id',
+            'name',
+        )
 
 
 class BaseEconomicActivitySerializer(serializers.ModelSerializer):
@@ -102,6 +113,7 @@ class BaseRealEstateSerializer(serializers.ModelSerializer):
 
     economic_activities = BaseEconomicActivitySerializer(many=True)
     infrastructures = BaseInfrastructureSerializer(many=True)
+    # transaction_form = BaseTransactionFormSerializer()
 
     class Meta:
         model = RealEstate
@@ -121,7 +133,7 @@ class BaseRealEstateSerializer(serializers.ModelSerializer):
             'site_format',
             'site_type',
             'ownership_type',
-            'transaction_form',
+            # 'transaction_form',
             'object_cost',
             'rental_period',
             'procedure_determining_cost',
@@ -156,12 +168,14 @@ class BaseRealEstateSerializer(serializers.ModelSerializer):
 class BaseTenderLotSerializer(serializers.ModelSerializer):
     """Сериалайзер лота тендера."""
 
+    # transaction_form = BaseTransactionFormSerializer()
+
     class Meta:
         model = TenderLot
         fields = (
             'id',
             'investment_object',
-            'bidding_type',
+            # 'transaction_form',
             'tender_lot_id',
             'description',
             'extra_data',
@@ -216,4 +230,3 @@ class BaseSpecializedSiteSerializer(serializers.ModelSerializer):
             'longitude',
             'latitude',
         )
-

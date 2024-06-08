@@ -3,7 +3,7 @@ import logging
 import requests
 
 from server.apps.services.parsing.xlsx.base import clear_data, get_correct_data
-from server.apps.support.models import ProblemReport
+from server.apps.support.models import ServiceProblem
 
 logger = logging.getLogger('django')
 
@@ -23,7 +23,7 @@ def parsing_problem_report():
             for theme in subcategory.get('themes', []):
                 for problem in theme.get('problems', []):
                     external_id = problem.get('id')
-                    problem_report, created = ProblemReport.objects.get_or_create(
+                    problem_report, created = ServiceProblem.objects.get_or_create(
                         external_id=problem.get('id'),
                         defaults={
                             'name': get_correct_data(problem.get('name')),

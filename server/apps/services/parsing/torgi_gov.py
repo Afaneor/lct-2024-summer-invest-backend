@@ -117,7 +117,7 @@ def parsing_tender_lot():
             # Формирование лота.
             TenderLot.objects.get_or_create(
                 investment_object=investment_object,
-                bidding_type=tender_lot_json.get('biddType', {}).get('name'),
+                transaction_form=tender_lot_json.get('biddType', {}).get('name'),
                 tender_lot_id=tender_lot_id,
                 url=(
                     'https://torgi.gov.ru/new/public/lots/lot/'

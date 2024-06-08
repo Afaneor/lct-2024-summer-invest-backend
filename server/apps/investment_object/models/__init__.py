@@ -13,7 +13,7 @@ from server.apps.investment_object.models.specialized_site import (
     SpecializedSite,
 )
 from server.apps.investment_object.models.tender_lot import TenderLot
-from server.apps.support.models.service_support import ServiceSupport
+from server.apps.investment_object.models.transaction_form import TransactionForm
 
 __all__ = [
     'EconomicActivity',
@@ -24,6 +24,6 @@ __all__ = [
     'ReadyBusiness',
     'Restriction',
     'SpecializedSite',
-    'ServiceSupport',
+    'TransactionForm',
     'TenderLot',
 ]

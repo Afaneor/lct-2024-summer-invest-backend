@@ -57,7 +57,9 @@ class Infrastructure(AbstractBaseModel):
         constraints = [
             models.CheckConstraint(
                 name='availability_valid',
-                check=models.Q(availability__in=InfrastructureAvailability.values),
+                check=models.Q(
+                    availability__in=InfrastructureAvailability.values,
+                ),
             ),
         ]
 

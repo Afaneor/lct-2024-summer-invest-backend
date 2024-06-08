@@ -11,8 +11,8 @@ class InvestmentObject(AbstractBaseModel):
     Инвестиционный объект.
     """
 
-    external_id = models.CharField(
-        verbose_name=_('Id объекта на investmoscom.ru'),
+    name = models.CharField(
+        verbose_name=_('Наименование'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
@@ -26,24 +26,35 @@ class InvestmentObject(AbstractBaseModel):
         null=True,
         blank=True,
     )
-    name = models.CharField(
-        verbose_name=_('Наименование'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
     object_type = models.CharField(
         verbose_name=_('Тип объекта'),
         choices=ObjectType.choices,
         default=ObjectType.NOT_DATA,
     )
-    url = models.CharField(
-        verbose_name=_('Ссылка на investmoscom.ru'),
+    economic_activities = models.ManyToManyField(
+        to='investment_object.EconomicActivity',
+        verbose_name=_('Экономическая деятельность'),
+        related_name='ready_business',
+        blank=True,
+    )
+    transaction_form = models.OneToOneField(
+        to='investment_object.TransactionForm',
+        verbose_name=_('Форма сделки'),
+        on_delete=models.CASCADE,
+        related_name='ready_business',
+    )
+    cost = models.FloatField(
+        verbose_name=_('Стоимость'),
+        null=True,
+    )
+    location = models.CharField(
+        verbose_name=_('Местоположение'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    extra_data = models.JSONField(
-        verbose_name=_('Дополнительные сведения с investmoscom.ru'),
-        null=True,
+    url = models.CharField(
+        verbose_name=_('Ссылка на объект'),
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     longitude = models.DecimalField(

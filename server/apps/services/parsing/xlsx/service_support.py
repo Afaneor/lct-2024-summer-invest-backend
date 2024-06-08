@@ -64,7 +64,7 @@ def parsing_service_support():
                             economic_activity, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
-                                    'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])),
+                                    'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])).strip(),
                                 },
                             )
                         objects_for_add.append(economic_activity)

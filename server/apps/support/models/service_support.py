@@ -9,6 +9,11 @@ from server.apps.support.services.enums import TypeServiceSupport
 class ServiceSupport(AbstractBaseModel):
     """Сервис поддержки."""
 
+    external_id = models.CharField(
+        verbose_name=_('Id объекта'),
+        max_length=settings.MAX_STRING_LENGTH,
+        unique=True,
+    )
     region = models.CharField(
         verbose_name=_('Регион'),
         max_length=settings.MAX_STRING_LENGTH,
@@ -52,7 +57,10 @@ class ServiceSupport(AbstractBaseModel):
         blank=True,
     )
     name_responsible_body = models.CharField(
-        verbose_name=_('Наименование ответственного органа власти, администрирующего данную меру поддержки'),
+        verbose_name=_(
+            'Наименование ответственного органа власти, '
+            'администрирующего данную меру поддержки',
+        ),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
@@ -85,6 +93,10 @@ class ServiceSupport(AbstractBaseModel):
         verbose_name=_('Необходимые документы'),
         blank=True,
     )
+    url = models.CharField(
+        verbose_name=_('Ссылка на объект'),
+        blank=True,
+    )
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Сервис поддержки')
@@ -92,7 +104,9 @@ class ServiceSupport(AbstractBaseModel):
         constraints = [
             models.CheckConstraint(
                 name='type_service_support_valid',
-                check=models.Q(type_service_support__in=TypeServiceSupport.values),
+                check=models.Q(
+                    type_service_support__in=TypeServiceSupport.values,
+                ),
             ),
         ]
 

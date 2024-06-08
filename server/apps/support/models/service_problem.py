@@ -5,20 +5,28 @@ from django.utils.translation import gettext_lazy as _
 from server.apps.services.base_model import AbstractBaseModel
 
 
-class ProblemReport(AbstractBaseModel):
-    """Сообщение о проблеме."""
+class ServiceProblem(AbstractBaseModel):
+    """Сервис проблемы."""
 
-    external_id = models.IntegerField(
-        verbose_name=_('Id проблемы на investmoscom.ru'),
+    external_id = models.CharField(
+        verbose_name=_('Id объекта'),
+        max_length=settings.MAX_STRING_LENGTH,
+        unique=True,
     )
-    external_category_id = models.IntegerField(
-        verbose_name=_('Id категории проблемы на investmoscom.ru'),
+    external_category_id = models.CharField(
+        verbose_name=_('Id категории проблемы'),
+        max_length=settings.MAX_STRING_LENGTH,
+        unique=True,
     )
-    external_subcategory_id = models.IntegerField(
-        verbose_name=_('Id подкатегории проблемы на investmoscom.ru'),
+    external_subcategory_id = models.CharField(
+        verbose_name=_('Id подкатегории проблемы'),
+        max_length=settings.MAX_STRING_LENGTH,
+        unique=True,
     )
-    external_theme_id = models.IntegerField(
-        verbose_name=_('Id подкатегории проблемы на investmoscom.ru'),
+    external_theme_id = models.CharField(
+        verbose_name=_('Id подкатегории проблемы'),
+        max_length=settings.MAX_STRING_LENGTH,
+        unique=True,
     )
     name = models.TextField(
         verbose_name=_('Название проблемы'),
@@ -40,13 +48,13 @@ class ProblemReport(AbstractBaseModel):
         blank=True,
     )
     url = models.CharField(
-        verbose_name=_('Дополнительная информация'),
+        verbose_name=_('Ссылка на объект'),
         max_length=settings.MAX_STRING_LENGTH,
     )
 
     class Meta(AbstractBaseModel.Meta):
-        verbose_name = _('Сообщение о проблеме')
-        verbose_name_plural = _('Сообщения о проблемах')
+        verbose_name = _('Сервис проблемы')
+        verbose_name_plural = _('Сервис проблем')
 
     def __str__(self):
         return self.name

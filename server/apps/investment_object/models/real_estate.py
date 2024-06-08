@@ -14,6 +14,11 @@ class RealEstate(AbstractBaseModel):
         on_delete=models.CASCADE,
         related_name='real_estate'
     )
+    external_id = models.CharField(
+        verbose_name=_('Id объекта'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
+    )
     preferential_treatment = models.CharField(
         verbose_name=_('Преференциальный режим'),
         max_length=settings.MAX_STRING_LENGTH,
@@ -78,16 +83,6 @@ class RealEstate(AbstractBaseModel):
         verbose_name=_('Тип собственности'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
-    )
-    transaction_form = models.CharField(
-        verbose_name=_('Форма сделки'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
-    object_cost = models.FloatField(
-        verbose_name=_('Стоимость объекта, руб. (покупки или месячной аренды)'),
-        blank=True,
-        null=True,
     )
     rental_period = models.CharField(
         verbose_name=_('Сроки аренды'),
@@ -196,24 +191,6 @@ class RealEstate(AbstractBaseModel):
         verbose_name=_('Описание льготы'),
         blank=True,
     )
-    longitude = models.DecimalField(
-        verbose_name=_('Долгота'),
-        decimal_places=3,
-        max_digits=9,
-        null=True,
-    )
-    latitude = models.DecimalField(
-        verbose_name=_('Широта'),
-        decimal_places=3,
-        max_digits=9,
-        null=True,
-    )
-    economic_activities = models.ManyToManyField(
-        to='investment_object.EconomicActivity',
-        verbose_name=_('Экономическая деятельность'),
-        related_name='real_estates',
-        blank=True,
-    )
     infrastructures = models.ManyToManyField(
         to='investment_object.Infrastructure',
         verbose_name=_('Инфрастуктура'),
@@ -226,4 +203,4 @@ class RealEstate(AbstractBaseModel):
         verbose_name_plural = _('Недвижимости')
 
     def __str__(self):
-        return self.name
+        return str(self.investment_object)

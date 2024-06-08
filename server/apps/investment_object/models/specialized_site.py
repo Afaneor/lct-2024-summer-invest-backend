@@ -14,6 +14,11 @@ class SpecializedSite(AbstractBaseModel):
         on_delete=models.CASCADE,
         related_name='specialized_site'
     )
+    external_id = models.CharField(
+        verbose_name=_('Id объекта'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
+    )
     sez = models.CharField(
         verbose_name=_('Особая экономическая зона'),
         max_length=settings.MAX_STRING_LENGTH,
@@ -21,11 +26,6 @@ class SpecializedSite(AbstractBaseModel):
     )
     tad = models.CharField(
         verbose_name=_('Территория опережающего развития'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
-    name = models.CharField(
-        verbose_name=_('Название'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
@@ -74,17 +74,6 @@ class SpecializedSite(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
         null=True,
-    )
-    is_possibility_redemption = models.BooleanField(
-        verbose_name=_('Возможность выкупа помещения'),
-        null=True,
-        blank=True,
-    )
-    economic_activities = models.ManyToManyField(
-        to='investment_object.EconomicActivity',
-        verbose_name=_('Экономическая деятельность'),
-        related_name='specialized_sites',
-        blank=True,
     )
     restrictions = models.ManyToManyField(
         to='investment_object.Restriction',
@@ -173,22 +162,10 @@ class SpecializedSite(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    longitude = models.DecimalField(
-        verbose_name=_('Долгота'),
-        decimal_places=3,
-        max_digits=9,
-        null=True,
-    )
-    latitude = models.DecimalField(
-        verbose_name=_('Широта'),
-        decimal_places=3,
-        max_digits=9,
-        null=True,
-    )
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Специализированная площадка')
         verbose_name_plural = _('Специализированные площадки')
 
     def __str__(self):
-        return self.name
+        return self.investment_object

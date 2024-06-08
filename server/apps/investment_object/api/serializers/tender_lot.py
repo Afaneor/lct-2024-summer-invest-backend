@@ -10,7 +10,7 @@ class TenderLotSerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'investment_object',
-            'bidding_type',
+            'transaction_form',
             'description',
             'extra_data',
             'url',

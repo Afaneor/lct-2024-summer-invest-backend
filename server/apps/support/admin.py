@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from server.apps.support.models import ProblemReport, ServiceSupport
+from server.apps.support.models import ServiceProblem, ServiceSupport
 
 
-@admin.register(ProblemReport)
-class ProblemReportAdmin(admin.ModelAdmin[ProblemReport]):
+@admin.register(ServiceProblem)
+class ServiceProblemAdmin(admin.ModelAdmin[ServiceProblem]):
     """Сообщение о проблеме."""
 
     list_display = (

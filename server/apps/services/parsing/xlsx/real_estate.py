@@ -274,7 +274,7 @@ def parsing_real_estate():
                             industry, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
-                                    'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])),
+                                    'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])).strip(),
                                 },
                             )
 
@@ -292,7 +292,7 @@ def create_infrastructure(
     availability: str,
 ):
     return Infrastructure.objects.create(
-        name=name,
+        name=name.replace('• ', ''),
         consumption_tariff=(
             f'{row[start_number_row]} {unit_measure}'
             if row[start_number_row]

@@ -15,7 +15,7 @@ def delete_html(row_data: Any) -> Any:
         row_data = re.sub(r'&nbsp;', '', row_data)
         row_data = re.sub(r'&bull;', '', row_data)
         row_data = re.sub(r'&quot;', '\"', row_data)
-        return row_data
+        return row_data.strip()
 
     return row_data
 

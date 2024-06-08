@@ -14,19 +14,16 @@ class ReadyBusiness(AbstractBaseModel):
         on_delete=models.CASCADE,
         related_name='ready_business'
     )
-    external_id = models.IntegerField(
-        verbose_name=_('Id объекта на alterainvest.ru'),
-        null=True,
-    )
-    name = models.CharField(
-        verbose_name=_('Название'),
+    external_id = models.CharField(
+        verbose_name=_('Id объекта'),
         max_length=settings.MAX_STRING_LENGTH,
+        unique=True,
     )
     description = models.TextField(
         verbose_name=_('Описание'),
     )
     extra_data = models.JSONField(
-        verbose_name=_('Дополнительные сведения с alterainvest.ru'),
+        verbose_name=_('Дополнительные сведения'),
         null=True,
         blank=True,
     )
@@ -36,4 +33,4 @@ class ReadyBusiness(AbstractBaseModel):
         verbose_name_plural = _('Готовые бизнесы')
 
     def __str__(self):
-        return self.name
+        return str(self.investment_object)

@@ -28,7 +28,7 @@ def ready_business():
         '[\n\t\r ]',
         '',
         all_business_data.find('ul', class_='al-pagination mb20').contents[29].text,
-    )
+    ).strip()
     for page_number in range(int(number_pages)+1):
         logger.info(f'Анализ страницы {page_number}')
         business_page_response = requests.get(
@@ -57,8 +57,8 @@ def ready_business():
 
             # Дополнительные данные.
             extra_data = {
-                re.sub('[\n\t\r ]', '', business_characteristics.contents[1].text):
-                    re.sub('[\n\t\r ]', '', business_characteristics.contents[3].text)
+                re.sub('[\n\t\r ]', '', business_characteristics.contents[1].text).strip():
+                    re.sub('[\n\t\r ]', '', business_characteristics.contents[3].text).strip()
                 for business_characteristics in business_data.find_all('div', class_='col-4 mb16')
                 if len(business_characteristics.contents) > 3
             }
@@ -68,7 +68,7 @@ def ready_business():
                 '[\n\t\r ]',
                 '',
                 business_data.find('h1', class_='heading3 mb12').text,
-            )
+            ).strip()
 
             # Описание бизнеса.
             if business_data.find('div', class_='al-textcreator'):
@@ -76,7 +76,7 @@ def ready_business():
                     '[\n\t\r ]',
                     '',
                     business_data.find('div', class_='al-textcreator').text,
-                )
+                ).strip()
             else:
                 description = ''
 
@@ -106,7 +106,7 @@ def ready_business():
                         '[\n\t\r ]',
                         '',
                         business_data.find('h1', class_='heading3 mb12').text,
-                    ),
+                    ).strip(),
                     'description': description,
                     'extra_data': extra_data,
                 },

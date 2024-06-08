@@ -48,7 +48,7 @@ class TenderLotAdmin(admin.ModelAdmin[TenderLot]):
         'url',
     )
     list_filter = (
-        'bidding_type',
+        # 'transaction_form',
     )
     search_fields = (
         'tender_lot_id',

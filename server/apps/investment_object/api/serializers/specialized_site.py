@@ -33,7 +33,6 @@ class SpecializedSiteSerializer(ModelSerializerWithPermission):
             'validity',
             'minimum_rental_price',
             'total_area',
-            'is_possibility_redemption',
             'economic_activities',
             'restrictions',
             'infrastructures',

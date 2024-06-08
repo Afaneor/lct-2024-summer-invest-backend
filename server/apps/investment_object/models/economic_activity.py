@@ -10,7 +10,7 @@ class EconomicActivity(AbstractBaseModel):
 
     code = models.CharField(
         verbose_name=_('Код отрасли'),
-        unique=True,
+        blank=True
     )
     name = models.CharField(
         verbose_name=_('Название отрасли'),
@@ -22,4 +22,4 @@ class EconomicActivity(AbstractBaseModel):
         verbose_name_plural = _('Экономические деятельности')
 
     def __str__(self):
-        return f'{self.code} - {self.name}'
+        return self.name

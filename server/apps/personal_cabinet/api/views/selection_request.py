@@ -1,4 +1,7 @@
+import time
+
 import django_filters
+from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.request import Request
@@ -8,7 +11,8 @@ from server.apps.personal_cabinet.api.serializers import (
     CreateSelectionRequestSerializer,
     SelectionRequestSerializer,
 )
-from server.apps.personal_cabinet.models import SelectionRequest
+from server.apps.personal_cabinet.models import SelectionRequest, Message
+from server.apps.personal_cabinet.services.enums import MessageOwnerType
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
@@ -65,6 +69,7 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         **RetrieveListCreateViewSet.permission_type_map,
         'actual': 'view',
         'completed': 'add',
+        'check_message_from_bot': 'view',
     }
 
     def perform_create(self, serializer):
@@ -139,3 +144,34 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
             is_actual=False,
         )
         return Response(status=status.HTTP_200_OK)
+
+    @action(
+        methods=['GET'],
+        url_path='check-message-from-bot',
+        detail=False,
+    )
+    def check_message_from_bot(
+        self,
+        request: Request,
+    ):
+        """
+        Ожидает ли запрос на подбор ответа от чат-бота или нет.
+        """
+        try:
+            selection_requests = SelectionRequest.objects.get(
+                is_actual=True
+            )
+            # FIXME: для теста Игорю.
+            if now().time().second % 5 == 0:
+                selection_requests.is_bot_response_waiting = False
+                selection_requests.save()
+            return Response(
+                data={
+                    'is_bot_response_waiting':
+                        selection_requests.is_bot_response_waiting,
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        except SelectionRequest.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)

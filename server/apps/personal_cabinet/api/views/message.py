@@ -98,13 +98,17 @@ class MessageViewSet(RetrieveListCreateViewSet):
         Сохраняем сообщение от пользователя и отправляем данные в ChatGpt.
         """
         serializer.save()
+        selection_request = serializer.instance.selection_request
+        selection_request.is_bot_response_waiting = True
+        selection_request.save(
+            update_fields=['is_bot_response_waiting'],
+        )
         # FIXME: Логика по GPT
         # send_data_in_chat_gpt(
         #     user_text=serializer.validated_data['text'],
         #     message_id=serializer.instance.id,
         #     selection_request_id=serializer.instance.selection_request.id,
         # )
-        time.sleep(5)
         Message.objects.create(
             owner_type=MessageOwnerType.BOT,
             selection_request=serializer.instance.selection_request,
@@ -129,7 +133,7 @@ class MessageViewSet(RetrieveListCreateViewSet):
 
         if user.is_authenticated:
             return queryset.filter(
-                selection_request__in=user.selection_requests,
+                selection_request__in=user.selection_requests.all(),
             )
 
         selection_requests = SelectionRequest.objects.filter(

@@ -25,6 +25,10 @@ class SelectionRequest(AbstractBaseModel):
         verbose_name=_('Актуальный ли запрос на подбор или нет'),
         default=True,
     )
+    is_bot_response_waiting = models.BooleanField(
+        verbose_name=_('Ожидает ли запрос ответ от бота или нет'),
+        default=False,
+    )
     investment_objects = models.ManyToManyField(
         to='investment_object.InvestmentObject',
         verbose_name=_('Инвестиционный объект'),

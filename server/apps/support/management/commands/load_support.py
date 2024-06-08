@@ -8,7 +8,9 @@ from server.apps.services.parsing.investmoscow.problem_report import (
 from server.apps.services.parsing.investmoscow.service_support import (
     parsing_service_support,
 )
-from server.apps.services.parsing.xlsx.service_support import parsing_service_support
+from server.apps.services.parsing.xlsx.service_support import (
+    parsing_service_support,
+)
 
 logger = logging.getLogger('django')
 

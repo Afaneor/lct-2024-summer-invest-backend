@@ -40,7 +40,7 @@ def parsing_xlsx_service_support():
                         'support_type': get_correct_data(row[2]).capitalize(),
                         'support_level': get_correct_data(row[3]).capitalize(),
                         'description': get_correct_data(row[4]),
-                        'legal_act': get_correct_data(row[5]),
+                        'legal_act': get_correct_data(row[5]).capitalize(),
                         'url_legal_act': get_correct_data(row[6]),
                         'url_application_form': get_correct_data(row[8]),
                         'name_responsible_body': get_correct_data(row[9]),

@@ -24,6 +24,11 @@ class Message(AbstractBaseModel):
     text = models.TextField(
         verbose_name=_('Текст'),
     )
+    filter = models.JSONField(
+        verbose_name=_('Фильтры для инвестиционных объектов'),
+        blank=True,
+        null=True,
+    )
     parent = models.ForeignKey(
         to='self',
         on_delete=models.CASCADE,

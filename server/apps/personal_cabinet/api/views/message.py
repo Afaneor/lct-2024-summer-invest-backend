@@ -1,3 +1,5 @@
+import time
+
 import django_filters
 from rest_framework import status
 from rest_framework.decorators import action
@@ -102,10 +104,14 @@ class MessageViewSet(RetrieveListCreateViewSet):
         #     message_id=serializer.instance.id,
         #     selection_request_id=serializer.instance.selection_request.id,
         # )
+        time.sleep(5)
         Message.objects.create(
             owner_type=MessageOwnerType.BOT,
             selection_request=serializer.instance.selection_request,
             text='Тестовое сообщение для Игоря',
+            filters={
+                'object_type': 'technopark',
+            },
             parent=serializer.instance,
         )
 

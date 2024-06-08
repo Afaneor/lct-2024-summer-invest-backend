@@ -103,6 +103,7 @@ class BaseMessageSerializer(serializers.ModelSerializer):
             'owner_type',
             'selection_request',
             'text',
+            'filter',
             'parent',
             'created_at',
         )

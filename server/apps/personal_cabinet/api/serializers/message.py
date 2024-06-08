@@ -16,6 +16,7 @@ class MessageSerializer(ModelSerializerWithPermission):
             'owner_type',
             'selection_request',
             'text',
+            'filter',
             'parent',
             'permission_rules',
             'created_at',
@@ -35,5 +36,6 @@ class CreateMessageSerializer(ModelSerializerWithPermission):
             'owner_type',
             'selection_request',
             'text',
+            'filter',
             'parent',
         )

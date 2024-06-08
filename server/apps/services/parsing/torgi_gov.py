@@ -28,7 +28,7 @@ def parsing_tender_lot():
 
     # Проходимся по всем страницам и получаем информацию.
     # range(total_pages)
-    for number_page in range(10):
+    for number_page in range(5):
         tender_lots_json = requests.get(
             url=(
                 'https://torgi.gov.ru/new/api/public/lotcards/search'
@@ -103,6 +103,7 @@ def parsing_tender_lot():
                 name = name.split(',')[0]
 
             investment_object, io_created = InvestmentObject.objects.get_or_create(
+                external_id=tender_lot_id,
                 name=name,
                 defaults={
                     'main_photo_url': (

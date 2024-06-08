@@ -30,7 +30,7 @@ def ready_business():
         all_business_data.find('ul', class_='al-pagination mb20').contents[29].text,
     )
     # int(number_pages)+1
-    for page_number in range(5):
+    for page_number in range(3):
         logger.info(f'Анализ страницы {page_number}')
         business_page_response = requests.get(
             url=(
@@ -91,6 +91,7 @@ def ready_business():
 
             investment_object, io_created = InvestmentObject.objects.get_or_create(
                 name=name,
+                external_id=name.split('#')[1],
                 defaults={
                     'main_photo_url':
                         f'https://alterainvest.ru{main_photo_url}',
@@ -100,7 +101,7 @@ def ready_business():
 
             ReadyBusiness.objects.get_or_create(
                 investment_object=investment_object,
-                external_id=int(name.split('#')[1]),
+                external_id=name.split('#')[1],
                 defaults={
                     'name': re.sub(
                         '[\n\t\r ]',

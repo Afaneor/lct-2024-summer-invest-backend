@@ -11,9 +11,10 @@ class InvestmentObject(AbstractBaseModel):
     Инвестиционный объект.
     """
 
-    external_id = models.IntegerField(
+    external_id = models.CharField(
         verbose_name=_('Id объекта на investmoscom.ru'),
-        null=True,
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
     )
     main_photo_url = models.CharField(
         verbose_name=_('Изображение объекта'),

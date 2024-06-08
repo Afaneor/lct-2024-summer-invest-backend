@@ -77,9 +77,9 @@ def parsing_investmoscow():
 
         investment_site, created = InvestmentObject.objects.get_or_create(
             external_id=entity.get('investmentPlatformId'),
+            name=entity.get('name'),
             defaults={
                 'main_photo_url': entity.get('previewImgUrl'),
-                'name': entity.get('name'),
                 'longitude': longitude,
                 'latitude': latitude,
                 'object_type': object_type.get(entity.get('type')),

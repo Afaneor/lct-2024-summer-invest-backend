@@ -22,21 +22,21 @@ class Command(BaseCommand):
         """Добавление данных в BusinessIndicator"""
         # parsing_investmoscow()
 
-        logger.info('Начался парсинг технополисов и технопарков из файла')
-        parsing_specialized_site()
-        logger.info('Закончился парсинг технополисов и технопарков из файла')
-
-        logger.info('Начался парсинг зданий и сооружений')
-        parsing_real_estate()
-        logger.info('Закончился парсинг зданий и сооружений')
+        # logger.info('Начался парсинг технополисов и технопарков из файла')
+        # parsing_specialized_site()
+        # logger.info('Закончился парсинг технополисов и технопарков из файла')
+        #
+        # logger.info('Начался парсинг зданий и сооружений')
+        # parsing_real_estate()
+        # logger.info('Закончился парсинг зданий и сооружений')
 
         # logger.info('Начался парсинг мер поддержки')
         # parsing_support()
         # logger.info('Закончился парсинг мер поддержки')
 
-        logger.info('Начался парсинг тендеров с сайта torgi.gov.ru.')
-        parsing_tender_lot()
-        logger.info('Закончился парсинг тендеров с сайта torgi.gov.ru.')
+        # logger.info('Начался парсинг тендеров с сайта torgi.gov.ru.')
+        # parsing_tender_lot()
+        # logger.info('Закончился парсинг тендеров с сайта torgi.gov.ru.')
 
         logger.info('Начался парсинг готового бизнеса с сайта alterainvest.ru')
         ready_business()

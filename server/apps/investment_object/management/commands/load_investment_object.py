@@ -5,7 +5,6 @@ from django.core.management.base import BaseCommand
 from server.apps.services.parsing.alterainvest import ready_business
 from server.apps.services.parsing.torgi_gov import parsing_tender_lot
 from server.apps.services.parsing.xlsx.real_estate import parsing_real_estate
-from server.apps.services.parsing.xlsx.service_support import parsing_support
 from server.apps.services.parsing.xlsx.specialized_site import (
     parsing_specialized_site,
 )
@@ -29,10 +28,6 @@ class Command(BaseCommand):
         logger.info('Начался парсинг зданий и сооружений')
         parsing_real_estate()
         logger.info('Закончился парсинг зданий и сооружений')
-
-        # logger.info('Начался парсинг мер поддержки')
-        # parsing_support()
-        # logger.info('Закончился парсинг мер поддержки')
 
         logger.info('Начался парсинг тендеров с сайта torgi.gov.ru.')
         parsing_tender_lot()

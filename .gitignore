@@ -270,3 +270,4 @@ artifacts/
 .hypothesis/
 
 /report.xml
+my_dumps

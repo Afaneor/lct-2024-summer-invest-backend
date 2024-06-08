@@ -15,7 +15,7 @@ from server.settings.components import BASE_DIR
 logger = logging.getLogger('django')
 
 
-def parsing_support():
+def parsing_service_support():
     """
     Парсинг мер поддержки.
     """

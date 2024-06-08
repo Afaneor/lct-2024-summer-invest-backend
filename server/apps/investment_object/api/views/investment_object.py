@@ -48,4 +48,3 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
     )
     ordering_fields = '__all__'
     filterset_class = InvestmentObjectFilter
-

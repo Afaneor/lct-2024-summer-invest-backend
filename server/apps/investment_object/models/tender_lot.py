@@ -44,4 +44,4 @@ class TenderLot(AbstractBaseModel):
         verbose_name_plural = _('Лоты тендера')
 
     def __str__(self):
-        return self.name
+        return str(self.investment_object)

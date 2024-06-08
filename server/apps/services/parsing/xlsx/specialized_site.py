@@ -117,50 +117,55 @@ def parsing_specialized_site():
 
                 # Список отраслей.
                 if row[15]:
+                    objects_for_add = []
                     for economic_activity_row_data in row[15].split(';'):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
-                            industry, created = EconomicActivity.objects.get_or_create(
+                            economic_activity, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
                                     'name': economic_activity_data[0].strip(),
                                 },
                             )
                         else:
-                            industry, created = EconomicActivity.objects.get_or_create(
+                            economic_activity, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
                                     'name': re.sub('\xa0', '', re.sub('\xa0', '', '-'.join(economic_activity_data[1:]))),
                                 },
                             )
-                        if created:
-                            specialized_site.economic_activities.add(industry.id)
+
+                        objects_for_add.append(economic_activity)
+                    specialized_site.economic_activities.set(objects_for_add)
 
                 # Ограничения по видам деятельности.
                 if row[16]:
+                    objects_for_add = []
                     for restriction_row_data in row[16].split('\n\n'):
                         restriction, created = Restriction.objects.get_or_create(
                             name=restriction_row_data,
                         )
-                        if created:
-                            specialized_site.restrictions.add(restriction.id)
+                        objects_for_add.append(restriction)
+                    specialized_site.restrictions.set(objects_for_add)
 
                 # Инфраструктура и сервисы.
                 if row[17]:
+                    objects_for_add = []
                     for infrastructure_row_data in row[17].split('\n'):
                         infrastructure, created = Infrastructure.objects.get_or_create(
                             name=infrastructure_row_data,
                         )
-                        if created:
-                            specialized_site.infrastructures.add(infrastructure.id)
+                        objects_for_add.append(infrastructure)
+                    specialized_site.infrastructures.set(objects_for_add)
                 # Льготы
                 if row[28]:
+                    objects_for_add = []
                     for privilege_row_data in row[28].split('\n'):
                         privilege, created = Privilege.objects.get_or_create(
                             name=privilege_row_data,
                         )
-                        if created:
-                            specialized_site.privileges.add(privilege.id)
+                        objects_for_add.append(privilege)
+                    specialized_site.privileges.set(objects_for_add)
 
                 logger.info(f'Завершена обработка {row[3]}')
 

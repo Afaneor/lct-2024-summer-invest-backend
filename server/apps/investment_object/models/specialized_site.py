@@ -82,7 +82,7 @@ class SpecializedSite(AbstractBaseModel):
     )
     economic_activities = models.ManyToManyField(
         to='investment_object.EconomicActivity',
-        verbose_name=_('Экономическая активность'),
+        verbose_name=_('Экономическая деятельность'),
         related_name='specialized_sites',
         blank=True,
     )

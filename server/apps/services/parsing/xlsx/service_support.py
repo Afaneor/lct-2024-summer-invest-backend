@@ -50,31 +50,33 @@ def parsing_service_support():
                     },
                 )
                 if row[11]:
+                    objects_for_add = []
                     for economic_activity_row_data in row[11].split(';'):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
-                            industry, created = EconomicActivity.objects.get_or_create(
+                            economic_activity, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
                                     'name': economic_activity_data[0].strip(),
                                 },
                             )
                         else:
-                            industry, created = EconomicActivity.objects.get_or_create(
+                            economic_activity, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
                                     'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])),
                                 },
                             )
-                        if created:
-                            support.economic_activities.add(industry)
+                        objects_for_add.append(economic_activity)
+                    support.economic_activities.set(objects_for_add)
 
                 if row[12]:
+                    objects_for_add = []
                     for restriction_row_data in row[12].split(';'):
                         restriction, created = Restriction.objects.get_or_create(
                             name=restriction_row_data,
                         )
-                        if created:
-                            support.restrictions.add(restriction)
+                        objects_for_add.append(restriction)
+                    support.restrictions.set(objects_for_add)
 
             logger.info(f'Завершена обработка {row[1]}')

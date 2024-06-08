@@ -9,8 +9,8 @@ class TenderLotSerializer(ModelSerializerWithPermission):
         model = TenderLot
         fields = (
             'id',
-            'tender_lot_id',
-            'name',
+            'investment_object',
+            'bidding_type',
             'description',
             'extra_data',
             'url',

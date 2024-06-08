@@ -218,7 +218,7 @@ class Migration(migrations.Migration):
                         blank=True,
                         related_name='supports',
                         to='investment_object.economicactivity',
-                        verbose_name='Экономическая активность',
+                        verbose_name='Экономическая деятельность',
                     ),
                 ),
                 (

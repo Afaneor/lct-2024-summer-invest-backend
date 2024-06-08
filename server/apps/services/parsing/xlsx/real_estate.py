@@ -260,6 +260,7 @@ def parsing_real_estate():
                     real_estate.infrastructures.add(infrastructure_availability_truck_parking)
 
                 if row[79]:
+                    objects_for_add = []
                     for economic_activity_row_data in row[79].split(';'):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
@@ -276,8 +277,9 @@ def parsing_real_estate():
                                     'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])),
                                 },
                             )
-                        if created:
-                            real_estate.economic_activities.add(industry.id)
+
+                        objects_for_add.append(industry)
+                    real_estate.economic_activities.set(objects_for_add)
 
                 logger.info(f'Завершена обработка {row[0]}')
 

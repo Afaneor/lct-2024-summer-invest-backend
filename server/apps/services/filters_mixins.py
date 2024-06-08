@@ -3,6 +3,7 @@ from typing import List, Optional
 import django_filters
 from django.db import models
 from django_filters.fields import MultipleChoiceField
+from django.utils.translation import gettext_lazy as _
 
 
 class NonValidatingMultipleChoiceField(MultipleChoiceField):
@@ -39,29 +40,13 @@ class CreatedUpdatedDateFilterMixin(django_filters.FilterSet):
 
     created_at_date = django_filters.DateFromToRangeFilter(
         field_name='created_at__date',
+        label=_('Фильтрация по дате создания'),
     )
 
     updated_at_date = django_filters.DateFromToRangeFilter(
         field_name='updated_at__date',
+        label=_('Фильтрация по дате изменения'),
     )
-
-
-class CurrentStageFilterMixin(django_filters.FilterSet):
-    """Миксин для фильтрации по current_stage."""
-
-    current_stage_name = django_filters.CharFilter(
-        method='filter_current_stage_name',
-    )
-    current_stage_type = django_filters.CharFilter(
-        field_name='current_stage__type',
-    )
-
-    def filter_current_stage_name(self, queryset, name, value_name):
-        """Фильтруем этап по имени."""
-        return queryset.filter(
-            models.Q(current_stage__name=value_name) |
-            models.Q(current_stage__plural_name=value_name),
-        )
 
 
 class UserFilterMixin(django_filters.FilterSet):
@@ -70,38 +55,25 @@ class UserFilterMixin(django_filters.FilterSet):
     user_email = django_filters.CharFilter(
         field_name='user__email',
         lookup_expr='icontains',
+        label=_('Фильтрация по email пользователя'),
     )
     user_username = django_filters.CharFilter(
         field_name='user__username',
         lookup_expr='icontains',
+        label=_('Фильтрация по username пользователя'),
     )
     user_first_name = django_filters.CharFilter(
         field_name='user__first_name',
         lookup_expr='icontains',
+        label=_('Фильтрация по имени пользователя'),
     )
     user_last_name = django_filters.CharFilter(
         field_name='user__last_name',
         lookup_expr='icontains',
+        label=_('Фильтрация по фамилии пользователя'),
     )
     user_middle_name = django_filters.CharFilter(
         field_name='user__middle_name',
         lookup_expr='icontains',
+        label=_('Фильтрация по отчеству пользователя'),
     )
-
-
-def get_companies_query(  # noqa: WPS234
-    companies_id: Optional[List[str]],
-    flag: str,
-):
-    """Получение фильтра для компаний, переданных в запросе."""
-    if companies_id:
-        if flag in {'asset', 'leak', 'phishing_resource'}:
-            return models.Q(company_id__in=companies_id)
-        if flag == 'service':
-            return models.Q(asset__company_id__in=companies_id)
-        if flag == 'vulnerability':
-            return models.Q(service__asset__company_id__in=companies_id)
-        if flag == 'stage':
-            return models.Q(process__company_id__in=companies_id)
-
-    return models.Q()

@@ -1081,7 +1081,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 related_name='real_estates',
                 to='investment_object.economicactivity',
-                verbose_name='Экономическая активность',
+                verbose_name='Экономическая деятельность',
             ),
         ),
         migrations.AddField(
@@ -1111,7 +1111,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 related_name='specialized_sites',
                 to='investment_object.economicactivity',
-                verbose_name='Экономическая активность',
+                verbose_name='Экономическая деятельность',
             ),
         ),
         migrations.AddField(

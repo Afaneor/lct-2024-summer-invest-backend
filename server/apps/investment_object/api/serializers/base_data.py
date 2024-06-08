@@ -8,7 +8,7 @@ from server.apps.investment_object.models import (
     RealEstate,
     Restriction,
     SpecializedSite,
-    TenderLot,
+    TenderLot, Infrastructure,
 )
 
 
@@ -28,7 +28,7 @@ class BaseInfrastructureSerializer(serializers.ModelSerializer):
     """Базовый сериалайзер инфраструктуры."""
 
     class Meta:
-        model = EconomicActivity
+        model = Infrastructure
         fields = (
             'id',
             'name',
@@ -160,8 +160,9 @@ class BaseTenderLotSerializer(serializers.ModelSerializer):
         model = TenderLot
         fields = (
             'id',
+            'investment_object',
+            'bidding_type',
             'tender_lot_id',
-            'name',
             'description',
             'extra_data',
             'url',

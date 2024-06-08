@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from server.apps.investment_object.services.enums import TransactionFormType
 from server.apps.services.base_model import AbstractBaseModel
 
 
@@ -11,6 +12,11 @@ class TransactionForm(AbstractBaseModel):
     name = models.CharField(
         verbose_name=_('Название'),
         max_length=settings.MAX_STRING_LENGTH,
+    )
+    transaction_form_type = models.CharField(
+        verbose_name=_('Тип сделки'),
+        max_length=settings.MAX_STRING_LENGTH,
+        choices=TransactionFormType.choices,
     )
 
     class Meta(AbstractBaseModel.Meta):

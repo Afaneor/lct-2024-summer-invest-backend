@@ -7,13 +7,17 @@ from server.apps.investment_object.models import (
     Infrastructure,
     InvestmentObject,
     SpecializedSite,
+    TransactionForm,
 )
 from server.apps.investment_object.models.economic_activity import (
     EconomicActivity,
 )
 from server.apps.investment_object.models.privilege import Privilege
 from server.apps.investment_object.models.restriction import Restriction
-from server.apps.investment_object.services.enums import ObjectType
+from server.apps.investment_object.services.enums import (
+    ObjectType,
+    TransactionFormType,
+)
 from server.apps.services.parsing.xlsx.base import clear_data, get_correct_data
 from server.settings.components import BASE_DIR
 
@@ -32,27 +36,50 @@ def parsing_specialized_site():
         for index, row in enumerate(db.ws(ws=list_name).rows):
             if index != 0:
                 row = list(map(clear_data, row))
+
+                # Тип объекта.
                 object_type = (
                     ObjectType.TECHNOPOLIS.value
                     if row[0] and row[0] == 'Особая экономическая зона'
                     else ObjectType.TECHNOPARK.value
                 )
+                # Срок действия.
                 validity = (
                     int(row[11])
                     if row[11] and len(row[11].split('.')) == 1
                     else int(row[11].split('.')[-1]) - int(row[10])
                 )
-                transaction_form = (
-                    'Выкуп помещения/участка не возможен'
-                    if row[14] and row[14].lower() == 'нет'
-                    else 'Возможен выкуп помещения/участка'
-                )
+                # Форма сделки.
+                if row[14] and row[14].lower() == 'нет':
+                    transaction_form, tf_created = (
+                        TransactionForm.objects.get_or_create(
+                            name='Выкуп помещения/участка не возможен',
+                            transaction_form_type=TransactionFormType.RENT,
+                        )
+                    )
+                elif row[14] and row[14].lower() == 'да':
+                    transaction_form, tf_created = (
+                        TransactionForm.objects.get_or_create(
+                            name='Возможен выкуп помещения',
+                            transaction_form_type=TransactionFormType.SALE,
+                        )
+                    )
+                else:
+                    transaction_form, tf_created = (
+                        TransactionForm.objects.get_or_create(
+                            name='Нет данных',
+                            transaction_form_type=TransactionFormType.NOT_DATA,
+                        )
+                    )
+
+                # Наличие режима свободной таможенной зоны.
                 is_free_customs_zone_regime = (
-                    False
-                    if row[29] and row[29].lower() == 'нет'
-                    else True
+                    row[29].capitalize()
+                    if row[29]
+                    else ''
                 )
 
+                # Фотографии.
                 if row[8]:
                     photo_urls = row[8].split('\n')
                     main_photo_url = photo_urls[0]
@@ -60,22 +87,79 @@ def parsing_specialized_site():
                     photo_urls = []
                     main_photo_url = ''
 
-                investment_object, io_created = InvestmentObject.objects.get_or_create(
-                    name=row[3],
-                    defaults={
-                        'main_photo_url': main_photo_url,
-                        'photo_urls': photo_urls,
-                        'object_type': object_type,
-                    },
+                # Стоимость.
+                if row[12]:
+                    cost = row[12].replace(',', '.')
+                else:
+                    cost = None
+
+                # Площадь земли.
+                if row[13]:
+                    land_area = float(row[13].replace(',', '.')) / 10000
+                else:
+                    land_area = None
+
+                investment_object, io_created = (
+                    InvestmentObject.objects.update_or_create(
+                        name=row[3],
+                        defaults={
+                            'main_photo_url': main_photo_url,
+                            'photo_urls': photo_urls,
+                            'object_type': object_type,
+                            'transaction_form': transaction_form,
+                            'cost': cost,
+                            'land_area': land_area,
+                            'location': get_correct_data(row[5]),
+                            'url': get_correct_data(row[21]),
+                            'longitude':
+                                row[32].split(',')[0] if row[32] else None,
+                            'latitude':
+                                row[32].split(',')[1] if row[32] else None,
+                        },
+                    )
                 )
+
+                # Список отраслей.
+                if row[15]:
+                    objects_for_add = []
+                    for economic_activity_row_data in row[15].split(';'):
+                        economic_activity_data = economic_activity_row_data.split('-')
+                        if economic_activity_data[0].strip().lower() == 'нет ограничений':
+                            economic_activity, created = (
+                                EconomicActivity.objects.update_or_create(
+                                    code=economic_activity_data[0].strip(),
+                                    defaults={
+                                        'name':
+                                            economic_activity_data[0].strip(),
+                                    },
+                                )
+                            )
+                        else:
+                            economic_activity, created = (
+                                EconomicActivity.objects.update_or_create(
+                                    code=economic_activity_data[0].strip(),
+                                    defaults={
+                                        'name':
+                                            re.sub(
+                                                '\xa0',
+                                                '',
+                                                '-'.join(
+                                                    economic_activity_data[1:],
+                                                )
+                                            ).strip(),
+                                    },
+                                )
+                            )
+
+                        objects_for_add.append(economic_activity)
+                    investment_object.economic_activities.set(objects_for_add)
+
                 specialized_site, ss_created = SpecializedSite.objects.update_or_create(
                     investment_object=investment_object,
                     defaults={
                         'sez': get_correct_data(row[1]),
                         'tad': get_correct_data(row[2]),
-                        'name': get_correct_data(row[3]),
                         'region': get_correct_data(row[4]),
-                        'municipality': get_correct_data(row[5]),
                         'nearest_cities': get_correct_data(row[6]),
                         'number_residents': int(row[7]) if row[7] else None,
                         'document_url': (
@@ -85,21 +169,9 @@ def parsing_specialized_site():
                         ),
                         'year_formation': int(row[10]) if row[10] else None,
                         'validity': validity,
-                        'minimum_rental_price': (
-                            row[12].replace(',', '.')
-                            if row[12]
-                            else None
-                        ),
-                        'total_area': (
-                            row[13].replace(',', '.')
-                            if row[13]
-                            else None
-                        ),
-                        'is_possibility_redemption': is_possibility_redemption,
                         'additional_services': get_correct_data(row[18]),
                         'object_administrator_name': get_correct_data(row[19]),
                         'address': get_correct_data(row[20]),
-                        'website': get_correct_data(row[21]),
                         'working_hours': get_correct_data(row[22]),
                         'income_tax': get_correct_data(row[23]),
                         'property_tax': get_correct_data(row[24]),
@@ -110,33 +182,8 @@ def parsing_specialized_site():
                             is_free_customs_zone_regime,
                         'resident_info': get_correct_data(row[30]),
                         'minimum_investment_amount': get_correct_data(row[31]),
-                        'longitude': row[32].split(',')[0] if row[32] else None,
-                        'latitude': row[32].split(',')[1] if row[32] else None,
                     },
                 )
-
-                # Список отраслей.
-                if row[15]:
-                    objects_for_add = []
-                    for economic_activity_row_data in row[15].split(';'):
-                        economic_activity_data = economic_activity_row_data.split('-')
-                        if economic_activity_data[0].strip().lower() == 'нет ограничений':
-                            economic_activity, created = EconomicActivity.objects.get_or_create(
-                                code=economic_activity_data[0].strip(),
-                                defaults={
-                                    'name': economic_activity_data[0].strip(),
-                                },
-                            )
-                        else:
-                            economic_activity, created = EconomicActivity.objects.get_or_create(
-                                code=economic_activity_data[0].strip(),
-                                defaults={
-                                    'name': re.sub('\xa0', '', re.sub('\xa0', '', '-'.join(economic_activity_data[1:]))).strip(),
-                                },
-                            )
-
-                        objects_for_add.append(economic_activity)
-                    specialized_site.economic_activities.set(objects_for_add)
 
                 # Ограничения по видам деятельности.
                 if row[16]:
@@ -157,7 +204,8 @@ def parsing_specialized_site():
                         )
                         objects_for_add.append(infrastructure)
                     specialized_site.infrastructures.set(objects_for_add)
-                # Льготы
+
+                # Льготы.
                 if row[28]:
                     objects_for_add = []
                     for privilege_row_data in row[28].split('\n'):

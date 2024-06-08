@@ -56,24 +56,29 @@ def parsing_xlsx_service_support():
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             economic_activity, created = (
-                                EconomicActivity.objects.get_or_create(
+                                EconomicActivity.objects.update_or_create(
                                     code=economic_activity_data[0].strip(),
                                     defaults={
-                                        'name': economic_activity_data[0].strip(),
+                                        'name':
+                                            economic_activity_data[0].strip(),
                                     },
                                 )
                             )
                         else:
-                            economic_activity, created = EconomicActivity.objects.get_or_create(
-                                code=economic_activity_data[0].strip(),
-                                defaults={
-                                    'name':
-                                        re.sub(
-                                            '\xa0',
-                                            '',
-                                            '-'.join(economic_activity_data[1:])
-                                        ).strip(),
-                                },
+                            economic_activity, created = (
+                                EconomicActivity.objects.update_or_create(
+                                    code=economic_activity_data[0].strip(),
+                                    defaults={
+                                        'name':
+                                            re.sub(
+                                                '\xa0',
+                                                '',
+                                                '-'.join(
+                                                    economic_activity_data[1:],
+                                                )
+                                            ).strip(),
+                                    },
+                                )
                             )
 
                         objects_for_add.append(economic_activity)

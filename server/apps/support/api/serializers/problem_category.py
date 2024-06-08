@@ -1,5 +1,7 @@
 from server.apps.services.serializers import ModelSerializerWithPermission
-from server.apps.support.api.serializers import BaseProblemSubcategorySerializer
+from server.apps.support.api.serializers import (
+    BaseProblemSubcategorySerializer,
+)
 from server.apps.support.models import ProblemCategory
 
 

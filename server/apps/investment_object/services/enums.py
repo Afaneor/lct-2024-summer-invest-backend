@@ -22,3 +22,12 @@ class ObjectType(models.TextChoices):
     READY_BUSINESS = 'ready_business', _('Реальный бизнес')
     OTHER = 'other', _('Другое')
     NOT_DATA = 'not_data', _('Нет данных')
+
+
+class TransactionFormType(models.TextChoices):
+    """Тип сделки."""
+
+    RENT = 'rent', _('Аренда')
+    SALE = 'sale', _('Продажа')
+    RENT_OR_SALE = 'rent_or_sale', _('Аренда или продажа')
+    NOT_DATA = 'not_data', _('Нет данных')

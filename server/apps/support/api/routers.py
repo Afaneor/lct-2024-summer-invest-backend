@@ -1,7 +1,10 @@
 from rest_framework.routers import APIRootView
 
 from server.apps.services.custom_router.api_router import ApiRouter
-from server.apps.support.api.views import ProblemCategoryViewSet, ServiceSupportViewSet
+from server.apps.support.api.views import (
+    ProblemCategoryViewSet,
+    ServiceSupportViewSet,
+)
 
 
 class ServiceSupportAPIRootView(APIRootView):

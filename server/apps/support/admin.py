@@ -1,7 +1,12 @@
 from django.contrib import admin
 
-from server.apps.support.models import Problem, ServiceSupport, ProblemTheme, \
-    ProblemSubcategory, ProblemCategory
+from server.apps.support.models import (
+    Problem,
+    ProblemCategory,
+    ProblemSubcategory,
+    ProblemTheme,
+    ServiceSupport,
+)
 
 
 @admin.register(Problem)

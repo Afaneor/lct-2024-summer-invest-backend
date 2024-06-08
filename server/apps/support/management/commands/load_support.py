@@ -3,10 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 
 from server.apps.services.parsing.investmoscow.problem_report import (
-    parsing_investmoscow_category_problem_,
-)
-from server.apps.services.parsing.investmoscow.service_support import (
-    parsing_investmoscow_service_support,
+    parsing_investmoscow_category_problem,
 )
 from server.apps.services.parsing.xlsx.service_support import (
     parsing_xlsx_service_support,
@@ -25,7 +22,7 @@ class Command(BaseCommand):
         logger.info(
             'Начался парсинг данных о проблемах с сайта investmoscow.ru',
         )
-        parsing_investmoscow_category_problem_()
+        parsing_investmoscow_category_problem()
         logger.info(
             'Закончился парсинг данных о проблемах с сайта investmoscow.ru',
         )

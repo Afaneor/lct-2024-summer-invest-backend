@@ -54,11 +54,6 @@ class RealEstate(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    municipality = models.CharField(
-        verbose_name=_('Муниципальное образование'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
     address = models.CharField(
         verbose_name=_('Адрес администратора объекта'),
         max_length=settings.MAX_STRING_LENGTH,
@@ -103,11 +98,6 @@ class RealEstate(AbstractBaseModel):
         verbose_name=_('Характеристики расположенных объектов капитального строительства'),
         blank=True,
     )
-    land_free_area = models.FloatField(
-        verbose_name=_('Свободная площадь ЗУ, га'),
-        blank=True,
-        null=True,
-    )
     land_cadastral_number = models.CharField(
         verbose_name=_('Свободная площадь ЗУ, га'),
         max_length=settings.MAX_STRING_LENGTH,
@@ -128,11 +118,6 @@ class RealEstate(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    building_free_area = models.FloatField(
-        verbose_name=_('Свободная площадь здания, сооружения, помещения, кв. м'),
-        blank=True,
-        null=True,
-    )
     building_cadastral_number = models.CharField(
         verbose_name=_('Кадастровый номер здания, сооружения, помещения'),
         max_length=settings.MAX_STRING_LENGTH,
@@ -150,11 +135,6 @@ class RealEstate(AbstractBaseModel):
     )
     owner_inn = models.CharField(
         verbose_name=_('ИНН собственника'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
-    owner_website = models.CharField(
-        verbose_name=_('Сайт собственника'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )

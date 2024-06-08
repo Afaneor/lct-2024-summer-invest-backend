@@ -6,14 +6,14 @@ import pylightxl as xl
 from server.apps.investment_object.models import (
     Infrastructure,
     InvestmentObject,
-    RealEstate,
+    RealEstate, TransactionForm,
 )
 from server.apps.investment_object.models.economic_activity import (
     EconomicActivity,
 )
 from server.apps.investment_object.services.enums import (
     InfrastructureAvailability,
-    ObjectType,
+    ObjectType, TransactionFormType,
 )
 from server.apps.services.parsing.xlsx.base import clear_data, get_correct_data
 from server.settings.components import BASE_DIR
@@ -56,59 +56,141 @@ def parsing_real_estate():
                     photo_urls = []
                     main_photo_url = ''
 
-                investment_object, io_created = InvestmentObject.objects.get_or_create(
-                    name=row[0],
-                    defaults={
-                        'main_photo_url': main_photo_url,
-                        'photo_urls': photo_urls,
-                        'object_type': object_type,
-                    },
+                # Форма сделки.
+                if row[14] and row[14].lower().find('аренда') >= 0:
+                    transaction_form, tf_created = (
+                        TransactionForm.objects.get_or_create(
+                            name=row[14],
+                            transaction_form_type=TransactionFormType.RENT,
+                        )
+                    )
+                elif row[14] and row[14].lower().find('продажа') >= 0:
+                    transaction_form, tf_created = (
+                        TransactionForm.objects.get_or_create(
+                            name=row[14],
+                            transaction_form_type=TransactionFormType.SALE,
+                        )
+                    )
+                elif row[14]:
+                    transaction_form, tf_created = (
+                        TransactionForm.objects.get_or_create(
+                            name=row[14],
+                            transaction_form_type=TransactionFormType.NOT_DATA,
+                        )
+                    )
+                else:
+                    transaction_form, tf_created = (
+                        TransactionForm.objects.get_or_create(
+                            name='Нет данных',
+                            transaction_form_type=TransactionFormType.NOT_DATA,
+                        )
+                    )
+
+                # Стоимость.
+                if row[15]:
+                    cost = row[15].replace(',', '.')
+                else:
+                    cost = None
+
+                # Площадь земли.
+                if row[22]:
+                    land_area = row[22].replace(',', '.')
+                else:
+                    land_area = None
+
+                # Площадь земли.
+                if row[27]:
+                    building_area = row[27].replace(',', '.')
+                else:
+                    building_area = None
+
+                investment_object, io_created = (
+                    InvestmentObject.objects.update_or_create(
+                        name=row[0],
+                        defaults={
+                            'main_photo_url': main_photo_url,
+                            'photo_urls': photo_urls,
+                            'object_type': object_type,
+                            'transaction_form': transaction_form,
+                            'cost': cost,
+                            'land_area': land_area,
+                            'building_area': building_area,
+                            'location': get_correct_data(row[8]),
+                            'url': get_correct_data(row[32]),
+                            'longitude':
+                                row[86].split(',')[0] if row[86] else None,
+                            'latitude':
+                                row[86].split(',')[1] if row[86] else None,
+                        },
+                    )
                 )
+
+                if row[79]:
+                    objects_for_add = []
+                    for economic_activity_row_data in row[79].split(';'):
+                        economic_activity_data = economic_activity_row_data.split('-')
+                        if economic_activity_data[0].strip().lower() == 'нет ограничений':
+                            industry, created = (
+                                EconomicActivity.objects.update_or_create(
+                                    code=economic_activity_data[0].strip(),
+                                    defaults={
+                                        'name':
+                                            economic_activity_data[0].strip(),
+                                    },
+                                )
+                            )
+                        else:
+                            industry, created = (
+                                EconomicActivity.objects.update_or_create(
+                                    code=economic_activity_data[0].strip(),
+                                    defaults={
+                                        'name':
+                                            re.sub(
+                                                '\xa0',
+                                                '',
+                                                '-'.join(
+                                                    economic_activity_data[1:],
+                                                )
+                                            ).strip(),
+                                    },
+                                )
+                            )
+
+                        objects_for_add.append(industry)
+                    investment_object.economic_activities.set(objects_for_add)
+
                 real_estate, re_created = RealEstate.objects.update_or_create(
                     investment_object=investment_object,
                     defaults={
                         'preferential_treatment': get_correct_data(row[1]),
-                        'preferential_treatment_object_code': get_correct_data(row[2]),
-                        'preferential_treatment_object_name': get_correct_data(row[3]),
-                        'support_infrastructure_object': get_correct_data(row[4]),
-                        'support_infrastructure_object_code': get_correct_data(row[5]),
-                        'support_infrastructure_object_name': get_correct_data(row[6]),
+                        'preferential_treatment_object_code':
+                            get_correct_data(row[2]),
+                        'preferential_treatment_object_name':
+                            get_correct_data(row[3]),
+                        'support_infrastructure_object':
+                            get_correct_data(row[4]),
+                        'support_infrastructure_object_code':
+                            get_correct_data(row[5]),
+                        'support_infrastructure_object_name':
+                            get_correct_data(row[6]),
                         'region': get_correct_data(row[7]),
-                        'municipality': get_correct_data(row[8]),
                         'address': get_correct_data(row[9]),
                         'nearest_cities': get_correct_data(row[10]),
                         'site_format': get_correct_data(row[11]),
                         'site_type': get_correct_data(row[12]),
                         'ownership_type': get_correct_data(row[13]),
-                        'transaction_form': get_correct_data(row[14]),
-                        'object_cost': (
-                            row[15].replace(',', '.')
-                            if row[15]
-                            else None
-                        ),
                         'rental_period': get_correct_data(row[18]),
                         'procedure_determining_cost': get_correct_data(row[19]),
                         'hazard_class_object': get_correct_data(row[20]),
                         'characteristic_object': get_correct_data(row[21]),
-                        'land_free_area': (
-                            row[22].replace(',', '.')
-                            if row[22]
-                            else None
-                        ),
                         'land_cadastral_number': get_correct_data(row[23]),
                         'permitted_use_options': get_correct_data(row[24]),
                         'is_cupping': is_cupping,
                         'land_category': get_correct_data(row[26]),
-                        'building_free_area': (
-                            row[27].replace(',', '.')
-                            if row[27]
-                            else None
-                        ),
                         'building_cadastral_number': get_correct_data(row[28]),
                         'building_technical_specifications': get_correct_data(row[29]),
                         'owner_name': get_correct_data(row[30]),
                         'owner_inn': get_correct_data(row[31]),
-                        'owner_website': get_correct_data(row[32]),
                         'other_characteristics': get_correct_data(row[75]),
                         'application_procedure': get_correct_data(row[76]),
                         'documents_for_application': get_correct_data(row[77]),
@@ -117,8 +199,6 @@ def parsing_real_estate():
                         'other_information': get_correct_data(row[82]),
                         'is_maip': is_maip,
                         'benefit_description': get_correct_data(row[85]),
-                        'longitude': row[86].split(',')[0] if row[86] else None,
-                        'latitude': row[86].split(',')[1] if row[86] else None,
                     }
                 )
 
@@ -244,7 +324,9 @@ def parsing_real_estate():
                         availability=availability
                     )
 
-                    real_estate.infrastructures.add(infrastructure_railroad_tracks)
+                    real_estate.infrastructures.add(
+                        infrastructure_railroad_tracks,
+                    )
 
                 if row[74] and row[74].lower() != 'нет':
                     availability = (
@@ -257,29 +339,9 @@ def parsing_real_estate():
                         availability=availability
                     )
 
-                    real_estate.infrastructures.add(infrastructure_availability_truck_parking)
-
-                if row[79]:
-                    objects_for_add = []
-                    for economic_activity_row_data in row[79].split(';'):
-                        economic_activity_data = economic_activity_row_data.split('-')
-                        if economic_activity_data[0].strip().lower() == 'нет ограничений':
-                            industry, created = EconomicActivity.objects.get_or_create(
-                                code=economic_activity_data[0].strip(),
-                                defaults={
-                                    'name': economic_activity_data[0].strip(),
-                                },
-                            )
-                        else:
-                            industry, created = EconomicActivity.objects.get_or_create(
-                                code=economic_activity_data[0].strip(),
-                                defaults={
-                                    'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])).strip(),
-                                },
-                            )
-
-                        objects_for_add.append(industry)
-                    real_estate.economic_activities.set(objects_for_add)
+                    real_estate.infrastructures.add(
+                        infrastructure_availability_truck_parking,
+                    )
 
                 logger.info(f'Завершена обработка {row[0]}')
 

@@ -26,7 +26,7 @@ def create_super_user(apps, schema_editor):  # noqa: C901
     superuser.is_superuser = True
     superuser.save()
 
-    # FIXME: Убрать
+    # FIXME: Убрать.
     user = User()
     user.email = BaseUserManager.normalize_email('is@kiout.ru')
     user.username = BaseUserManager.normalize_email('is@kiout.ru')
@@ -37,7 +37,7 @@ def create_super_user(apps, schema_editor):  # noqa: C901
     user.is_staff = False
     user.is_active = True
     user.is_superuser = False
-    superuser.save()
+    user.save()
 
 
 class Migration(migrations.Migration):

@@ -3,8 +3,10 @@ import time
 
 import requests
 
-from server.apps.investment_object.models import InvestmentObject, TenderLot
-from server.apps.investment_object.services.enums import ObjectType
+from server.apps.investment_object.models import InvestmentObject, TenderLot, \
+    TransactionForm
+from server.apps.investment_object.services.enums import ObjectType, \
+    TransactionFormType
 
 logger = logging.getLogger('django')
 
@@ -101,23 +103,51 @@ def parsing_tender_lot():
             if len(name) > 150:
                 name = name.split(',')[0]
 
-            investment_object, io_created = InvestmentObject.objects.get_or_create(
-                external_id=tender_lot_id,
-                name=name,
-                defaults={
-                    'main_photo_url': (
-                        'https://torgi.gov.ru/new/file-store/v1/'
-                        f'{main_photo_url}?disposition=inline&resize=600x600!'
-                    ),
-                    'photo_urls': photo_urls,
-                    'object_type': object_type,
-                },
+            # Форма сделки.
+            if name := tender_lot_json.get('biddType', {}).get('name'):
+                transaction_form, tf_created = (
+                    TransactionForm.objects.get_or_create(
+                        name=name,
+                        transaction_form_type=tender_lot_json.get('typeTransaction'),
+                    )
+                )
+            else:
+                transaction_form, tf_created = (
+                    TransactionForm.objects.get_or_create(
+                        name='Нет данных',
+                        transaction_form_type=TransactionFormType.NOT_DATA,
+                    )
+                )
+
+            investment_object, io_created = (
+                InvestmentObject.objects.update_or_create(
+                    name=name,
+                    defaults={
+                        'main_photo_url': (
+                            'https://torgi.gov.ru/new/file-store/v1/'
+                            f'{main_photo_url}?disposition=inline&resize=600x600!'
+                        ),
+                        'photo_urls': photo_urls,
+                        'object_type': object_type,
+
+                        'transaction_form': transaction_form,
+                        'cost': cost,
+                        'land_area': land_area,
+                        'building_area': building_area,
+                        'location': get_correct_data(row[8]),
+                        'url': get_correct_data(row[32]),
+                        'longitude':
+                            row[86].split(',')[0] if row[86] else None,
+                        'latitude':
+                            row[86].split(',')[1] if row[86] else None,
+                    },
+                )
             )
 
             # Формирование лота.
             TenderLot.objects.get_or_create(
                 investment_object=investment_object,
-                transaction_form=tender_lot_json.get('biddType', {}).get('name'),
+                external_id=tender_lot_id,
                 tender_lot_id=tender_lot_id,
                 url=(
                     'https://torgi.gov.ru/new/public/lots/lot/'

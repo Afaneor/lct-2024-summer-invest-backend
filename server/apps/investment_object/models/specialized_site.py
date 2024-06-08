@@ -34,11 +34,6 @@ class SpecializedSite(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    municipality = models.CharField(
-        verbose_name=_('Муниципальное образование'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
     nearest_cities = models.CharField(
         verbose_name=_('Ближайшие города'),
         max_length=settings.MAX_STRING_LENGTH,
@@ -61,17 +56,6 @@ class SpecializedSite(AbstractBaseModel):
     )
     validity = models.IntegerField(
         verbose_name=_('Срок действия объекта'),
-        blank=True,
-        null=True,
-    )
-    minimum_rental_price = models.FloatField(
-        verbose_name=_('Минимальная стоимость аренды, руб./кв.м/год'),
-        blank=True,
-        null=True,
-    )
-    total_area = models.FloatField(
-        verbose_name=_('Общая площадь, кв. м'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
         null=True,
     )
@@ -99,11 +83,6 @@ class SpecializedSite(AbstractBaseModel):
     )
     address = models.CharField(
         verbose_name=_('Адрес администратора объекта'),
-        max_length=settings.MAX_STRING_LENGTH,
-        blank=True,
-    )
-    website = models.CharField(
-        verbose_name=_('Ссылка на сайт'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
@@ -143,9 +122,9 @@ class SpecializedSite(AbstractBaseModel):
         related_name='specialized_sites',
         blank=True,
     )
-    is_free_customs_zone_regime = models.BooleanField(
+    is_free_customs_zone_regime = models.CharField(
         verbose_name=_('Наличие режима свободной таможенной зоны'),
-        null=True,
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     resident_info = models.TextField(

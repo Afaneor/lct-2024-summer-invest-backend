@@ -34,17 +34,25 @@ class InvestmentObject(AbstractBaseModel):
     economic_activities = models.ManyToManyField(
         to='investment_object.EconomicActivity',
         verbose_name=_('Экономическая деятельность'),
-        related_name='ready_business',
+        related_name='investment_objects',
         blank=True,
     )
-    transaction_form = models.OneToOneField(
+    transaction_form = models.ForeignKey(
         to='investment_object.TransactionForm',
         verbose_name=_('Форма сделки'),
         on_delete=models.CASCADE,
-        related_name='ready_business',
+        related_name='investment_objects',
     )
     cost = models.FloatField(
         verbose_name=_('Стоимость'),
+        null=True,
+    )
+    land_area = models.FloatField(
+        verbose_name=_('Площадь земли'),
+        null=True,
+    )
+    building_area = models.FloatField(
+        verbose_name=_('Площадь помещений'),
         null=True,
     )
     location = models.CharField(

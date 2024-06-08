@@ -12,6 +12,7 @@ class ProblemCategorySerializer(ModelSerializerWithPermission):
         model = ProblemCategory
         fields = (
             'id',
+            'name',
             'problem_subcategories',
             'permission_rules',
             'created_at',

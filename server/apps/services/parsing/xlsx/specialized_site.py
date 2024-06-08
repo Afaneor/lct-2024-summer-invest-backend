@@ -42,10 +42,10 @@ def parsing_specialized_site():
                     if row[11] and len(row[11].split('.')) == 1
                     else int(row[11].split('.')[-1]) - int(row[10])
                 )
-                is_possibility_redemption = (
-                    False
+                transaction_form = (
+                    'Выкуп помещения/участка не возможен'
                     if row[14] and row[14].lower() == 'нет'
-                    else True
+                    else 'Возможен выкуп помещения/участка'
                 )
                 is_free_customs_zone_regime = (
                     False

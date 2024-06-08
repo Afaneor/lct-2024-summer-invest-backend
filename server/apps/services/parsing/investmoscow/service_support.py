@@ -9,7 +9,7 @@ from server.apps.support.services.enums import TypeServiceSupport
 logger = logging.getLogger('django')
 
 
-def parsing_service_support():
+def parsing_investmoscow_service_support():
     """Парсинг сервисов investmoscow.ru"""
     # Получаем https://investmoscow.ru/catalog/search
     response = requests.post(

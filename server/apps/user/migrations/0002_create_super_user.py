@@ -17,14 +17,27 @@ def create_super_user(apps, schema_editor):  # noqa: C901
 
     email = settings.DJANGO_SUPERUSER_EMAIL
     password = settings.DJANGO_SUPERUSER_PASSWORD
+    superuser = User()
+    superuser.email = BaseUserManager.normalize_email(email)
+    superuser.username = BaseUserManager.normalize_email(email)
+    superuser.password = make_password(password)
+    superuser.is_staff = True
+    superuser.is_active = True
+    superuser.is_superuser = True
+    superuser.save()
+
+    # FIXME: Убрать
     user = User()
-    user.email = BaseUserManager.normalize_email(email)
-    user.username = BaseUserManager.normalize_email(email)
-    user.password = make_password(password)
-    user.is_staff = True
+    user.email = BaseUserManager.normalize_email('is@kiout.ru')
+    user.username = BaseUserManager.normalize_email('is@kiout.ru')
+    user.password = make_password('902472545101')
+    user.first_name = 'Соколов'
+    user.last_name = 'Игорь'
+    user.middle_name = 'Викорович'
+    user.is_staff = False
     user.is_active = True
-    user.is_superuser = True
-    user.save()
+    user.is_superuser = False
+    superuser.save()
 
 
 class Migration(migrations.Migration):

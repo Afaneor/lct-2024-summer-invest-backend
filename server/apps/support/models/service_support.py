@@ -12,7 +12,7 @@ class ServiceSupport(AbstractBaseModel):
     external_id = models.CharField(
         verbose_name=_('Id объекта'),
         max_length=settings.MAX_STRING_LENGTH,
-        unique=True,
+        blank=True,
     )
     region = models.CharField(
         verbose_name=_('Регион'),

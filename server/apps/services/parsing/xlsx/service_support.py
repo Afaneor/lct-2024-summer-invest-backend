@@ -15,7 +15,7 @@ from server.settings.components import BASE_DIR
 logger = logging.getLogger('django')
 
 
-def parsing_service_support():
+def parsing_xlsx_service_support():
     """
     Парсинг мер поддержки.
     """
@@ -34,10 +34,11 @@ def parsing_service_support():
                 support, s_created = ServiceSupport.objects.update_or_create(
                     name=row[1],
                     defaults={
-                        'region': get_correct_data(row[0]),
-                        'type_service_support': TypeServiceSupport.SUPPORT_MEASURE,
-                        'support_type': get_correct_data(row[2]).lower(),
-                        'support_level': get_correct_data(row[3]).lower(),
+                        'region': get_correct_data(row[0]).strip().capitalize(),
+                        'type_service_support':
+                            TypeServiceSupport.SUPPORT_MEASURE,
+                        'support_type': get_correct_data(row[2]).capitalize(),
+                        'support_level': get_correct_data(row[3]).capitalize(),
                         'description': get_correct_data(row[4]),
                         'legal_act': get_correct_data(row[5]),
                         'url_legal_act': get_correct_data(row[6]),
@@ -54,28 +55,39 @@ def parsing_service_support():
                     for economic_activity_row_data in row[11].split(';'):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
-                            economic_activity, created = EconomicActivity.objects.get_or_create(
-                                code=economic_activity_data[0].strip(),
-                                defaults={
-                                    'name': economic_activity_data[0].strip(),
-                                },
+                            economic_activity, created = (
+                                EconomicActivity.objects.get_or_create(
+                                    code=economic_activity_data[0].strip(),
+                                    defaults={
+                                        'name': economic_activity_data[0].strip(),
+                                    },
+                                )
                             )
                         else:
                             economic_activity, created = EconomicActivity.objects.get_or_create(
                                 code=economic_activity_data[0].strip(),
                                 defaults={
-                                    'name': re.sub('\xa0', '', '-'.join(economic_activity_data[1:])).strip(),
+                                    'name':
+                                        re.sub(
+                                            '\xa0',
+                                            '',
+                                            '-'.join(economic_activity_data[1:])
+                                        ).strip(),
                                 },
                             )
+
                         objects_for_add.append(economic_activity)
                     support.economic_activities.set(objects_for_add)
 
                 if row[12]:
                     objects_for_add = []
                     for restriction_row_data in row[12].split(';'):
-                        restriction, created = Restriction.objects.get_or_create(
-                            name=restriction_row_data,
+                        restriction, created = (
+                            Restriction.objects.get_or_create(
+                                name=restriction_row_data,
+                            )
                         )
+
                         objects_for_add.append(restriction)
                     support.restrictions.set(objects_for_add)
 

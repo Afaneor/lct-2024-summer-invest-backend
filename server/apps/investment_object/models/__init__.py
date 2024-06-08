@@ -13,7 +13,9 @@ from server.apps.investment_object.models.specialized_site import (
     SpecializedSite,
 )
 from server.apps.investment_object.models.tender_lot import TenderLot
-from server.apps.investment_object.models.transaction_form import TransactionForm
+from server.apps.investment_object.models.transaction_form import (
+    TransactionForm,
+)
 
 __all__ = [
     'EconomicActivity',

@@ -37,7 +37,7 @@ class Command(BaseCommand):
         # logger.info(
         #     'Закончился парсинг каталога сервисов с сайта investmoscow.ru',
         # )
-
-        logger.info('Начался парсинг мер поддержки')
-        parsing_service_support()
-        logger.info('Закончился парсинг мер поддержки')
+        #
+        # logger.info('Начался парсинг мер поддержки')
+        # parsing_service_support()
+        # logger.info('Закончился парсинг мер поддержки')

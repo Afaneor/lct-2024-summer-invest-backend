@@ -19,7 +19,6 @@ class ReadyBusinessFilter(
         fields = (
             'id',
             'external_id',
-            'name',
         )
 
 
@@ -29,7 +28,7 @@ class ReadyBusinessViewSet(BaseReadOnlyViewSet):
     serializer_class = ReadyBusinessSerializer
     queryset = ReadyBusiness.objects.all()
     search_fields = (
-        'name',
+        'external_id',
     )
     ordering_fields = '__all__'
     filterset_class = ReadyBusinessFilter

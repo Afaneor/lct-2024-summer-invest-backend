@@ -19,7 +19,6 @@ class InvestmentObjectAdmin(admin.ModelAdmin[InvestmentObject]):
 
     list_display = (
         'id',
-        'external_id',
         'name',
         'object_type',
         'url',
@@ -28,7 +27,6 @@ class InvestmentObjectAdmin(admin.ModelAdmin[InvestmentObject]):
         'object_type',
     )
     search_fields = (
-        'external_id',
         'name',
         'object_type',
         'url',
@@ -44,15 +42,13 @@ class TenderLotAdmin(admin.ModelAdmin[TenderLot]):
 
     list_display = (
         'id',
-        'tender_lot_id',
-        'url',
+        'external_id',
     )
     list_filter = (
         # 'transaction_form',
     )
     search_fields = (
-        'tender_lot_id',
-        'url',
+        'external_id',
     )
     ordering = (
         'id',

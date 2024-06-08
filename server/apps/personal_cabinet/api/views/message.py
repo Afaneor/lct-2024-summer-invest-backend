@@ -1,4 +1,5 @@
 import django_filters
+
 from server.apps.personal_cabinet.api.serializers import (
     CreateMessageSerializer,
     MessageSerializer,

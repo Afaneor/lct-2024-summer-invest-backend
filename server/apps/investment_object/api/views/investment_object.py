@@ -8,8 +8,11 @@ from rest_framework.response import Response
 from server.apps.investment_object.api.serializers import (
     InvestmentObjectSerializer,
 )
-from server.apps.investment_object.models import InvestmentObject, \
-    EconomicActivity, RealEstate
+from server.apps.investment_object.models import (
+    EconomicActivity,
+    InvestmentObject,
+    RealEstate,
+)
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListCreateViewSet
 
@@ -59,7 +62,6 @@ class InvestmentObjectFilter(
             'name',
             'object_type',
             'economic_activity_name',
-            'economic_activity_code',
             'preferential_treatment',
             'transaction_form_name',
             'from_cost',
@@ -176,10 +178,6 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
         filters = {
             'economic_activity_name': EconomicActivity.objects.values_list(
                 'name',
-                flat=True,
-            ),
-            'economic_activity_code': EconomicActivity.objects.values_list(
-                'code',
                 flat=True,
             ),
             'preferential_treatment': RealEstate.objects.order_by(

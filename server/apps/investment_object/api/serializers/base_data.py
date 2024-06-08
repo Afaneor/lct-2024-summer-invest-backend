@@ -2,13 +2,15 @@ from rest_framework import serializers
 
 from server.apps.investment_object.models import (
     EconomicActivity,
+    Infrastructure,
     InvestmentObject,
     Privilege,
     ReadyBusiness,
     RealEstate,
     Restriction,
     SpecializedSite,
-    TenderLot, Infrastructure, TransactionForm,
+    TenderLot,
+    TransactionForm,
 )
 
 

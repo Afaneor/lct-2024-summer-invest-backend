@@ -1,10 +1,16 @@
-from server.apps.support.api.serializers.service_problem import (
-    ServiceProblemSerializer,
+from server.apps.support.api.serializers.base_data import (
+    BaseProblemSerializer,
+    BaseProblemSubcategorySerializer,
+    BaseProblemThemeSerializer,
 )
-from server.apps.support.api.serializers.service_support import ServiceSupportSerializer
-
+from server.apps.support.api.serializers.problem_category import ProblemCategorySerializer
+from server.apps.support.api.serializers.service_support import (
+    ServiceSupportSerializer,
+)
 
 __all__ = [
-    'ServiceProblemSerializer',
-    'ServiceSupportSerializer',
+    'BaseProblemSerializer',
+    'BaseProblemThemeSerializer',
+    'BaseProblemSubcategorySerializer',
+    'ProblemCategorySerializer',
 ]

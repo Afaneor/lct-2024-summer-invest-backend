@@ -17,7 +17,6 @@ class TenderLotFilter(
         fields = (
             'id',
             'investment_object',
-            'url',
         )
 
 

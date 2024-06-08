@@ -1,34 +1,32 @@
 import django_filters
 
-from server.apps.support.api.serializers import (
-    ServiceProblemSerializer,
-)
-from server.apps.support.models import ServiceProblem
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.support.api.serializers import ProblemCategorySerializer
+from server.apps.support.models import ProblemCategory
 
 
-class ServiceProblemFilter(
+class ProblemCategoryFilter(
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
 ):
     """Фильтр инфраструктуры."""
 
     class Meta:
-        model = ServiceProblem
+        model = ProblemCategory
         fields = (
             'id',
             'name',
         )
 
 
-class ServiceProblemViewSet(BaseReadOnlyViewSet):
+class ProblemCategoryViewSet(BaseReadOnlyViewSet):
     """Инфраструктура."""
 
-    serializer_class = ServiceProblemSerializer
-    queryset = ServiceProblem.objects.all()
+    serializer_class = ProblemCategorySerializer
+    queryset = ProblemCategory.objects.all()
     search_fields = (
         'name',
     )
     ordering_fields = '__all__'
-    filterset_class = ServiceProblemFilter
+    filterset_class = ProblemCategoryFilter

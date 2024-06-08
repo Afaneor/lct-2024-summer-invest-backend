@@ -18,7 +18,6 @@ class SpecializedSiteFilter(
         model = SpecializedSite
         fields = (
             'id',
-            'name',
         )
 
 
@@ -28,7 +27,7 @@ class SpecializedSiteViewSet(BaseReadOnlyViewSet):
     serializer_class = SpecializedSiteSerializer
     queryset = SpecializedSite.objects.all()
     search_fields = (
-        'name',
+        'id',
     )
     ordering_fields = '__all__'
     filterset_class = SpecializedSiteFilter

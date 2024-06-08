@@ -3,7 +3,12 @@ import logging
 import requests
 
 from server.apps.services.parsing.xlsx.base import clear_data, get_correct_data
-from server.apps.support.models import ServiceProblem
+from server.apps.support.models import (
+    Problem,
+    ProblemCategory,
+    ProblemSubcategory,
+    ProblemTheme,
+)
 
 logger = logging.getLogger('django')
 
@@ -18,32 +23,33 @@ def parsing_problem_report():
         ),
         timeout=15,
     )
-    for category in response.json():
-        for subcategory in category.get('subcategories', []):
-            for theme in subcategory.get('themes', []):
-                for problem in theme.get('problems', []):
-                    external_id = problem.get('id')
-                    problem_report, created = ServiceProblem.objects.get_or_create(
-                        external_id=problem.get('id'),
-                        defaults={
-                            'name': get_correct_data(problem.get('name')),
-                            'additional_info':
-                                get_correct_data(problem.get('faq')),
-                            'external_theme_id': clear_data(theme.get('id')),
-                            'theme_name': get_correct_data(theme.get('name')),
-                            'external_subcategory_id':
-                                clear_data(subcategory.get('id')),
-                            'subcategory_name':
-                                get_correct_data(subcategory.get('name')),
-                            'external_category_id':
-                                clear_data(category.get('id')),
-                            'category_name':
-                                get_correct_data(category.get('name')),
-                            'url': (
-                                'https://investmoscow.ru/business/'
-                                'moscow-investor-request'
-                                f'?problem={external_id}'
-                            ),
-                        },
+    for category_data in response.json():
+        problem_category, pc_created = ProblemCategory.objects.get_or_create(
+            external_id=clear_data(category_data.get('id')),
+            name=get_correct_data(category_data.get('name')),
+        )
+        for subcategory_data in category_data.get('subcategories', []):
+            problem_subcategory, ps_created = ProblemSubcategory.objects.get_or_create(
+                problem_category=problem_category,
+                external_id=clear_data(subcategory_data.get('id')),
+                name=get_correct_data(subcategory_data.get('name')),
+            )
+            for theme_data in subcategory_data.get('themes', []):
+                problem_theme, pt_created = ProblemTheme.objects.get_or_create(
+                    problem_subcategory=problem_subcategory,
+                    external_id=clear_data(theme_data.get('id')),
+                    name=get_correct_data(theme_data.get('name')),
+                )
+                for problem_data in theme_data.get('problems', []):
+                    external_id = clear_data(problem_data.get('id'))
+                    problem_report, p_created = Problem.objects.get_or_create(
+                        problem_theme=problem_theme,
+                        external_id=external_id,
+                        name=get_correct_data(problem_data.get('name')),
+                        url=(
+                            'https://investmoscow.ru/business/'
+                            'moscow-investor-request'
+                            f'?problem={external_id}'
+                        ),
                     )
                     logger.info(f'Обработана запись: {problem_report.name}')

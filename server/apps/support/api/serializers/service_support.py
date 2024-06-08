@@ -1,5 +1,7 @@
-from server.apps.investment_object.api.serializers import \
-    BaseEconomicActivitySerializer, BaseRestrictionSerializer
+from server.apps.investment_object.api.serializers import (
+    BaseEconomicActivitySerializer,
+    BaseRestrictionSerializer,
+)
 from server.apps.services.serializers import ModelSerializerWithPermission
 from server.apps.support.models import ServiceSupport
 

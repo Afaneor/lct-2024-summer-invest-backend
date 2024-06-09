@@ -22,7 +22,7 @@ poetry install
 ```python3
 python manage.py migrate
 python manage.py loaddata personal_cabinet
-python manage.py load_investment_site
+python manage.py load_investment_object
 python manage.py load_support
 python manage.py runserver
 ```

@@ -12,6 +12,7 @@ from server.apps.investment_object.models import (
     TransactionForm,
 )
 from server.apps.services.enums import ObjectType, TransactionFormType
+from server.apps.services.parsing.xlsx.base import get_correct_data
 
 logger = logging.getLogger('django')
 
@@ -123,7 +124,7 @@ def ready_business():
                 for economic_activity_row_data in extra_data.get('Сфера деятельности').split(','):
                     economic_activity, created = (
                         EconomicActivity.objects.update_or_create(
-                            name=economic_activity_row_data,
+                            name=get_correct_data(economic_activity_row_data),
                         )
                     )
                     objects_for_add.append(economic_activity)

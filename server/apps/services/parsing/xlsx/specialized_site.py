@@ -127,7 +127,9 @@ def parsing_specialized_site(file=None):
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             economic_activity, created = (
                                 EconomicActivity.objects.update_or_create(
-                                    code=economic_activity_data[0].strip(),
+                                    code=get_correct_data(
+                                        economic_activity_data[0],
+                                    ),
                                     defaults={
                                         'name':
                                             economic_activity_data[0].strip(),
@@ -137,7 +139,9 @@ def parsing_specialized_site(file=None):
                         else:
                             economic_activity, created = (
                                 EconomicActivity.objects.update_or_create(
-                                    code=economic_activity_data[0].strip(),
+                                    code=get_correct_data(
+                                        economic_activity_data[0],
+                                    ),
                                     defaults={
                                         'name':
                                             re.sub(

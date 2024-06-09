@@ -52,7 +52,9 @@ def parsing_xlsx_service_support():
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             economic_activity, created = (
                                 EconomicActivity.objects.update_or_create(
-                                    code=economic_activity_data[0].strip(),
+                                    code=get_correct_data(
+                                        economic_activity_data[0],
+                                    ),
                                     defaults={
                                         'name':
                                             economic_activity_data[0].strip(),
@@ -62,7 +64,9 @@ def parsing_xlsx_service_support():
                         else:
                             economic_activity, created = (
                                 EconomicActivity.objects.update_or_create(
-                                    code=economic_activity_data[0].strip(),
+                                    code=get_correct_data(
+                                        economic_activity_data[0],
+                                    ),
                                     defaults={
                                         'name':
                                             re.sub(

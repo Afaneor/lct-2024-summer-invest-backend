@@ -14,7 +14,7 @@ from server.apps.investment_object.api.serializers import (
 from server.apps.investment_object.models import (
     EconomicActivity,
     InvestmentObject,
-    RealEstate,
+    RealEstate, SpecializedSite, TransactionForm,
 )
 from server.apps.investment_object.tasks import delayed_parsing_data
 from server.apps.personal_cabinet.models import SelectedEntity
@@ -77,6 +77,7 @@ class InvestmentObjectFilter(
             'object_type',
             'economic_activity_name',
             'preferential_treatment',
+            'transaction_form',
             'transaction_form_name',
             'transaction_form_type',
             'land_area',
@@ -126,7 +127,11 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
         Получение данных для фильтров.
         """
         filters = {
-            'economic_activity_name': EconomicActivity.objects.values_list(
+            'economic_activity_name': EconomicActivity.objects.order_by(
+                'name',
+            ).distinct(
+                'name',
+            ).values_list(
                 'name',
                 flat=True,
             ),
@@ -138,12 +143,54 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
                 'preferential_treatment',
                 flat=True,
             ),
-            'transaction_form': RealEstate.objects.order_by(
-                'transaction_form',
+            'transaction_form_name': TransactionForm.objects.order_by(
+                'name',
             ).distinct(
-                'transaction_form',
+                'name',
             ).values_list(
-                'transaction_form',
+                'name',
+                flat=True,
+            ),
+            'transaction_form_type': TransactionForm.objects.order_by(
+                'transaction_form_type',
+            ).distinct(
+                'transaction_form_type',
+            ).values_list(
+                'transaction_form_type',
+                flat=True,
+            ),
+            'location': InvestmentObject.objects.order_by(
+                'location',
+            ).distinct(
+                'location',
+            ).values_list(
+                'location',
+                flat=True,
+            ),
+            'site_type': RealEstate.objects.order_by(
+                'site_type',
+            ).distinct(
+                'site_type',
+            ).values_list(
+                'site_type',
+                flat=True,
+            ),
+            'specialized_site_is_free_customs_zone_regime': (
+                SpecializedSite.objects.order_by(
+                    'is_free_customs_zone_regime',
+                ).distinct(
+                    'is_free_customs_zone_regime',
+                ).values_list(
+                    'is_free_customs_zone_regime',
+                    flat=True,
+                )
+            ),
+            'real_estate_maip': RealEstate.objects.order_by(
+                'maip',
+            ).distinct(
+                'maip',
+            ).values_list(
+                'maip',
                 flat=True,
             ),
         }

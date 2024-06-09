@@ -9,6 +9,7 @@ from server.apps.investment_object.models import (
     TransactionForm,
 )
 from server.apps.services.enums import ObjectType, TransactionFormType
+from server.apps.services.parsing.xlsx.base import get_correct_data
 
 logger = logging.getLogger('django')
 
@@ -108,7 +109,7 @@ def parsing_tender_lot():
             if tf_name := tender_lot_json.get('biddType', {}).get('name'):
                 transaction_form, tf_created = (
                     TransactionForm.objects.get_or_create(
-                        name=tf_name,
+                        name=get_correct_data(tf_name),
                         transaction_form_type=(
                             tender_lot_json.get('typeTransaction')
                             if tender_lot_json.get('typeTransaction')

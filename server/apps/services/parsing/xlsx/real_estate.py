@@ -55,21 +55,21 @@ def parsing_real_estate(file=None):
                 if row[14] and row[14].lower().find('аренда') >= 0:
                     transaction_form, tf_created = (
                         TransactionForm.objects.get_or_create(
-                            name=row[14],
+                            name=get_correct_data(row[14]),
                             transaction_form_type=TransactionFormType.RENT,
                         )
                     )
                 elif row[14] and row[14].lower().find('продажа') >= 0:
                     transaction_form, tf_created = (
                         TransactionForm.objects.get_or_create(
-                            name=row[14],
+                            name=get_correct_data(row[14]),
                             transaction_form_type=TransactionFormType.SALE,
                         )
                     )
                 elif row[14]:
                     transaction_form, tf_created = (
                         TransactionForm.objects.get_or_create(
-                            name=row[14],
+                            name=get_correct_data(row[14]),
                             transaction_form_type=TransactionFormType.NOT_DATA,
                         )
                     )
@@ -127,7 +127,9 @@ def parsing_real_estate(file=None):
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             industry, created = (
                                 EconomicActivity.objects.update_or_create(
-                                    code=economic_activity_data[0].strip(),
+                                    code=get_correct_data(
+                                        economic_activity_data[0],
+                                    ),
                                     defaults={
                                         'name':
                                             economic_activity_data[0].strip(),
@@ -137,7 +139,9 @@ def parsing_real_estate(file=None):
                         else:
                             industry, created = (
                                 EconomicActivity.objects.update_or_create(
-                                    code=economic_activity_data[0].strip(),
+                                    code=get_correct_data(
+                                        economic_activity_data[0],
+                                    ),
                                     defaults={
                                         'name':
                                             re.sub(

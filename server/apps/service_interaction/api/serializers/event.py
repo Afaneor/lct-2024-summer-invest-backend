@@ -14,6 +14,7 @@ class ListEventSerializer(ModelSerializerWithPermission):
         model = Event
         fields = (
             'id',
+            'photo',
             'name',
             'event_datetime',
             'description',
@@ -33,6 +34,7 @@ class DetailEventSerializer(ModelSerializerWithPermission):
         model = Event
         fields = (
             'id',
+            'photo',
             'name',
             'event_datetime',
             'description',

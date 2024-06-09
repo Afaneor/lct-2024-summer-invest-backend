@@ -12,6 +12,11 @@ from server.apps.services.enums import EventType
 class Event(AbstractBaseModel):
     """Событие."""
 
+    photo = models.ImageField(
+        verbose_name=_('Фотография'),
+        upload_to='media',
+        blank=True,
+    )
     name = models.CharField(
         verbose_name=_('Название'),
         max_length=settings.MAX_STRING_LENGTH,

@@ -132,7 +132,7 @@ def parsing_real_estate(file=None):
 
                 if row[79]:
                     objects_for_add = []
-                    for economic_activity_row_data in row[79].split(';'):
+                    for economic_activity_row_data in re.split(';\d', row[11]):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             industry, created = (

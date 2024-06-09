@@ -26,12 +26,7 @@ def parsing_xlsx_service_support():
     for list_name in db.ws_names:
         for index, row in enumerate(db.ws(ws=list_name).rows):
             if index != 0:
-                is_msp_roster = (
-                    False
-                    if row[13].lower() == 'нет'
-                    else True
-                )
-                support, s_created = ServiceSupport.objects.update_or_create(
+                support_service, s_created = ServiceSupport.objects.update_or_create(
                     name=row[1],
                     defaults={
                         'region': get_correct_data(row[0]).strip().capitalize(),
@@ -44,7 +39,7 @@ def parsing_xlsx_service_support():
                         'url_legal_act': get_correct_data(row[6]),
                         'url_application_form': get_correct_data(row[8]),
                         'name_responsible_body': get_correct_data(row[9]),
-                        'is_msp_roster': is_msp_roster,
+                        'msp_roster': row[13].capitalize(),
                         'applicant_requirement': get_correct_data(row[14]),
                         'applicant_procedure': get_correct_data(row[15]),
                         'required_document': get_correct_data(row[16]),
@@ -52,7 +47,7 @@ def parsing_xlsx_service_support():
                 )
                 if row[11]:
                     objects_for_add = []
-                    for economic_activity_row_data in row[11].split(';'):
+                    for economic_activity_row_data in re.split(';\d', row[11]):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             economic_activity, created = (
@@ -82,7 +77,7 @@ def parsing_xlsx_service_support():
                             )
 
                         objects_for_add.append(economic_activity)
-                    support.economic_activities.set(objects_for_add)
+                    support_service.economic_activities.set(objects_for_add)
 
                 if row[12]:
                     objects_for_add = []
@@ -94,6 +89,6 @@ def parsing_xlsx_service_support():
                         )
 
                         objects_for_add.append(restriction)
-                    support.restrictions.set(objects_for_add)
+                    support_service.restrictions.set(objects_for_add)
 
             logger.info(f'Завершена обработка {row[1]}')

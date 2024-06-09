@@ -1,7 +1,10 @@
 import django_filters
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.request import Request
+from rest_framework.response import Response
 
+from server.apps.investment_object.models import EconomicActivity
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import BaseReadOnlyViewSet
 from server.apps.support.api.serializers import (
@@ -24,7 +27,7 @@ class ServiceSupportFilter(
     support_level = django_filters.AllValuesMultipleFilter(
         label=_('Фильтрация по уровню поддержки'),
     )
-    is_msp_roster = django_filters.AllValuesMultipleFilter(
+    msp_roster = django_filters.AllValuesMultipleFilter(
         label=_('Фильтрация по требованию вхождения в реестр МСП'),
     )
     economic_activities_name = django_filters.AllValuesMultipleFilter(
@@ -39,7 +42,7 @@ class ServiceSupportFilter(
             'name',
             'support_type',
             'support_level',
-            'is_msp_roster',
+            'msp_roster',
             'economic_activities_name',
         )
 
@@ -55,58 +58,54 @@ class ServiceSupportViewSet(BaseReadOnlyViewSet):
     )
     ordering_fields = '__all__'
     filterset_class = ServiceSupportFilter
-    # permission_type_map = {
-    #     **BaseReadOnlyViewSet.permission_type_map,
-    #     'data_for_filters': 'view',
-    # }
-    #
-    # @action(
-    #     methods=['GET'],
-    #     url_path='data-for-filters',
-    #     detail=False,
-    # )
-    # def data_for_filters(
-    #     self,
-    #     request: Request,
-    # ):
-    #     """
-    #     Получение данных для фильтров.
-    #     """
-    #     filters = {
-    #         'support_type': ServiceSupport.objects.order_by(
-    #             'support_type',
-    #         ).distinct(
-    #             'support_type',
-    #         ).values_list(
-    #             'support_type',
-    #             flat=True,
-    #         ),
-    #         'support_level': ServiceSupport.objects.order_by(
-    #             'support_level',
-    #         ).distinct(
-    #             'support_level',
-    #         ).values_list(
-    #             'support_level',
-    #             flat=True,
-    #         ),
-    #         'is_msp_roster': ServiceSupport.objects.order_by(
-    #             'is_msp_roster',
-    #         ).distinct(
-    #             'is_msp_roster',
-    #         ).values_list(
-    #             'is_msp_roster',
-    #             flat=True,
-    #         ),
-    #         'is_msp_roster': ServiceSupport.objects.order_by(
-    #             'is_msp_roster',
-    #         ).distinct(
-    #             'is_msp_roster',
-    #         ).values_list(
-    #             'is_msp_roster',
-    #             flat=True,
-    #         ),
-    #     }
-    #     return Response(
-    #         data=filters,
-    #         status=status.HTTP_200_OK,
-    #     )
+    permission_type_map = {
+        **BaseReadOnlyViewSet.permission_type_map,
+        'data_for_filters': 'view',
+    }
+
+    @action(
+        methods=['GET'],
+        url_path='data-for-filters',
+        detail=False,
+    )
+    def data_for_filters(
+        self,
+        request: Request,
+    ):
+        """
+        Получение данных для фильтров.
+        """
+        filters = {
+            'support_type': ServiceSupport.objects.all().order_by(
+                'support_type',
+            ).distinct(
+                'support_type',
+            ).values_list(
+                'support_type',
+                flat=True,
+            ),
+            'support_level': ServiceSupport.objects.all().order_by(
+                'support_level',
+            ).distinct(
+                'support_level',
+            ).values_list(
+                'support_level',
+                flat=True,
+            ),
+            'msp_roster': ServiceSupport.objects.all().order_by(
+                'msp_roster',
+            ).distinct(
+                'msp_roster',
+            ).values_list(
+                'msp_roster',
+                flat=True,
+            ),
+            'economic_activity_name': EconomicActivity.objects.values_list(
+                'name',
+                flat=True,
+            ),
+        }
+        return Response(
+            data=filters,
+            status=status.HTTP_200_OK,
+        )

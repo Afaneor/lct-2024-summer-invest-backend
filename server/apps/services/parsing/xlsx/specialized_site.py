@@ -122,7 +122,7 @@ def parsing_specialized_site(file=None):
                 # Список отраслей.
                 if row[15]:
                     objects_for_add = []
-                    for economic_activity_row_data in row[15].split(';'):
+                    for economic_activity_row_data in re.split(';\d', row[11]):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             economic_activity, created = (

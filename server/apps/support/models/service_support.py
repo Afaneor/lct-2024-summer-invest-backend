@@ -77,9 +77,9 @@ class ServiceSupport(AbstractBaseModel):
         related_name='supports',
         blank=True,
     )
-    is_msp_roster = models.BooleanField(
+    msp_roster = models.CharField(
         verbose_name=_('Требуется вхождение в реестр МСП'),
-        null=True,
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     applicant_requirement = models.TextField(

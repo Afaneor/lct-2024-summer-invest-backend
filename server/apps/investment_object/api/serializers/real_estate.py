@@ -36,7 +36,6 @@ class RealEstateSerializer(ModelSerializerWithPermission):
             'permitted_use_options',
             'cupping',
             'land_category',
-            'building_free_area',
             'building_cadastral_number',
             'building_technical_specifications',
             'owner_name',

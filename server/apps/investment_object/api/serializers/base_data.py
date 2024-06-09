@@ -113,7 +113,6 @@ class BaseRestrictionSerializer(serializers.ModelSerializer):
 class BaseRealEstateSerializer(serializers.ModelSerializer):
     """Сериалайзер недвижимости."""
 
-    economic_activities = BaseEconomicActivitySerializer(many=True)
     infrastructures = BaseInfrastructureSerializer(many=True)
 
     class Meta:
@@ -142,7 +141,6 @@ class BaseRealEstateSerializer(serializers.ModelSerializer):
             'permitted_use_options',
             'cupping',
             'land_category',
-            'building_free_area',
             'building_cadastral_number',
             'building_technical_specifications',
             'owner_name',
@@ -176,7 +174,6 @@ class BaseTenderLotSerializer(serializers.ModelSerializer):
 class BaseSpecializedSiteSerializer(serializers.ModelSerializer):
     """Сериалайзер ограничений по видам деятельности."""
 
-    economic_activities = BaseEconomicActivitySerializer(many=True)
     restrictions = BaseRestrictionSerializer(many=True)
     infrastructures = BaseInfrastructureSerializer(many=True)
     privileges = BasePrivilegeSerializer(many=True)

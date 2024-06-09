@@ -93,9 +93,16 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
 
     serializer_class = DetailInvestmentObjectSerializer
     list_serializer_class = ListInvestmentObjectSerializer
-    queryset = InvestmentObject.objects.all()
+    queryset = InvestmentObject.objects.select_related(
+        'ready_business',
+        'tender_lot',
+        'specialized_site',
+        'real_estate',
+        'transaction_form',
+    ).prefetch_related(
+        'economic_activities',
+    )
     search_fields = (
-        'external_id',
         'name',
     )
     ordering_fields = '__all__'

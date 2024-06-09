@@ -108,9 +108,9 @@ class RealEstate(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    is_cupping = models.BooleanField(
+    cupping = models.CharField(
         verbose_name=_('Возможность мезжевания'),
-        null=True,
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     land_category = models.CharField(
@@ -162,9 +162,9 @@ class RealEstate(AbstractBaseModel):
         verbose_name=_('Иные сведения'),
         blank=True,
     )
-    is_maip = models.BooleanField(
+    maip = models.CharField(
         verbose_name=_('Наличие МАИП'),
-        null=True,
+        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     benefit_description = models.TextField(

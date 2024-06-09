@@ -43,16 +43,6 @@ def parsing_real_estate(file=None):
                     if row[11] and [11] == 'Помещение'
                     else ObjectType.LAND_PLOT.value
                 )
-                is_cupping = (
-                    False
-                    if row[25] and row[25].lower() == 'нет'
-                    else True
-                )
-                is_maip = (
-                    False
-                    if row[84] and row[84].lower() == 'нет'
-                    else True
-                )
 
                 if row[83]:
                     photo_urls = row[83].split('\n')
@@ -190,7 +180,11 @@ def parsing_real_estate(file=None):
                         'characteristic_object': get_correct_data(row[21]),
                         'land_cadastral_number': get_correct_data(row[23]),
                         'permitted_use_options': get_correct_data(row[24]),
-                        'is_cupping': is_cupping,
+                        'cupping': (
+                            get_correct_data(row[25]).capitalize()
+                            if row[25]
+                            else ''
+                        ),
                         'land_category': get_correct_data(row[26]),
                         'building_cadastral_number': get_correct_data(row[28]),
                         'building_technical_specifications': get_correct_data(row[29]),
@@ -202,7 +196,11 @@ def parsing_real_estate(file=None):
                         'application_form_url': get_correct_data(row[78]),
                         'urban_planning': get_correct_data(row[80]),
                         'other_information': get_correct_data(row[82]),
-                        'is_maip': is_maip,
+                        'maip': (
+                            get_correct_data(row[84]).capitalize()
+                            if row[84]
+                            else ''
+                        ),
                         'benefit_description': get_correct_data(row[85]),
                     }
                 )

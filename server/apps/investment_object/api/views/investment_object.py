@@ -64,8 +64,8 @@ class InvestmentObjectFilter(
         field_name='specialized_site__is_free_customs_zone_regime',
         label=_('Фильтрация по наличию режима свободной таможенной зоны'),
     )
-    real_estate_is_maip = django_filters.MultipleChoiceFilter(
-        field_name='real_estate__is_maip',
+    real_estate_maip = django_filters.MultipleChoiceFilter(
+        field_name='real_estate__maip',
         label=_('Фильтрация по наличию МАИП'),
     )
 
@@ -84,7 +84,7 @@ class InvestmentObjectFilter(
             'location',
             'site_type',
             'specialized_site_is_free_customs_zone_regime',
-            'real_estate_is_maip',
+            'real_estate_maip',
         )
 
 

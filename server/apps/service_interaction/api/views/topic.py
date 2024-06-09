@@ -1,16 +1,15 @@
 import django_filters
 
-from server.apps.service_interaction.api.serializers import TopicSerializer
-from server.apps.service_interaction.models import Topic
-from server.apps.services.filters_mixins import (
-    CreatedUpdatedDateFilterMixin,
-    UserFilterMixin,
+from server.apps.service_interaction.api.serializers import (
+    DetailTopicSerializer,
+    ListTopicSerializer,
 )
+from server.apps.service_interaction.models import Topic
+from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListCreateViewSet
 
 
 class TopicFilter(
-    UserFilterMixin,
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
 ):
@@ -27,7 +26,11 @@ class TopicFilter(
 class TopicViewSet(RetrieveListCreateViewSet):
     """Пост."""
 
-    serializer_class = TopicSerializer
-    queryset = Topic.objects.all()
+    serializer_class = DetailTopicSerializer
+    list_serializer_class = ListTopicSerializer
+    queryset = Topic.objects.all().prefetch_related('posts')
+    search_fields = (
+        'name',
+    )
     ordering_fields = '__all__'
     filterset_class = TopicFilter

@@ -1,10 +1,10 @@
 import django_filters
 
 from server.apps.service_interaction.api.serializers import (
-    CreateFeedbackSerializer,
-    FeedbackSerializer,
+    CommentSerializer,
+    CreateCommentSerializer,
 )
-from server.apps.service_interaction.models import Feedback
+from server.apps.service_interaction.models import Comment
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
@@ -12,7 +12,7 @@ from server.apps.services.filters_mixins import (
 from server.apps.services.views import RetrieveListCreateViewSet
 
 
-class FeedbackFilter(
+class CommentFilter(
     UserFilterMixin,
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
@@ -20,7 +20,7 @@ class FeedbackFilter(
     """Фильтр отзывов."""
 
     class Meta:
-        model = Feedback
+        model = Comment
         fields = (
             'id',
             'user',
@@ -32,14 +32,14 @@ class FeedbackFilter(
         )
 
 
-class FeedbackViewSet(RetrieveListCreateViewSet):
-    """Отзыв."""
+class CommentViewSet(RetrieveListCreateViewSet):
+    """Комментарий."""
 
-    serializer_class = FeedbackSerializer
-    create_serializer_class = CreateFeedbackSerializer
-    queryset = Feedback.objects.all()
+    serializer_class = CommentSerializer
+    create_serializer_class = CreateCommentSerializer
+    queryset = Comment.objects.select_related('user')
     search_fields = (
-        'name',
+        'text',
     )
     ordering_fields = '__all__'
-    filterset_class = FeedbackFilter
+    filterset_class = CommentFilter

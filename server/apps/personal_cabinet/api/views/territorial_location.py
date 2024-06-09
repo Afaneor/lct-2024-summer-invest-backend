@@ -4,15 +4,11 @@ from server.apps.personal_cabinet.api.serializers import (
     TerritorialLocationSerializer,
 )
 from server.apps.personal_cabinet.models import TerritorialLocation
-from server.apps.services.filters_mixins import (
-    CreatedUpdatedDateFilterMixin,
-    UserFilterMixin,
-)
+from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListViewSet
 
 
 class TerritorialLocationFilter(
-    UserFilterMixin,
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
 ):

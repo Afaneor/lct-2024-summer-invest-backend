@@ -1,13 +1,13 @@
 from server.apps.service_interaction.permissions import (
+    comment,
     event,
-    feedback,
     post,
     topic,
 )
 
 __all__ = [
     'event',
-    'feedback',
+    'comment',
     'post',
     'topic',
 ]

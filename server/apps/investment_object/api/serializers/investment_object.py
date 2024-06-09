@@ -11,9 +11,9 @@ from server.apps.investment_object.api.serializers.base_data import (
 )
 from server.apps.investment_object.models import InvestmentObject
 from server.apps.service_interaction.api.serializers.base_data import (
-    BaseFeedbackSerializer,
+    BaseCommentSerializer,
 )
-from server.apps.service_interaction.models import Feedback
+from server.apps.service_interaction.models import Comment
 from server.apps.services.enums import UploadDataFromFileType
 from server.apps.services.serializers import ModelSerializerWithPermission
 
@@ -25,7 +25,7 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
-    feedbacks = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = InvestmentObject
@@ -42,16 +42,16 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
             'real_estate',
             'specialized_site',
             'ready_business',
-            'feedbacks',
+            'comments',
             'permission_rules',
             'created_at',
             'updated_at',
         )
 
-    def get_feedbacks(self, investment_object: InvestmentObject):
-        """Отзывы на объект."""
-        return BaseFeedbackSerializer(
-            Feedback.objects.filter(
+    def get_comments(self, investment_object: InvestmentObject):
+        """Комментарийы на объект."""
+        return BaseCommentSerializer(
+            Comment.objects.filter(
                 object_id=investment_object.id,
                 content_type_id=investment_object.content_type_id,
             ),
@@ -66,7 +66,7 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
-    feedbacks = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = InvestmentObject
@@ -84,16 +84,16 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
             'specialized_site',
             'ready_business',
             'content_type_id',
-            'feedbacks',
+            'comments',
             'permission_rules',
             'created_at',
             'updated_at',
         )
 
-    def get_feedbacks(self, investment_object: InvestmentObject):
-        """Отзывы на объект."""
-        return BaseFeedbackSerializer(
-            Feedback.objects.filter(
+    def get_comments(self, investment_object: InvestmentObject):
+        """Комментарийы на объект."""
+        return BaseCommentSerializer(
+            Comment.objects.filter(
                 object_id=investment_object.id,
                 content_type_id=investment_object.content_type_id,
             ),

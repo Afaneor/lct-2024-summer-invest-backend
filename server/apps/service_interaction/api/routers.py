@@ -1,8 +1,8 @@
 from rest_framework.routers import APIRootView
 
 from server.apps.service_interaction.api.views import (
+    CommentViewSet,
     EventViewSet,
-    FeedbackViewSet,
     PostViewSet,
     TopicViewSet,
 )
@@ -20,6 +20,6 @@ router = ApiRouter()
 
 router.APIRootView = ServiceInteractionAPIRootView
 router.register('events', EventViewSet, 'events')
-router.register('feedbacks', FeedbackViewSet, 'feedbacks')
+router.register('comments', CommentViewSet, 'comments')
 router.register('posts', PostViewSet, 'posts')
 router.register('topics', TopicViewSet, 'topics')

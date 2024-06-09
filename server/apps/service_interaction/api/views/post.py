@@ -24,6 +24,11 @@ class PostFilter(
         fields = (
             'id',
             'user',
+            'user_email',
+            'user_username',
+            'user_first_name',
+            'user_last_name',
+            'user_middle_name',
             'topic',
             'parent',
         )
@@ -34,6 +39,6 @@ class PostViewSet(RetrieveListCreateViewSet):
 
     serializer_class = PostSerializer
     create_serializer_class = CreatePostSerializer
-    queryset = Post.objects.all()
+    queryset = Post.objects.select_related('user', 'topic')
     ordering_fields = '__all__'
     filterset_class = PostFilter

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from server.apps.service_interaction.models import Feedback
+from server.apps.service_interaction.models import Comment
 from server.apps.service_interaction.models.event import Event
 from server.apps.service_interaction.models.post import Post
 from server.apps.service_interaction.models.topic import Topic
@@ -27,9 +27,9 @@ class EventAdmin(admin.ModelAdmin[Event]):
     )
 
 
-@admin.register(Feedback)
-class FeedbackAdmin(admin.ModelAdmin[Feedback]):
-    """Отзыв."""
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin[Comment]):
+    """Комментарий."""
 
     list_display = (
         'id',

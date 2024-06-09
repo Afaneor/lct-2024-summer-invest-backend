@@ -2,15 +2,11 @@ import django_filters
 
 from server.apps.personal_cabinet.api.serializers import SubSectorSerializer
 from server.apps.personal_cabinet.models import SubSector
-from server.apps.services.filters_mixins import (
-    CreatedUpdatedDateFilterMixin,
-    UserFilterMixin,
-)
+from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListViewSet
 
 
 class SubSectorFilter(
-    UserFilterMixin,
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
 ):

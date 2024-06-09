@@ -5,15 +5,11 @@ from server.apps.service_interaction.api.serializers import (
     ListEventSerializer,
 )
 from server.apps.service_interaction.models import Event
-from server.apps.services.filters_mixins import (
-    CreatedUpdatedDateFilterMixin,
-    UserFilterMixin,
-)
+from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListViewSet
 
 
 class EventFilter(
-    UserFilterMixin,
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
 ):

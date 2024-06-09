@@ -1,7 +1,12 @@
+from rest_framework import serializers
+
 from server.apps.investment_object.api.serializers import (
     BaseEconomicActivitySerializer,
     BaseRestrictionSerializer,
 )
+from server.apps.service_interaction.api.serializers.base_data import \
+    BaseFeedbackSerializer
+from server.apps.service_interaction.models import Feedback
 from server.apps.services.serializers import ModelSerializerWithPermission
 from server.apps.support.models import ServiceSupport
 
@@ -11,6 +16,7 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
 
     economic_activities = BaseEconomicActivitySerializer(many=True)
     restrictions = BaseRestrictionSerializer(many=True)
+    feedbacks = BaseFeedbackSerializer(many=True)
 
     class Meta:
         model = ServiceSupport
@@ -32,10 +38,21 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
             'applicant_requirement',
             'applicant_procedure',
             'required_document',
+            'feedbacks',
             'permission_rules',
             'created_at',
             'updated_at',
         )
+
+    def get_feedbacks(self, service_support: ServiceSupport):
+        """Отзывы на объект."""
+        return BaseFeedbackSerializer(
+            Feedback.objects.filter(
+                object_id=service_support.id,
+                content_type_id=service_support.content_type_id,
+            ),
+            many=True,
+        ).data
 
 
 class DetailServiceSupportSerializer(ModelSerializerWithPermission):
@@ -43,6 +60,7 @@ class DetailServiceSupportSerializer(ModelSerializerWithPermission):
 
     economic_activities = BaseEconomicActivitySerializer(many=True)
     restrictions = BaseRestrictionSerializer(many=True)
+    feedbacks = serializers.SerializerMethodField()
 
     class Meta:
         model = ServiceSupport
@@ -66,7 +84,17 @@ class DetailServiceSupportSerializer(ModelSerializerWithPermission):
             'required_document',
             'content_type_id',
             'permission_rules',
+            'feedbacks',
             'created_at',
             'updated_at',
         )
 
+    def get_feedbacks(self, service_support: ServiceSupport):
+        """Отзывы на объект."""
+        return BaseFeedbackSerializer(
+            Feedback.objects.filter(
+                object_id=service_support.id,
+                content_type_id=service_support.content_type_id,
+            ),
+            many=True,
+        ).data

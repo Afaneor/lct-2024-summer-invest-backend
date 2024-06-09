@@ -6,14 +6,14 @@ from server.apps.service_interaction.api.serializers import (
 )
 from server.apps.service_interaction.models import Topic
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import RetrieveListCreateViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class TopicFilter(
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
 ):
-    """Фильтр постов."""
+    """Фильтр темы."""
 
     class Meta:
         model = Topic
@@ -23,8 +23,8 @@ class TopicFilter(
         )
 
 
-class TopicViewSet(RetrieveListCreateViewSet):
-    """Пост."""
+class TopicViewSet(RetrieveListViewSet):
+    """Тема."""
 
     serializer_class = DetailTopicSerializer
     list_serializer_class = ListTopicSerializer

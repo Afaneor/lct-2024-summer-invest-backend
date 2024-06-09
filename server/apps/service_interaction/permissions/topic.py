@@ -1,8 +1,5 @@
 import rules
-from rules.predicates import always_true
+from rules.predicates import is_authenticated
 
-rules.set_perm('service_interaction.view_topic', always_true)
-rules.set_perm('service_interaction.add_topic', always_true)
-rules.set_perm('service_interaction.change_topic', always_true)
-rules.set_perm('service_interaction.delete_topic', always_true)
-rules.set_perm('service_interaction.list_topic', always_true)
+rules.set_perm('service_interaction.view_topic', is_authenticated)
+rules.set_perm('service_interaction.list_topic', is_authenticated)

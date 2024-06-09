@@ -38,7 +38,6 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
             'applicant_requirement',
             'applicant_procedure',
             'required_document',
-            'comments',
             'permission_rules',
             'created_at',
             'updated_at',

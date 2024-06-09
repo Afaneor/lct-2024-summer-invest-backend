@@ -45,3 +45,10 @@ class CommentViewSet(RetrieveListCreateViewSet):
     )
     ordering_fields = '__all__'
     filterset_class = CommentFilter
+
+    def perform_create(self, serializer):
+        """
+        Добавляем информацию о пользователе.
+        """
+        serializer.validated_data.update(user=self.request.user)
+        serializer.save()

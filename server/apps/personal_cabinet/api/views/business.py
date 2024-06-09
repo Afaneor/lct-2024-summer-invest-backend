@@ -44,7 +44,7 @@ class BusinessFilter(
             'user_first_name',
             'user_last_name',
             'user_middle_name',
-            'type_business',
+            'business_type',
             'inn',
             'sector',
             'sub_sector',

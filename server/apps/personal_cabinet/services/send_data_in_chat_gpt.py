@@ -2,7 +2,7 @@ import openai
 from django.conf import settings
 
 from server.apps.personal_cabinet.models.message import Message
-from server.apps.personal_cabinet.services.enums import MessageOwnerType
+from server.apps.services.enums import MessageOwnerType
 
 
 def send_data_in_chat_gpt(

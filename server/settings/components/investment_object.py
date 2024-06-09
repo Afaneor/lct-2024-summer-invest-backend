@@ -40,3 +40,8 @@ DJANGO_SUPERUSER_PASSWORD = config(
     cast=str
 )
 
+SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE = config(
+    'SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE',
+    default='5',
+    cast=str
+)

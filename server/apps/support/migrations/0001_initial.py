@@ -249,7 +249,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    'type_service_support',
+                    'service_support_type',
                     models.CharField(
                         choices=[
                             ('service', 'Услуга'),
@@ -370,9 +370,9 @@ class Migration(migrations.Migration):
             model_name='servicesupport',
             constraint=models.CheckConstraint(
                 check=models.Q(
-                    ('type_service_support__in', ['service', 'support_measure'])
+                    ('service_support_type__in', ['service', 'support_measure'])
                 ),
-                name='type_service_support_valid',
+                name='service_support_type_valid',
             ),
         ),
     ]

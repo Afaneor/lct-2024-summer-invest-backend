@@ -7,8 +7,6 @@ from server.apps.services.serializers import ModelSerializerWithPermission
 class SectorSerializer(ModelSerializerWithPermission):
     """Сериалайзер оборудования."""
 
-    tags = TagListSerializerField()
-
     class Meta:
         model = Sector
         fields = (

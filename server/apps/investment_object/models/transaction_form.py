@@ -2,8 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from server.apps.investment_object.services.enums import TransactionFormType
 from server.apps.services.base_model import AbstractBaseModel
+from server.apps.services.enums import TransactionFormType
 
 
 class TransactionForm(AbstractBaseModel):

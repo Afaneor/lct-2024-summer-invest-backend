@@ -6,14 +6,16 @@ import pylightxl as xl
 from server.apps.investment_object.models import (
     Infrastructure,
     InvestmentObject,
-    RealEstate, TransactionForm,
+    RealEstate,
+    TransactionForm,
 )
 from server.apps.investment_object.models.economic_activity import (
     EconomicActivity,
 )
-from server.apps.investment_object.services.enums import (
+from server.apps.services.enums import (
     InfrastructureAvailability,
-    ObjectType, TransactionFormType,
+    ObjectType,
+    TransactionFormType,
 )
 from server.apps.services.parsing.xlsx.base import clear_data, get_correct_data
 from server.settings.components import BASE_DIR

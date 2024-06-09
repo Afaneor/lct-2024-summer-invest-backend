@@ -7,7 +7,7 @@ from server.apps.personal_cabinet.models import (
     SelectedInvestmentObject,
     SelectionRequest,
     SubSector,
-    TerritorialLocation,
+    TerritorialLocation, Subscription,
 )
 
 
@@ -22,21 +22,21 @@ class BusinessAdmin(admin.ModelAdmin[Business]):
     list_display = (
         'id',
         'user',
-        'type_business',
+        'business_type',
         'inn',
         'sector',
         'short_business_name',
     )
 
     list_filter = (
-        'type_business',
+        'business_type',
         'sector',
         'sub_sector',
     )
     search_fields = (
         'user__email',
         'user__first_name',
-        'user_last_name',
+        'user__last_name',
         'sector',
         'short_business_name',
         'full_business_name',
@@ -72,10 +72,10 @@ class MessageAdmin(admin.ModelAdmin[Message]):
     )
     search_fields = (
         'text',
-        'selection_request__user__username',
         'selection_request__user__email',
         'selection_request__user__first_name',
         'selection_request__user__last_name',
+        'selection_request__user__middle_name',
         'selection_request__investment_objects__name',
     )
     ordering = (
@@ -138,10 +138,11 @@ class SelectionRequestObjectAdmin(admin.ModelAdmin[SelectionRequest]):
     )
     list_filter = (
         'is_actual',
+        'is_bot_response_waiting',
+        'investment_objects__name',
     )
     search_fields = (
         'anonymous_user_id',
-        'user__username',
         'user__email',
         'user__first_name',
         'user__last_name',
@@ -177,12 +178,33 @@ class TerritorialLocationAdmin(admin.ModelAdmin[TerritorialLocation]):
         'id',
         'shot_name',
         'full_name',
-        'slug',
     )
     search_fields = (
-        'slug',
         'shot_name',
         'full_name',
+    )
+    ordering = (
+        'id',
+    )
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin[Subscription]):
+    """Подписка."""
+
+    list_display = (
+        'id',
+        'user',
+        'subscription_type',
+        'telegram_username',
+    )
+    list_filter = (
+        'subscription_type',
+    )
+    search_fields = (
+        'user__email',
+        'user__first_name',
+        'user__last_name',
     )
     ordering = (
         'id',

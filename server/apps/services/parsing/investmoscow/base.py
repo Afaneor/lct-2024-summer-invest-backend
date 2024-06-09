@@ -1,12 +1,12 @@
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 import requests
 
 from server.apps.investment_object.models.investment_object import (
     InvestmentObject,
 )
-from server.apps.investment_object.services.enums import ObjectType
+from server.apps.services.enums import ObjectType
 from server.apps.services.parsing.investmoscow.investment_object import (
     parsing_industrial_land_5,
     parsing_industrial_site_4,

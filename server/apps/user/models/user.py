@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from rules.contrib.models import RulesModelBase, RulesModelMixin
 
-from server.apps.personal_cabinet.services.enums import TypeBusiness
+from server.apps.services.enums import BusinessType
 
 
 class DefaultUserManager(UserManager):  # type: ignore
@@ -99,7 +99,7 @@ class User(  # type: ignore
         """
         for business in self.businesses.all():
             if (
-                business.TypeBusiness != TypeBusiness.PHYSICAL or
+                business.BusinessType != BusinessType.PHYSICAL or
                 business.sector is not None or
                 business.sub_sector is not None
             ):

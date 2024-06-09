@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from server.apps.personal_cabinet.services.enums import TypeBusiness
+from server.apps.services.enums import BusinessType
 from server.apps.services.serializers import ModelSerializerWithPermission
 
 User = get_user_model()

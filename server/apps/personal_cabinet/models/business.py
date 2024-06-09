@@ -2,9 +2,9 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from server.apps.personal_cabinet.services.enums import (
-    TypeBusiness,
-    TypeTaxSystem,
+from server.apps.services.enums import (
+    BusinessType,
+    TaxSystemType,
 )
 from server.apps.services.base_model import AbstractBaseModel
 from server.apps.services.validators import inn_validator
@@ -30,10 +30,10 @@ class Business(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    type_business = models.CharField(
+    business_type = models.CharField(
         verbose_name=_('Тип бизнеса'),
         max_length=settings.MAX_STRING_LENGTH,
-        choices=TypeBusiness.choices,
+        choices=BusinessType.choices,
         blank=True,
     )
     inn = models.CharField(
@@ -163,11 +163,11 @@ class Business(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    type_tax_system = models.CharField(
+    tax_system_type = models.CharField(
         verbose_name=_('Тип системы налогооблажения'),
         max_length=settings.MAX_STRING_LENGTH,
-        choices=TypeTaxSystem.choices,
-        default=TypeTaxSystem.OSN,
+        choices=TaxSystemType.choices,
+        default=TaxSystemType.OSN,
     )
 
     class Meta(AbstractBaseModel.Meta):
@@ -175,14 +175,14 @@ class Business(AbstractBaseModel):
         verbose_name_plural = _('Бизнесы')
         constraints = [
             models.CheckConstraint(
-                name='type_business_valid',
-                check=models.Q(type_business__in=[*TypeBusiness.values, '']),
+                name='business_type_valid',
+                check=models.Q(business_type__in=[*BusinessType.values, '']),
             ),
             models.CheckConstraint(
-                name='type_tax_system_valid',
-                check=models.Q(type_tax_system__in=TypeTaxSystem.values),
+                name='tax_system_type_valid',
+                check=models.Q(tax_system_type__in=TaxSystemType.values),
             ),
         ]
 
     def __str__(self):
-        return f'{self.type_business} - {self.user}. ИНН - {self.inn}'
+        return f'{self.business_type} - {self.user}. ИНН - {self.inn}'

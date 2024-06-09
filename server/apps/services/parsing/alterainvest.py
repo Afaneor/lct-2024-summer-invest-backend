@@ -3,14 +3,15 @@ import re
 import time
 
 import requests
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 
 from server.apps.investment_object.models import (
+    EconomicActivity,
     InvestmentObject,
-    ReadyBusiness, EconomicActivity, TransactionForm,
+    ReadyBusiness,
+    TransactionForm,
 )
-from server.apps.investment_object.services.enums import ObjectType, \
-    TransactionFormType
+from server.apps.services.enums import ObjectType, TransactionFormType
 
 logger = logging.getLogger('django')
 

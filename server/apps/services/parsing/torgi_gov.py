@@ -3,10 +3,12 @@ import time
 
 import requests
 
-from server.apps.investment_object.models import InvestmentObject, TenderLot, \
-    TransactionForm
-from server.apps.investment_object.services.enums import ObjectType, \
-    TransactionFormType
+from server.apps.investment_object.models import (
+    InvestmentObject,
+    TenderLot,
+    TransactionForm,
+)
+from server.apps.services.enums import ObjectType, TransactionFormType
 
 logger = logging.getLogger('django')
 

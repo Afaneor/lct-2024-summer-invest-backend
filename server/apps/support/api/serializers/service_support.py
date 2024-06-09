@@ -17,7 +17,7 @@ class ServiceSupportSerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'region',
-            'type_service_support',
+            'service_support_type',
             'name',
             'support_type',
             'support_level',

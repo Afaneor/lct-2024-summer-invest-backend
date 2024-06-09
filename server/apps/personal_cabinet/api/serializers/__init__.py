@@ -29,6 +29,11 @@ from server.apps.personal_cabinet.api.serializers.selection_request import (
 from server.apps.personal_cabinet.api.serializers.sub_sector import (
     SubSectorSerializer,
 )
+from server.apps.personal_cabinet.api.serializers.subscription import (
+    CreateSubscriptionSerializer,
+    SubscriptionSerializer,
+    UpdateSubscriptionSerializer,
+)
 from server.apps.personal_cabinet.api.serializers.territorial_location import (
     TerritorialLocationSerializer,
 )
@@ -52,4 +57,7 @@ __all__ = [
     'SelectionRequestSerializer',
     'SelectedInvestmentObjectSerializer',
     'UpdateSelectedInvestmentObjectSerializer',
+    'SubscriptionSerializer',
+    'CreateSubscriptionSerializer',
+    'UpdateSubscriptionSerializer',
 ]

@@ -10,7 +10,7 @@ from server.apps.personal_cabinet.models import (
     SubSector,
     TerritorialLocation,
 )
-from server.apps.personal_cabinet.services.enums import TypeBusiness
+from server.apps.services.enums import BusinessType
 from server.apps.services.exception import ApiError
 from server.apps.user.models import User
 
@@ -109,7 +109,7 @@ def update_or_create_business(
             inn=inn,
             defaults={
                 'user_id': user_id,
-                'type_business': data.get('type').lower(),
+                'business_type': data.get('type').lower(),
                 'territorial_location':  territorial_location,
                 'hid':  data.get('hid', ''),
                 'short_business_name':  data.get('name', {}).get('short_with_opf', ''),

@@ -17,11 +17,6 @@ class TerritorialLocation(AbstractBaseModel):
         verbose_name=_('Полное название'),
         max_length=settings.MAX_STRING_LENGTH,
     )
-    slug = models.SlugField(
-        verbose_name=_('Название на английском языке'),
-        max_length=settings.MAX_STRING_LENGTH,
-        unique=True,
-    )
     tags = TaggableManager(blank=True)
 
     class Meta(AbstractBaseModel.Meta):

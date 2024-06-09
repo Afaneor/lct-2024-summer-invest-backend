@@ -12,7 +12,7 @@ from server.apps.personal_cabinet.api.serializers import (
     SelectionRequestSerializer,
 )
 from server.apps.personal_cabinet.models import Message, SelectionRequest
-from server.apps.personal_cabinet.services.enums import MessageOwnerType
+from server.apps.services.enums import MessageOwnerType
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,

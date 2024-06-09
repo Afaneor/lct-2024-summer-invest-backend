@@ -2,10 +2,11 @@
 
 import django.db.models.deletion
 import rules.contrib.models
-import server.apps.services.validators
 import taggit.managers
 from django.conf import settings
 from django.db import migrations, models
+
+import server.apps.services.validators
 
 
 class Migration(migrations.Migration):
@@ -421,7 +422,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    'type_business',
+                    'business_type',
                     models.CharField(
                         blank=True,
                         choices=[
@@ -581,7 +582,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    'type_tax_system',
+                    'tax_system_type',
                     models.CharField(
                         choices=[
                             ('osn', 'Общая'),
@@ -663,20 +664,20 @@ class Migration(migrations.Migration):
             constraint=models.CheckConstraint(
                 check=models.Q(
                     (
-                        'type_business__in',
+                        'business_type__in',
                         ['legal', 'individual', 'physical', ''],
                     )
                 ),
-                name='type_business_valid',
+                name='business_type_valid',
             ),
         ),
         migrations.AddConstraint(
             model_name='business',
             constraint=models.CheckConstraint(
                 check=models.Q(
-                    ('type_tax_system__in', ['osn', 'ysn', 'patent'])
+                    ('tax_system_type__in', ['osn', 'ysn', 'patent'])
                 ),
-                name='type_tax_system_valid',
+                name='tax_system_type_valid',
             ),
         ),
     ]

@@ -8,6 +8,7 @@ from server.apps.personal_cabinet.models.selection_request import (
     SelectionRequest,
 )
 from server.apps.personal_cabinet.models.sub_sector import SubSector
+from server.apps.personal_cabinet.models.subscription import Subscription
 from server.apps.personal_cabinet.models.territorial_location import (
     TerritorialLocation,
 )
@@ -18,6 +19,7 @@ __all__ = [
     'Sector',
     'SelectedInvestmentObject',
     'SelectionRequest',
+    'Subscription',
     'SubSector',
     'TerritorialLocation',
 ]

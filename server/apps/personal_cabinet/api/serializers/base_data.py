@@ -15,15 +15,12 @@ class BaseSectorSerializer(serializers.ModelSerializer):
     Сериалайзер оборудования. Используется во вложенных сериалайзерах.
     """
 
-    tags = TagListSerializerField()
-
     class Meta:
         model = Sector
         fields = (
             'id',
             'name',
             'slug',
-            'tags',
         )
 
 
@@ -65,7 +62,7 @@ class BaseBusinessSerializer(serializers.ModelSerializer):
     class Meta:
         model = Business
         fields = (
-            'type_business',
+            'business_type',
             'inn',
             'sector',
             'sub_sector',

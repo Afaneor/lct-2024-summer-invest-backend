@@ -86,7 +86,7 @@ def update_or_create_business(
         data = business.get('data', {})
         address = data.get('address', {})
         territorial_location = TerritorialLocation.objects.get(
-            name=address.get('data', {}).get('city_area', ''),
+            full_name__icontains=address.get('data', {}).get('city_area', ''),
         )
         return Business.objects.update_or_create(
             inn=inn,

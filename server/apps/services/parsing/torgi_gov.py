@@ -29,7 +29,8 @@ def parsing_tender_lot():
     total_pages = first_10_tender_lots_json['totalPages']
 
     # Проходимся по всем страницам и получаем информацию.
-    for number_page in range(total_pages):
+    # total_pages
+    for number_page in range(5):
         tender_lots_json = requests.get(
             url=(
                 'https://torgi.gov.ru/new/api/public/lotcards/search'
@@ -105,7 +106,11 @@ def parsing_tender_lot():
                 transaction_form, tf_created = (
                     TransactionForm.objects.get_or_create(
                         name=name,
-                        transaction_form_type=tender_lot_json.get('typeTransaction'),
+                        transaction_form_type=(
+                            tender_lot_json.get('typeTransaction')
+                            if tender_lot_json.get('typeTransaction')
+                            else TransactionFormType.NOT_DATA
+                        ),
                     )
                 )
             else:

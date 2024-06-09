@@ -105,7 +105,15 @@ class MessageViewSet(RetrieveListCreateViewSet):
             selection_request=serializer.instance.selection_request,
             text='Тестовое сообщение для Игоря',
             filter={
-                'object_type': 'technopark',
+                'investment_object': {
+                    'object_type': 'technopark',
+                },
+                'category-problem': {
+                    'search': 'Получение или отказ в выдаче ГПЗУ',
+                },
+                'service_support': {
+                    'object_type': 'technopark',
+                },
             },
             parent=serializer.instance,
         )

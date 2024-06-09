@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from server.apps.investment_object.models import EconomicActivity
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 from server.apps.support.api.serializers import (
     DetailServiceSupportSerializer,
     ListServiceSupportSerializer,
@@ -47,7 +47,7 @@ class ServiceSupportFilter(
         )
 
 
-class ServiceSupportViewSet(BaseReadOnlyViewSet):
+class ServiceSupportViewSet(RetrieveListViewSet):
     """Инфраструктура."""
 
     serializer_class = DetailServiceSupportSerializer
@@ -62,7 +62,7 @@ class ServiceSupportViewSet(BaseReadOnlyViewSet):
     ordering_fields = '__all__'
     filterset_class = ServiceSupportFilter
     permission_type_map = {
-        **BaseReadOnlyViewSet.permission_type_map,
+        **RetrieveListViewSet.permission_type_map,
         'data_for_filters': 'view',
     }
 

@@ -16,7 +16,7 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
 
     economic_activities = BaseEconomicActivitySerializer(many=True)
     restrictions = BaseRestrictionSerializer(many=True)
-    feedbacks = BaseFeedbackSerializer(many=True)
+    feedbacks = serializers.SerializerMethodField()
 
     class Meta:
         model = ServiceSupport

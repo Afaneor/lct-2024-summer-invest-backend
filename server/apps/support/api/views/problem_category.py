@@ -2,7 +2,7 @@ import django_filters
 from django.utils.translation import gettext_lazy as _
 
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 from server.apps.support.api.serializers import ProblemCategorySerializer
 from server.apps.support.models import ProblemCategory
 
@@ -52,7 +52,7 @@ class ProblemCategoryFilter(
         )
 
 
-class ProblemCategoryViewSet(BaseReadOnlyViewSet):
+class ProblemCategoryViewSet(RetrieveListViewSet):
     """Инфраструктура."""
 
     serializer_class = ProblemCategorySerializer

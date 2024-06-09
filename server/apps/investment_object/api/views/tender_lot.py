@@ -3,7 +3,7 @@ import django_filters
 from server.apps.investment_object.api.serializers import TenderLotSerializer
 from server.apps.investment_object.models import TenderLot
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class TenderLotFilter(
@@ -20,7 +20,7 @@ class TenderLotFilter(
         )
 
 
-class TenderLotViewSet(BaseReadOnlyViewSet):
+class TenderLotViewSet(RetrieveListViewSet):
     """Лот тендера."""
 
     serializer_class = TenderLotSerializer

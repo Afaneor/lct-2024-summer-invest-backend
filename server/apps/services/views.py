@@ -50,11 +50,13 @@ class ViewSetSerializerMixin:  # noqa: WPS306, WPS338
         return super().get_serializer_class()  # type: ignore
 
 
-class BaseReadOnlyViewSet(  # noqa: WPS215
+class RetrieveListViewSet(  # noqa: WPS215
     AutoPermissionViewSetMixin,
     NestedViewSetMixin,
     ViewSetSerializerMixin,
-    ReadOnlyModelViewSet,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    GenericViewSet,
 ):
     """Стандартный ReadOnlyViewSet."""
 

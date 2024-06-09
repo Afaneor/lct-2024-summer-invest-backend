@@ -5,7 +5,7 @@ from server.apps.investment_object.api.serializers import (
 )
 from server.apps.investment_object.models import Infrastructure
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class InfrastructureFilter(
@@ -22,7 +22,7 @@ class InfrastructureFilter(
         )
 
 
-class InfrastructureViewSet(BaseReadOnlyViewSet):
+class InfrastructureViewSet(RetrieveListViewSet):
     """Инфраструктура."""
 
     serializer_class = InfrastructureSerializer

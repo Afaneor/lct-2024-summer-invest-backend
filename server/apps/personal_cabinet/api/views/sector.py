@@ -6,7 +6,7 @@ from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
 )
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class SectorFilter(
@@ -26,7 +26,7 @@ class SectorFilter(
         )
 
 
-class SectorViewSet(BaseReadOnlyViewSet):
+class SectorViewSet(RetrieveListViewSet):
     """Отрасль. Просмотр."""
 
     serializer_class = SectorSerializer

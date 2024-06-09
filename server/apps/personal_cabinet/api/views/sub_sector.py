@@ -6,7 +6,7 @@ from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
 )
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class SubSectorFilter(
@@ -26,7 +26,7 @@ class SubSectorFilter(
         )
 
 
-class SubSectorViewSet(BaseReadOnlyViewSet):
+class SubSectorViewSet(RetrieveListViewSet):
     """Подотрасль. Просмотр."""
 
     serializer_class = SubSectorSerializer

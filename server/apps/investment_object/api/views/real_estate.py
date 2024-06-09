@@ -3,7 +3,7 @@ import django_filters
 from server.apps.investment_object.api.serializers import RealEstateSerializer
 from server.apps.investment_object.models import RealEstate
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class RealEstateFilter(
@@ -20,7 +20,7 @@ class RealEstateFilter(
         )
 
 
-class RealEstateViewSet(BaseReadOnlyViewSet):
+class RealEstateViewSet(RetrieveListViewSet):
     """Недвижимость."""
 
     serializer_class = RealEstateSerializer

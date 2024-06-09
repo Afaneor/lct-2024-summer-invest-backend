@@ -5,7 +5,7 @@ from server.apps.investment_object.api.serializers import (
 )
 from server.apps.investment_object.models import ReadyBusiness
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class ReadyBusinessFilter(
@@ -22,7 +22,7 @@ class ReadyBusinessFilter(
         )
 
 
-class ReadyBusinessViewSet(BaseReadOnlyViewSet):
+class ReadyBusinessViewSet(RetrieveListViewSet):
     """Готовый бизнес."""
 
     serializer_class = ReadyBusinessSerializer

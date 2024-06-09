@@ -5,7 +5,7 @@ from server.apps.investment_object.api.serializers import (
 )
 from server.apps.investment_object.models import TransactionForm
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class TransactionFormFilter(
@@ -23,7 +23,7 @@ class TransactionFormFilter(
         )
 
 
-class TransactionFormViewSet(BaseReadOnlyViewSet):
+class TransactionFormViewSet(RetrieveListViewSet):
     """Лот тендера."""
 
     serializer_class = TransactionFormSerializer

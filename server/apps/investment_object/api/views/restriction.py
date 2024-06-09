@@ -3,7 +3,7 @@ import django_filters
 from server.apps.investment_object.api.serializers import RestrictionSerializer
 from server.apps.investment_object.models import Restriction
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class RestrictionFilter(
@@ -20,7 +20,7 @@ class RestrictionFilter(
         )
 
 
-class RestrictionViewSet(BaseReadOnlyViewSet):
+class RestrictionViewSet(RetrieveListViewSet):
     """Ограничения по видам деятельности."""
 
     serializer_class = RestrictionSerializer

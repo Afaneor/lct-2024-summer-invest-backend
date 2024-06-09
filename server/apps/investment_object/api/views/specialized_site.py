@@ -5,7 +5,7 @@ from server.apps.investment_object.api.serializers import (
 )
 from server.apps.investment_object.models import SpecializedSite
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import BaseReadOnlyViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class SpecializedSiteFilter(
@@ -21,7 +21,7 @@ class SpecializedSiteFilter(
         )
 
 
-class SpecializedSiteViewSet(BaseReadOnlyViewSet):
+class SpecializedSiteViewSet(RetrieveListViewSet):
     """Ограничения по видам деятельности."""
 
     serializer_class = SpecializedSiteSerializer

@@ -9,7 +9,7 @@ from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
 )
-from server.apps.services.views import RetrieveListCreateViewSet
+from server.apps.services.views import RetrieveListViewSet
 
 
 class EventFilter(
@@ -29,7 +29,7 @@ class EventFilter(
         )
 
 
-class EventViewSet(RetrieveListCreateViewSet):
+class EventViewSet(RetrieveListViewSet):
     """Событие."""
 
     serializer_class = DetailEventSerializer

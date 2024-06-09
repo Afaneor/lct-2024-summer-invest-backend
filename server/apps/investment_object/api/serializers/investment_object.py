@@ -25,7 +25,6 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
-    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = InvestmentObject
@@ -42,21 +41,10 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
             'real_estate',
             'specialized_site',
             'ready_business',
-            'comments',
             'permission_rules',
             'created_at',
             'updated_at',
         )
-
-    def get_comments(self, investment_object: InvestmentObject):
-        """Комментарийы на объект."""
-        return BaseCommentSerializer(
-            Comment.objects.filter(
-                object_id=investment_object.id,
-                content_type_id=investment_object.content_type_id,
-            ),
-            many=True,
-        ).data
 
 
 class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
@@ -66,7 +54,6 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
-    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = InvestmentObject
@@ -84,21 +71,10 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
             'specialized_site',
             'ready_business',
             'content_type_id',
-            'comments',
             'permission_rules',
             'created_at',
             'updated_at',
         )
-
-    def get_comments(self, investment_object: InvestmentObject):
-        """Комментарийы на объект."""
-        return BaseCommentSerializer(
-            Comment.objects.filter(
-                object_id=investment_object.id,
-                content_type_id=investment_object.content_type_id,
-            ),
-            many=True,
-        ).data
 
 
 class UploadDataFromFileSerializer(serializers.Serializer):

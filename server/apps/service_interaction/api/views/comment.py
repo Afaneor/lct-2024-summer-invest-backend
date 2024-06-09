@@ -29,6 +29,8 @@ class CommentFilter(
             'user_first_name',
             'user_last_name',
             'user_middle_name',
+            'content_type',
+            'object_id',
         )
 
 

@@ -18,6 +18,7 @@ from server.apps.investment_object.models import (
 )
 from server.apps.investment_object.tasks import delayed_parsing_data
 from server.apps.personal_cabinet.models import SelectedEntity
+from server.apps.services.enums import TransactionFormType
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListCreateViewSet
 
@@ -151,14 +152,7 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
                 'name',
                 flat=True,
             ),
-            'transaction_form_type': TransactionForm.objects.order_by(
-                'transaction_form_type',
-            ).distinct(
-                'transaction_form_type',
-            ).values_list(
-                'transaction_form_type',
-                flat=True,
-            ),
+            'transaction_form_type': TransactionFormType.labels,
             'location': InvestmentObject.objects.order_by(
                 'location',
             ).distinct(

@@ -13,9 +13,9 @@ from server.apps.investment_object.api.serializers.infrastructure import (
     InfrastructureSerializer,
 )
 from server.apps.investment_object.api.serializers.investment_object import (
-    UploadDataFromFileSerializer,
     DetailInvestmentObjectSerializer,
     ListInvestmentObjectSerializer,
+    UploadDataFromFileSerializer,
 )
 from server.apps.investment_object.api.serializers.privilege import (
     PrivilegeSerializer,
@@ -35,6 +35,9 @@ from server.apps.investment_object.api.serializers.specialized_site import (
 from server.apps.investment_object.api.serializers.tender_lot import (
     TenderLotSerializer,
 )
+from server.apps.investment_object.api.serializers.transaction_form import (
+    TransactionFormSerializer,
+)
 
 __all__ = [
     'BaseEconomicActivitySerializer',
@@ -53,5 +56,6 @@ __all__ = [
     'TenderLotSerializer',
     'RealEstateSerializer',
     'RestrictionSerializer',
+    'TransactionFormSerializer',
     'UploadDataFromFileSerializer',
 ]

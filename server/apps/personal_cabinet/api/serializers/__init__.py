@@ -18,9 +18,9 @@ from server.apps.personal_cabinet.api.serializers.message import (
 from server.apps.personal_cabinet.api.serializers.sector import (
     SectorSerializer,
 )
-from server.apps.personal_cabinet.api.serializers.selected_investment_object import (
-    SelectedInvestmentObjectSerializer,
-    UpdateSelectedInvestmentObjectSerializer,
+from server.apps.personal_cabinet.api.serializers.selected_entity import (
+    SelectedEntitySerializer,
+    UpdateSelectedEntitySerializer,
 )
 from server.apps.personal_cabinet.api.serializers.selection_request import (
     CreateSelectionRequestSerializer,
@@ -55,8 +55,8 @@ __all__ = [
     'CreateMessageSerializer',
     'CreateSelectionRequestSerializer',
     'SelectionRequestSerializer',
-    'SelectedInvestmentObjectSerializer',
-    'UpdateSelectedInvestmentObjectSerializer',
+    'SelectedEntitySerializer',
+    'UpdateSelectedEntitySerializer',
     'SubscriptionSerializer',
     'CreateSubscriptionSerializer',
     'UpdateSubscriptionSerializer',

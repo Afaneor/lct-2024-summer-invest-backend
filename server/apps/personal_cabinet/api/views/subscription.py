@@ -2,8 +2,11 @@ import django_filters
 from rest_framework import status
 from rest_framework.response import Response
 
-from server.apps.personal_cabinet.api.serializers import SubscriptionSerializer, \
-    CreateSubscriptionSerializer, UpdateSubscriptionSerializer
+from server.apps.personal_cabinet.api.serializers import (
+    CreateSubscriptionSerializer,
+    SubscriptionSerializer,
+    UpdateSubscriptionSerializer,
+)
 from server.apps.personal_cabinet.models import Subscription
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,

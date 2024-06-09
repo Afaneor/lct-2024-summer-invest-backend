@@ -17,7 +17,6 @@ class ReadyBusiness(AbstractBaseModel):
     external_id = models.CharField(
         verbose_name=_('Id объекта'),
         max_length=settings.MAX_STRING_LENGTH,
-        unique=True,
     )
     description = models.TextField(
         verbose_name=_('Описание'),

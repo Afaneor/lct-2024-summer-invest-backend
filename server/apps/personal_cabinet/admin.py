@@ -4,10 +4,11 @@ from server.apps.personal_cabinet.models import (
     Business,
     Message,
     Sector,
-    SelectedInvestmentObject,
+    SelectedEntity,
     SelectionRequest,
+    Subscription,
     SubSector,
-    TerritorialLocation, Subscription,
+    TerritorialLocation,
 )
 
 
@@ -90,7 +91,6 @@ class SectorAdmin(admin.ModelAdmin[Sector]):
     list_display = (
         'id',
         'name',
-        'slug',
     )
     search_fields = (
         'name',
@@ -100,8 +100,8 @@ class SectorAdmin(admin.ModelAdmin[Sector]):
     )
 
 
-@admin.register(SelectedInvestmentObject)
-class SelectedInvestmentObjectAdmin(admin.ModelAdmin[SelectedInvestmentObject]):
+@admin.register(SelectedEntity)
+class SelectedEntityAdmin(admin.ModelAdmin[SelectedEntity]):
     """Подобранный инвестиционный объект."""
 
     list_display = (
@@ -139,14 +139,12 @@ class SelectionRequestObjectAdmin(admin.ModelAdmin[SelectionRequest]):
     list_filter = (
         'is_actual',
         'is_bot_response_waiting',
-        'investment_objects__name',
     )
     search_fields = (
         'anonymous_user_id',
         'user__email',
         'user__first_name',
         'user__last_name',
-        'investment_objects__name',
     )
     ordering = (
         'id',
@@ -160,7 +158,6 @@ class SubSectorAdmin(admin.ModelAdmin[SubSector]):
     list_display = (
         'id',
         'name',
-        'slug',
     )
     search_fields = (
         'name',

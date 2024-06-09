@@ -2,9 +2,9 @@ import logging
 
 import requests
 
+from server.apps.services.enums import ServiceSupportType
 from server.apps.services.parsing.xlsx.base import clear_data
 from server.apps.support.models import ServiceSupport
-from server.apps.services.enums import ServiceSupportType
 
 logger = logging.getLogger('django')
 

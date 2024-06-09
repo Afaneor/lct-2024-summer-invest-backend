@@ -29,13 +29,6 @@ class SelectionRequest(AbstractBaseModel):
         verbose_name=_('Ожидает ли запрос ответ от бота или нет'),
         default=False,
     )
-    investment_objects = models.ManyToManyField(
-        to='investment_object.InvestmentObject',
-        verbose_name=_('Инвестиционный объект'),
-        through='personal_cabinet.SelectedInvestmentObject',
-        related_name='selection_results',
-        blank=True,
-    )
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Запрос на подбор')

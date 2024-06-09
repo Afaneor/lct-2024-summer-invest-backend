@@ -1,14 +1,14 @@
 import django_filters
 
 from server.apps.personal_cabinet.api.serializers import (
-    SelectedInvestmentObjectSerializer,
+    SelectedEntitySerializer,
 )
-from server.apps.personal_cabinet.models import SelectedInvestmentObject
+from server.apps.personal_cabinet.models import SelectedEntity
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListUpdateViewSet
 
 
-class SelectedInvestmentObjectFilter(
+class SelectedEntityFilter(
     CreatedUpdatedDateFilterMixin,
     django_filters.FilterSet,
 ):
@@ -17,7 +17,7 @@ class SelectedInvestmentObjectFilter(
     """
 
     class Meta:
-        model = SelectedInvestmentObject
+        model = SelectedEntity
         fields = (
             'id',
             'investment_object',
@@ -27,17 +27,17 @@ class SelectedInvestmentObjectFilter(
         )
 
 
-class SelectedInvestmentObjectViewSet(RetrieveListUpdateViewSet):
+class SelectedEntityViewSet(RetrieveListUpdateViewSet):
     """Подобранный инвестиционный объект. Просмотр/изменение."""
 
-    serializer_class = SelectedInvestmentObjectSerializer
-    queryset = SelectedInvestmentObject.objects.all()
+    serializer_class = SelectedEntitySerializer
+    queryset = SelectedEntity.objects.all()
     search_fields = (
         'investment_object__name',
         'selection_request__user',
     )
     ordering_fields = '__all__'
-    filterset_class = SelectedInvestmentObjectFilter
+    filterset_class = SelectedEntityFilter
 
     def get_queryset(self):
         """Выдача подотраслей.

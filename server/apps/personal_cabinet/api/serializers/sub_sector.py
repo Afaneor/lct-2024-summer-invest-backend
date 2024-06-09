@@ -12,7 +12,6 @@ class SubSectorSerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'name',
-            'slug',
             'permission_rules',
             'created_at',
             'updated_at',

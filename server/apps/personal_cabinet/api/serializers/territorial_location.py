@@ -15,7 +15,6 @@ class TerritorialLocationSerializer(ModelSerializerWithPermission):
             'id',
             'shot_name',
             'full_name',
-            'slug',
             'tags',
             'permission_rules',
             'created_at',

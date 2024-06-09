@@ -28,7 +28,6 @@ class SelectionRequestFilter(
     """Фильтр запроса на подбор."""
 
     name = django_filters.CharFilter(lookup_expr='icontains')
-    slug = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = SelectionRequest

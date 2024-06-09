@@ -21,6 +21,7 @@ def parsing_tender_lot():
         url=(
             'https://torgi.gov.ru/new/api/public/lotcards/search'
             '?dynSubjRF=78,53&lotStatus=PUBLISHED,APPLICATIONS_SUBMISSION'
+            '&typeTransaction=sale,rent'
             '&byFirstVersion=true'
             '&withFacets=true'
             '&size=10'
@@ -32,14 +33,14 @@ def parsing_tender_lot():
 
     # Проходимся по всем страницам и получаем информацию.
     # total_pages
-    for number_page in range(5):
+    for number_page in range(1, total_pages+1):
         tender_lots_json = requests.get(
             url=(
                 'https://torgi.gov.ru/new/api/public/lotcards/search'
-                '?dynSubjRF=78,53'
-                '&lotStatus=PUBLISHED,APPLICATIONS_SUBMISSION'
+                '?dynSubjRF=78,53&lotStatus=PUBLISHED,APPLICATIONS_SUBMISSION'
+                '&typeTransaction=sale,rent'
                 '&byFirstVersion=true'
-                '&withFacets=false'
+                '&withFacets=true'
                 f'&page={number_page}'
                 '&size=10'
                 '&sort=firstVersionPublicationDate,desc'
@@ -104,10 +105,10 @@ def parsing_tender_lot():
                 name = name.split(',')[0]
 
             # Форма сделки.
-            if name := tender_lot_json.get('biddType', {}).get('name'):
+            if tf_name := tender_lot_json.get('biddType', {}).get('name'):
                 transaction_form, tf_created = (
                     TransactionForm.objects.get_or_create(
-                        name=name,
+                        name=tf_name,
                         transaction_form_type=(
                             tender_lot_json.get('typeTransaction')
                             if tender_lot_json.get('typeTransaction')

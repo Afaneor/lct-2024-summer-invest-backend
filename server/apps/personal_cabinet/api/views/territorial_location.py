@@ -20,7 +20,6 @@ class TerritorialLocationFilter(
 
     shot_name = django_filters.CharFilter(lookup_expr='icontains')
     full_name = django_filters.CharFilter(lookup_expr='icontains')
-    slug = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = TerritorialLocation
@@ -28,7 +27,6 @@ class TerritorialLocationFilter(
             'id',
             'shot_name',
             'full_name',
-            'slug',
         )
 
 
@@ -39,7 +37,6 @@ class TerritorialLocationViewSet(BaseReadOnlyViewSet):
     queryset = TerritorialLocation.objects.prefetch_related('tags')
     search_fields = (
         'name',
-        'slug',
     )
     ordering_fields = '__all__'
     filterset_class = TerritorialLocationFilter

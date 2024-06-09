@@ -1,9 +1,14 @@
 import django_filters
 
-from server.apps.service_interaction.api.serializers import PostSerializer, CreatePostSerializer
+from server.apps.service_interaction.api.serializers import (
+    CreatePostSerializer,
+    PostSerializer,
+)
 from server.apps.service_interaction.models import Post
-from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin, \
-    UserFilterMixin
+from server.apps.services.filters_mixins import (
+    CreatedUpdatedDateFilterMixin,
+    UserFilterMixin,
+)
 from server.apps.services.views import RetrieveListCreateViewSet
 
 

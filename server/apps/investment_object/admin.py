@@ -9,7 +9,8 @@ from server.apps.investment_object.models import (
     RealEstate,
     Restriction,
     SpecializedSite,
-    TenderLot, TransactionForm,
+    TenderLot,
+    TransactionForm,
 )
 
 

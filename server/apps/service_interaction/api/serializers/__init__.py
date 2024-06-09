@@ -2,17 +2,16 @@ from server.apps.service_interaction.api.serializers.base_data import (
     BaseTopicSerializer,
 )
 from server.apps.service_interaction.api.serializers.event import (
-    ListEventSerializer,
     DetailEventSerializer,
+    ListEventSerializer,
 )
 from server.apps.service_interaction.api.serializers.feedback import (
-    FeedbackSerializer,
     CreateFeedbackSerializer,
+    FeedbackSerializer,
 )
-
 from server.apps.service_interaction.api.serializers.post import (
-    PostSerializer,
     CreatePostSerializer,
+    PostSerializer,
 )
 from server.apps.service_interaction.api.serializers.topic import (
     TopicSerializer,

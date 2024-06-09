@@ -14,8 +14,9 @@ from server.apps.service_interaction.models.event import Event
 from server.apps.service_interaction.models.post import Post
 from server.apps.services.enums import SubscriptionType, UploadDataFromFileType
 from server.apps.services.parsing.xlsx.real_estate import parsing_real_estate
-from server.apps.services.parsing.xlsx.specialized_site import \
-    parsing_specialized_site
+from server.apps.services.parsing.xlsx.specialized_site import (
+    parsing_specialized_site,
+)
 from server.apps.support.models import ServiceSupport
 from server.celery import app
 

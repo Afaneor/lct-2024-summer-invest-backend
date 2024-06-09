@@ -20,7 +20,6 @@ class BaseSectorSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'slug',
         )
 
 
@@ -34,7 +33,6 @@ class BaseSubSectorSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'slug',
         )
 
 

@@ -32,7 +32,7 @@ def ready_business():
         all_business_data.find('ul', class_='al-pagination mb20').contents[29].text,
     ).strip()
     # int(number_pages)+1
-    for page_number in range(5):
+    for page_number in range(1, int(number_pages)+1):
         logger.info(f'Анализ страницы {page_number}')
         business_page_response = requests.get(
             url=(

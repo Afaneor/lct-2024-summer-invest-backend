@@ -13,11 +13,6 @@ class SubSector(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         unique=True,
     )
-    slug = models.SlugField(
-        verbose_name=_('Название на английском языке'),
-        max_length=settings.MAX_STRING_LENGTH,
-        unique=True,
-    )
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Подотрасль')

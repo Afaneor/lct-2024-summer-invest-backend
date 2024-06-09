@@ -1,9 +1,7 @@
 from server.apps.personal_cabinet.models.business import Business
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.personal_cabinet.models.sector import Sector
-from server.apps.personal_cabinet.models.selected_investment_object import (
-    SelectedInvestmentObject,
-)
+from server.apps.personal_cabinet.models.selected_entity import SelectedEntity
 from server.apps.personal_cabinet.models.selection_request import (
     SelectionRequest,
 )
@@ -17,7 +15,7 @@ __all__ = [
     'Business',
     'Message',
     'Sector',
-    'SelectedInvestmentObject',
+    'SelectedEntity',
     'SelectionRequest',
     'Subscription',
     'SubSector',

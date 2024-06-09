@@ -17,14 +17,12 @@ class SectorFilter(
     """Фильтр отраслей."""
 
     name = django_filters.CharFilter(lookup_expr='icontains')
-    slug = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Sector
         fields = (
             'id',
             'name',
-            'slug',
         )
 
 
@@ -35,7 +33,6 @@ class SectorViewSet(BaseReadOnlyViewSet):
     queryset = Sector.objects.all()
     search_fields = (
         'name',
-        'slug',
     )
     ordering_fields = '__all__'
     filterset_class = SectorFilter

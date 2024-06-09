@@ -2,11 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from server.apps.services.enums import (
-    BusinessType,
-    TaxSystemType,
-)
 from server.apps.services.base_model import AbstractBaseModel
+from server.apps.services.enums import BusinessType, TaxSystemType
 from server.apps.services.validators import inn_validator
 
 

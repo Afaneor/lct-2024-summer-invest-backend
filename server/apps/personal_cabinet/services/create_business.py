@@ -14,21 +14,6 @@ from server.apps.services.enums import BusinessType
 from server.apps.services.exception import ApiError
 from server.apps.user.models import User
 
-HANDLER_TERRITORIAL_LOCATION = {
-    'восточный': 'wao',
-    'западный': 'zao',
-    'зеленоградский': 'zelao',
-    'новомосковский': 'nao',
-    'северный': 'sao',
-    'северо-восточный': 'swao',
-    'северо-западный': 'szao',
-    'троицкий': 'tao',
-    'центральный': 'cao',
-    'южный': 'yuao',
-    'юго-восточный': 'yuwao',
-    'юго-западный': 'yuzao',
-}
-
 
 class ClientBase:
     """Базовый класс для API."""
@@ -101,9 +86,7 @@ def update_or_create_business(
         data = business.get('data', {})
         address = data.get('address', {})
         territorial_location = TerritorialLocation.objects.get(
-            slug=HANDLER_TERRITORIAL_LOCATION.get(
-                address.get('data', {}).get('city_area', '').lower(),
-            ),
+            name=address.get('data', {}).get('city_area', ''),
         )
         return Business.objects.update_or_create(
             inn=inn,

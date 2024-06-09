@@ -3,11 +3,11 @@ from rest_framework import serializers
 from server.apps.investment_object.api.serializers import (
     BaseInvestmentObjectSerializer,
 )
-from server.apps.personal_cabinet.models import SelectedInvestmentObject
+from server.apps.personal_cabinet.models import SelectedEntity
 from server.apps.services.serializers import ModelSerializerWithPermission
 
 
-class SelectedInvestmentObjectSerializer(ModelSerializerWithPermission):
+class SelectedEntitySerializer(ModelSerializerWithPermission):
     """
     Сериалайзер подобранного инвестиционного объекта.
     """
@@ -15,7 +15,7 @@ class SelectedInvestmentObjectSerializer(ModelSerializerWithPermission):
     investment_object = BaseInvestmentObjectSerializer()
 
     class Meta:
-        model = SelectedInvestmentObject
+        model = SelectedEntity
         fields = (
             'id',
             'investment_object',
@@ -28,13 +28,13 @@ class SelectedInvestmentObjectSerializer(ModelSerializerWithPermission):
         )
 
 
-class UpdateSelectedInvestmentObjectSerializer(serializers.ModelSerializer):
+class UpdateSelectedEntitySerializer(serializers.ModelSerializer):
     """
     Сериалайзер изменения подобранного инвестиционного объекта.
     """
 
     class Meta:
-        model = SelectedInvestmentObject
+        model = SelectedEntity
         fields = (
             'id',
             'is_relevant',

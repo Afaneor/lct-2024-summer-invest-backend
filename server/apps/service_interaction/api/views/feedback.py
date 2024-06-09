@@ -1,9 +1,14 @@
 import django_filters
 
-from server.apps.service_interaction.api.serializers import FeedbackSerializer, CreateFeedbackSerializer
+from server.apps.service_interaction.api.serializers import (
+    CreateFeedbackSerializer,
+    FeedbackSerializer,
+)
 from server.apps.service_interaction.models import Feedback
-from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin, \
-    UserFilterMixin
+from server.apps.services.filters_mixins import (
+    CreatedUpdatedDateFilterMixin,
+    UserFilterMixin,
+)
 from server.apps.services.views import RetrieveListCreateViewSet
 
 

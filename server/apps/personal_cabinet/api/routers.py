@@ -4,7 +4,7 @@ from server.apps.personal_cabinet.api.views import (
     BusinessViewSet,
     MessageViewSet,
     SectorViewSet,
-    SelectedInvestmentObjectViewSet,
+    SelectedEntityViewSet,
     SelectionRequestViewSet,
     SubSectorViewSet,
     TerritorialLocationViewSet,
@@ -34,6 +34,6 @@ router.register('selection-requests', SelectionRequestViewSet, 'selection-reques
 router.register('messages', MessageViewSet, 'messages')
 router.register(
     'selected-investment-objects',
-    SelectedInvestmentObjectViewSet,
+    SelectedEntityViewSet,
     'selected-investment-objects',
 )

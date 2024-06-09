@@ -1,9 +1,14 @@
 import django_filters
 
-from server.apps.service_interaction.api.serializers import DetailEventSerializer, ListEventSerializer
+from server.apps.service_interaction.api.serializers import (
+    DetailEventSerializer,
+    ListEventSerializer,
+)
 from server.apps.service_interaction.models import Event
-from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin, \
-    UserFilterMixin
+from server.apps.services.filters_mixins import (
+    CreatedUpdatedDateFilterMixin,
+    UserFilterMixin,
+)
 from server.apps.services.views import RetrieveListCreateViewSet
 
 

@@ -21,6 +21,9 @@ from server.apps.investment_object.api.views.specialized_site import (
     SpecializedSiteViewSet,
 )
 from server.apps.investment_object.api.views.tender_lot import TenderLotViewSet
+from server.apps.investment_object.api.views.transaction_form import (
+    TransactionFormViewSet,
+)
 
 __all__ = [
     'EconomicActivityViewSet',
@@ -31,4 +34,6 @@ __all__ = [
     'RestrictionViewSet',
     'ReadyBusinessViewSet',
     'SpecializedSiteViewSet',
+    'TenderLotViewSet',
+    'TransactionFormViewSet',
 ]

@@ -2,8 +2,10 @@ import django_filters
 
 from server.apps.service_interaction.api.serializers import TopicSerializer
 from server.apps.service_interaction.models import Topic
-from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin, \
-    UserFilterMixin
+from server.apps.services.filters_mixins import (
+    CreatedUpdatedDateFilterMixin,
+    UserFilterMixin,
+)
 from server.apps.services.views import RetrieveListCreateViewSet
 
 

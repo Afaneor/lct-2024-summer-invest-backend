@@ -114,7 +114,7 @@ def ready_business():
                         if extra_data.get('Район') != 'По запросу'
                         else ''
                     ),
-                    'url': business_detail_url,
+                    'url': f'https://alterainvest.ru/{business_detail_url}',
                 },
             )
 

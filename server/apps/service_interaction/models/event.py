@@ -27,15 +27,6 @@ class Event(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         choices=EventType.choices,
     )
-    content_type = models.ForeignKey(
-        to=ContentType,
-        verbose_name=_('Тип содержимого'),
-        on_delete=models.CASCADE,
-    )
-    object_id = models.PositiveIntegerField(
-        verbose_name=_('Id объекта'),
-    )
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Событие')

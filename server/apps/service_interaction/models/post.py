@@ -12,7 +12,7 @@ class Post(AbstractBaseModel):
         to='user.User',
         on_delete=models.CASCADE,
         verbose_name=_('Пользователь'),
-        related_name='feedbacks',
+        related_name='posts',
         db_index=True,
     )
     topic = models.ForeignKey(

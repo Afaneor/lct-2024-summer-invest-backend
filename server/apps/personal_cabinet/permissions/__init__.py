@@ -5,6 +5,7 @@ from server.apps.personal_cabinet.permissions import (
     selected_investment_object,
     selection_request,
     sub_sector,
+    subscription,
     territorial_location,
 )
 
@@ -15,5 +16,6 @@ __all__ = [
     'selected_investment_object',
     'selection_request',
     'sub_sector',
+    'subscription',
     'territorial_location',
 ]

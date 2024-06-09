@@ -39,6 +39,10 @@ class Subscription(AbstractBaseModel):
         verbose_name = _('Подписка')
         verbose_name_plural = _('Подписки')
         constraints = [
+            models.CheckConstraint(
+                name='subscription_type_valid',
+                check=models.Q(subscription_type__in=SubscriptionType.values),
+            ),
             models.UniqueConstraint(
                 name='unique_subscription_type_for_user',
                 fields=('subscription_type', 'user')

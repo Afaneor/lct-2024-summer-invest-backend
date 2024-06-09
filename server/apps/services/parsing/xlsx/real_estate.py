@@ -23,14 +23,17 @@ from server.settings.components import BASE_DIR
 logger = logging.getLogger('django')
 
 
-def parsing_real_estate():
+def parsing_real_estate(file=None):
     """
     Парсинг зданий и сооружений.
     """
-    db = xl.readxl(
-        f'{BASE_DIR}'
-        '/server/apps/investment_object/initial_data/real_estate.xlsx'
-    )
+    if file:
+        db = xl.readxl(file)
+    else:
+        db = xl.readxl(
+            f'{BASE_DIR}'
+            '/server/apps/investment_object/initial_data/real_estate.xlsx'
+        )
     for list_name in db.ws_names:
         for index, row in enumerate(db.ws(ws=list_name).rows):
             if index != 0:

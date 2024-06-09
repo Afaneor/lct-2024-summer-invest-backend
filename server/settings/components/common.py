@@ -48,6 +48,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     # Your apps go here:
     'server.apps.personal_cabinet',
     'server.apps.investment_object',
+    'server.apps.service_interaction',
     'server.apps.support',
     'server.apps.user',
 

@@ -1,6 +1,6 @@
-from server.apps.support.permissions import service_problem, service_support
+from server.apps.support.permissions import problem_category, service_support
 
 __all__ = [
     'service_support',
-    'service_problem',
+    'problem_category',
 ]

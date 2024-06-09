@@ -22,6 +22,14 @@ class TransactionForm(AbstractBaseModel):
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Форма сделки')
         verbose_name_plural = _('Формы транзакций')
+        constraints = [
+            models.CheckConstraint(
+                name='transaction_form_type_valid',
+                check=models.Q(
+                    transaction_form_type__in=TransactionFormType.values,
+                ),
+            ),
+        ]
 
     def __str__(self):
         return self.name

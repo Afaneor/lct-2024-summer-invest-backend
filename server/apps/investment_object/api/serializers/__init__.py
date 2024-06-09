@@ -13,7 +13,9 @@ from server.apps.investment_object.api.serializers.infrastructure import (
     InfrastructureSerializer,
 )
 from server.apps.investment_object.api.serializers.investment_object import (
-    InvestmentObjectSerializer,
+    UploadDataFromFileSerializer,
+    DetailInvestmentObjectSerializer,
+    ListInvestmentObjectSerializer,
 )
 from server.apps.investment_object.api.serializers.privilege import (
     PrivilegeSerializer,
@@ -43,11 +45,13 @@ __all__ = [
     'BaseRestrictionSerializer',
     'EconomicActivitySerializer',
     'InfrastructureSerializer',
-    'InvestmentObjectSerializer',
+    'DetailInvestmentObjectSerializer',
+    'ListInvestmentObjectSerializer',
     'PrivilegeSerializer',
     'ReadyBusinessSerializer',
     'SpecializedSiteSerializer',
     'TenderLotSerializer',
     'RealEstateSerializer',
     'RestrictionSerializer',
+    'UploadDataFromFileSerializer',
 ]

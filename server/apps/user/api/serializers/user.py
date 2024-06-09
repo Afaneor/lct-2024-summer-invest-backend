@@ -7,7 +7,7 @@ from server.apps.services.serializers import ModelSerializerWithPermission
 User = get_user_model()
 
 
-class BaseInfoUserSerializer(serializers.ModelSerializer):
+class BaseUserSerializer(serializers.ModelSerializer):
     """Сериалайзер пользователя. Используется в других сериалайзерах."""
 
     class Meta:

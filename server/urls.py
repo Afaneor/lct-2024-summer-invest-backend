@@ -22,6 +22,7 @@ from server.apps.personal_cabinet.api.routers import (
 )
 from server.apps.services.custom_router.api_router import router
 from server.apps.support.api.routers import router as support_router
+from server.apps.service_interaction.api.routers import router as service_interaction_router
 from server.apps.user.api.routers import router as user_router
 from server.url_components import (
     admin_urlpatterns,
@@ -33,6 +34,7 @@ from server.url_components import (
 # Регистрируем routers приложений.
 router.register('investment-object', investment_object_router, 'investment-object')
 router.register('personal-cabinet', personal_cabinet_router, 'personal-cabinet')
+router.register('service-interactions', service_interaction_router, 'service-interactions')
 router.register('support', support_router, 'support')
 router.register('user', user_router, 'user')
 

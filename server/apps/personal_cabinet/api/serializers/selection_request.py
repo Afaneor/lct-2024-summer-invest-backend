@@ -6,7 +6,7 @@ from server.apps.investment_object.api.serializers import (
 from server.apps.personal_cabinet.api.serializers import BaseMessageSerializer
 from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.services.serializers import ModelSerializerWithPermission
-from server.apps.user.api.serializers import BaseInfoUserSerializer
+from server.apps.user.api.serializers import BaseUserSerializer
 
 
 class CreateSelectionRequestSerializer(serializers.ModelSerializer):
@@ -27,7 +27,7 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
     Сериалайзер запросов на подбор площадок.
     """
 
-    user = BaseInfoUserSerializer()
+    user = BaseUserSerializer()
     investment_objects = BaseInvestmentObjectSerializer(many=True)
     messages = serializers.SerializerMethodField()
 

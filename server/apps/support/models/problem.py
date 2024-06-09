@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from server.apps.services.base_model import AbstractBaseModel
+from server.apps.services.content_type_id import get_content_type_id
 
 
 class Problem(AbstractBaseModel):
@@ -37,3 +38,8 @@ class Problem(AbstractBaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def content_type_id(self) -> int:
+        """Content type id утечки."""
+        return get_content_type_id(self)

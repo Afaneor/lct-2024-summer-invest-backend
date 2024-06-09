@@ -87,3 +87,9 @@ class SubscriptionType(models.TextChoices):
     TOPIC = 'topic', _('Тема')
     EVENT = 'event', _('События')
 
+
+class UploadDataFromFileType(models.TextChoices):
+    """Типы объектов для прогрузки через xlsx файл."""
+
+    SPECIALIZED_SITE = 'specialized_site', _('Специализированная площадка')
+    REAL_ESTATE = 'real_estate', _('Недвижимость')

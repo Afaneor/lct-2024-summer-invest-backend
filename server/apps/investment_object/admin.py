@@ -9,7 +9,7 @@ from server.apps.investment_object.models import (
     RealEstate,
     Restriction,
     SpecializedSite,
-    TenderLot,
+    TenderLot, TransactionForm,
 )
 
 
@@ -62,3 +62,4 @@ admin.site.register(RealEstate)
 admin.site.register(Restriction)
 admin.site.register(SpecializedSite)
 admin.site.register(ReadyBusiness)
+admin.site.register(TransactionForm)

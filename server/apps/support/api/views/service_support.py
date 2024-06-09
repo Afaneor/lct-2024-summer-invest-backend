@@ -2,7 +2,7 @@ import django_filters
 
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import BaseReadOnlyViewSet
-from server.apps.support.api.serializers import ServiceSupportSerializer
+from server.apps.support.api.serializers import DetailServiceSupportSerializer, ListServiceSupportSerializer
 from server.apps.support.models import ServiceSupport
 
 
@@ -23,7 +23,8 @@ class ServiceSupportFilter(
 class ServiceSupportViewSet(BaseReadOnlyViewSet):
     """Инфраструктура."""
 
-    serializer_class = ServiceSupportSerializer
+    serializer_class = DetailServiceSupportSerializer
+    list_serializer_class = ListServiceSupportSerializer
     queryset = ServiceSupport.objects.all()
     search_fields = (
         'name',

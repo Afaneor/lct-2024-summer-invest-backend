@@ -6,15 +6,21 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from server.apps.investment_object.api.serializers import (
-    InvestmentObjectSerializer,
+    DetailInvestmentObjectSerializer, UploadDataFromFileSerializer, ListInvestmentObjectSerializer,
 )
 from server.apps.investment_object.models import (
     EconomicActivity,
     InvestmentObject,
     RealEstate,
 )
+from server.apps.investment_object.tasks import delayed_parsing_data
+from server.apps.services.enums import UploadDataFromFileType
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
+from server.apps.services.parsing.xlsx.real_estate import parsing_real_estate
+from server.apps.services.parsing.xlsx.specialized_site import \
+    parsing_specialized_site
 from server.apps.services.views import RetrieveListCreateViewSet
+from django.utils.translation import gettext_lazy as _
 
 
 class InvestmentObjectFilter(
@@ -53,7 +59,6 @@ class InvestmentObjectFilter(
         method='filter_infrastructure',
         label='Фильтрация по инфраструктуре',
     )
-
 
     class Meta:
         model = InvestmentObject
@@ -150,7 +155,8 @@ class InvestmentObjectFilter(
 class InvestmentObjectViewSet(RetrieveListCreateViewSet):
     """Инвестиционные площадки."""
 
-    serializer_class = InvestmentObjectSerializer
+    serializer_class = DetailInvestmentObjectSerializer
+    list_serializer_class = ListInvestmentObjectSerializer
     queryset = InvestmentObject.objects.all()
     search_fields = (
         'external_id',
@@ -161,6 +167,7 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
     permission_type_map = {
         **RetrieveListCreateViewSet.permission_type_map,
         'data_for_filters': 'view',
+        'add_data_from_xlsx_file': 'action_is_superuser',
     }
 
     @action(
@@ -200,4 +207,28 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
         return Response(
             data=filters,
             status=status.HTTP_200_OK,
+        )
+
+    @action(  # type: ignore
+        methods=['POST'],
+        url_path='add-data-from-xlsx-file',
+        detail=False,
+        serializer_class=UploadDataFromFileSerializer,
+    )
+    def add_data_from_xlsx_file(self, request: Request):
+        """Загрузка данных из xlsx файла."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        with request.FILES['file'].open(mode='r') as file:
+            delayed_parsing_data.apply_async(
+                kwargs={
+                    'file': file,
+                    'object_type': serializer.validated_data['object_type'],
+                },
+            ),
+
+        return Response(
+            data={'detail': _('Данные загружены. Происходит их обработка')},
+            status=status.HTTP_201_CREATED
         )

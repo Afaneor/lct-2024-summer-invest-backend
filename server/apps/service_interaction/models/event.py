@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from server.apps.services.base_model import AbstractBaseModel
+from server.apps.services.content_type_id import get_content_type_id
 from server.apps.services.enums import EventType
 
 
@@ -39,3 +40,14 @@ class Event(AbstractBaseModel):
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Событие')
         verbose_name_plural = _('События')
+        constraints = [
+            models.CheckConstraint(
+                name='event_type_valid',
+                check=models.Q(event_type__in=EventType.values),
+            ),
+        ]
+
+    @property
+    def content_type_id(self) -> int:
+        """Content type id утечки."""
+        return get_content_type_id(self)

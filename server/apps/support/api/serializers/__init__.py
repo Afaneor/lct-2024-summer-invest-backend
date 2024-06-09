@@ -7,7 +7,8 @@ from server.apps.support.api.serializers.problem_category import (
     ProblemCategorySerializer,
 )
 from server.apps.support.api.serializers.service_support import (
-    ServiceSupportSerializer,
+    ListServiceSupportSerializer,
+    DetailServiceSupportSerializer,
 )
 
 __all__ = [
@@ -15,4 +16,6 @@ __all__ = [
     'BaseProblemThemeSerializer',
     'BaseProblemSubcategorySerializer',
     'ProblemCategorySerializer',
+    'ListServiceSupportSerializer',
+    'DetailServiceSupportSerializer',
 ]

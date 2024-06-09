@@ -115,7 +115,6 @@ class MessageViewSet(RetrieveListCreateViewSet):
                     'object_type': 'technopark',
                 },
             },
-            parent=serializer.instance,
         )
 
     def get_queryset(self):

@@ -52,7 +52,10 @@ class ServiceSupportViewSet(BaseReadOnlyViewSet):
 
     serializer_class = DetailServiceSupportSerializer
     list_serializer_class = ListServiceSupportSerializer
-    queryset = ServiceSupport.objects.all()
+    queryset = ServiceSupport.objects.prefetch_related(
+        'economic_activities',
+        'restrictions',
+    )
     search_fields = (
         'name',
     )

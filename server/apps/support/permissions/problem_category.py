@@ -1,8 +1,8 @@
 import rules
-from rules.predicates import always_true
+from rules.predicates import always_true, is_authenticated
 
-rules.set_perm('service_support.view_problemcategory', always_true)
-rules.set_perm('service_support.add_problemcategory', always_true)
-rules.set_perm('service_support.change_problemcategory', always_true)
-rules.set_perm('service_support.delete_problemcategory', always_true)
-rules.set_perm('service_support.list_problemcategory', always_true)
+rules.set_perm('support.view_problemcategory', is_authenticated)
+rules.set_perm('support.add_problemcategory', is_authenticated)
+rules.set_perm('support.change_problemcategory', is_authenticated)
+rules.set_perm('support.delete_problemcategory', is_authenticated)
+rules.set_perm('support.list_problemcategory', is_authenticated)

@@ -10,10 +10,9 @@ class TenderLotSerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'investment_object',
-            'transaction_form',
+            'external_id',
             'description',
             'extra_data',
-            'url',
             'permission_rules',
             'created_at',
             'updated_at',

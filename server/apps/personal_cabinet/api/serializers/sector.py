@@ -12,7 +12,6 @@ class SectorSerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'name',
-            'tags',
             'permission_rules',
             'created_at',
             'updated_at',

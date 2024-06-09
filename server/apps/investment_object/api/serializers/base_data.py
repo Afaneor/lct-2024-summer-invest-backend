@@ -115,7 +115,6 @@ class BaseRealEstateSerializer(serializers.ModelSerializer):
 
     economic_activities = BaseEconomicActivitySerializer(many=True)
     infrastructures = BaseInfrastructureSerializer(many=True)
-    # transaction_form = BaseTransactionFormSerializer()
 
     class Meta:
         model = RealEstate
@@ -135,7 +134,6 @@ class BaseRealEstateSerializer(serializers.ModelSerializer):
             'site_format',
             'site_type',
             'ownership_type',
-            # 'transaction_form',
             'object_cost',
             'rental_period',
             'procedure_determining_cost',
@@ -170,18 +168,14 @@ class BaseRealEstateSerializer(serializers.ModelSerializer):
 class BaseTenderLotSerializer(serializers.ModelSerializer):
     """Сериалайзер лота тендера."""
 
-    # transaction_form = BaseTransactionFormSerializer()
-
     class Meta:
         model = TenderLot
         fields = (
             'id',
             'investment_object',
-            # 'transaction_form',
-            'tender_lot_id',
+            'external_id',
             'description',
             'extra_data',
-            'url',
         )
 
 

@@ -31,13 +31,11 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
         model = InvestmentObject
         fields = (
             'id',
-            'external_id',
             'main_photo_url',
             'photo_urls',
             'name',
             'object_type',
             'url',
-            'extra_data',
             'longitude',
             'latitude',
             'tender_lot',
@@ -55,8 +53,9 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
         return BaseFeedbackSerializer(
             Feedback.objects.filter(
                 object_id=investment_object.id,
-                conent_type_id=investment_object.content_type_id,
-            )
+                content_type_id=investment_object.content_type_id,
+            ),
+            many=True,
         ).data
 
 
@@ -73,13 +72,11 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
         model = InvestmentObject
         fields = (
             'id',
-            'external_id',
             'main_photo_url',
             'photo_urls',
             'name',
             'object_type',
             'url',
-            'extra_data',
             'longitude',
             'latitude',
             'tender_lot',
@@ -98,8 +95,9 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
         return BaseFeedbackSerializer(
             Feedback.objects.filter(
                 object_id=investment_object.id,
-                conent_type_id=investment_object.content_type_id,
-            )
+                content_type_id=investment_object.content_type_id,
+            ),
+            many=True,
         ).data
 
 

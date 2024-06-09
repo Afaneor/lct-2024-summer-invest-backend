@@ -59,6 +59,9 @@ class ProblemCategoryViewSet(BaseReadOnlyViewSet):
     queryset = ProblemCategory.objects.all()
     search_fields = (
         'name',
+        'problem_subcategories__name',
+        'problem_subcategories__problem_themes__name',
+        'problem_subcategories__problem_themes__problems__name',
     )
     ordering_fields = '__all__'
     filterset_class = ProblemCategoryFilter

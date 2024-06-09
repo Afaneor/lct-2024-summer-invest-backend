@@ -29,12 +29,12 @@ class Command(BaseCommand):
         # parsing_real_estate()
         # logger.info('Закончился парсинг зданий и сооружений')
 
-        logger.info('Начался парсинг тендеров с сайта torgi.gov.ru.')
-        parsing_tender_lot()
-        logger.info('Закончился парсинг тендеров с сайта torgi.gov.ru.')
+        # logger.info('Начался парсинг тендеров с сайта torgi.gov.ru.')
+        # parsing_tender_lot()
+        # logger.info('Закончился парсинг тендеров с сайта torgi.gov.ru.')
 
-        # logger.info('Начался парсинг готового бизнеса с сайта alterainvest.ru')
-        # ready_business()
-        # logger.info(
-        #     'Закончился парсинг готового бизнеса с сайта alterainvest.ru',
-        # )
+        logger.info('Начался парсинг готового бизнеса с сайта alterainvest.ru')
+        ready_business()
+        logger.info(
+            'Закончился парсинг готового бизнеса с сайта alterainvest.ru',
+        )

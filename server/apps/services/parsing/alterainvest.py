@@ -86,7 +86,13 @@ def ready_business():
                 class_='image-sqr',
             )[0].attrs.get('src')
 
-            # Тип объекта.
+            if cost := business_data.find(
+                'span',
+                class_='heading3 color--main mb0 mr12',
+            ):
+                cost = cost.replace(' ', '')
+            else:
+                cost = None
 
             investment_object, io_created = InvestmentObject.objects.get_or_create(
                 name=name,
@@ -95,13 +101,14 @@ def ready_business():
                     'main_photo_url':
                         f'https://alterainvest.ru{main_photo_url}',
                     'object_type': ObjectType.READY_BUSINESS,
+                    'cost': cost,
                 },
             )
 
             ReadyBusiness.objects.get_or_create(
                 investment_object=investment_object,
-                external_id=name.split('#')[1],
                 defaults={
+                    'external_id': name.split('#')[1],
                     'name': re.sub(
                         '[\n\t\r ]',
                         '',

@@ -60,14 +60,11 @@ def parsing_tender_lot():
             extra_data = {
                 'Предмет торгов (наименование лота)': tender_lot_json.get('lotName', ''),
                 'Описание лота': tender_lot_json.get('lotDescription', ''),
-                'Вид торгов': tender_lot_json.get('biddType', {}).get('name'),
                 'Категория объекта': tender_lot_json.get('category', {}).get('name'),
-                'Начальная цена': tender_lot_json.get('deposit', ''),
                 'Шаг аукциона': tender_lot_json.get('priceStep', ''),
                 'Размер задатка': tender_lot_json.get('priceMin', ''),
                 'Форма собственности':
                     tender_lot_json.get('ownershipForm', {}).get('name'),
-                'Местонахождение имущества': tender_lot_json.get('estateAddress', ''),
                 **{
                     data_json.get('name'): data_json.get('characteristicValue')
                     for data_json in tender_lot_json.get('characteristics')
@@ -75,7 +72,7 @@ def parsing_tender_lot():
                 },
             }
 
-            # Получаем фотографии
+            # Получаем фотографии.
             main_photo_url = (
                 tender_lot_json.get('lotImages')[0]
                 if tender_lot_json.get('lotImages')
@@ -119,6 +116,21 @@ def parsing_tender_lot():
                     )
                 )
 
+            # Площадь объекта.
+            land_area = None
+            building_area = None
+            for characteristic in tender_lot_json.get('characteristics'):
+                if characteristic.get('name', '') == 'Площадь земельного участка':
+                    land_area = characteristic.get('characteristicValue')
+                    break
+                elif characteristic.get('name', '') == 'Общая площадь':
+                    building_area = characteristic.get('characteristicValue')
+                    break
+                elif characteristic.get('name', '') == 'площад':
+                    land_area = characteristic.get('characteristicValue')
+                    building_area = characteristic.get('characteristicValue')
+                    break
+
             investment_object, io_created = (
                 InvestmentObject.objects.update_or_create(
                     name=name,
@@ -129,32 +141,26 @@ def parsing_tender_lot():
                         ),
                         'photo_urls': photo_urls,
                         'object_type': object_type,
-
                         'transaction_form': transaction_form,
-                        'cost': cost,
+                        'cost': tender_lot_json.get('deposit', None),
                         'land_area': land_area,
                         'building_area': building_area,
-                        'location': get_correct_data(row[8]),
-                        'url': get_correct_data(row[32]),
-                        'longitude':
-                            row[86].split(',')[0] if row[86] else None,
-                        'latitude':
-                            row[86].split(',')[1] if row[86] else None,
+                        'location': tender_lot_json.get('estateAddress', ''),
+                        'url': tender_lot_url,
+                        'longitude': None,
+                        'latitude': None,
                     },
                 )
             )
 
             # Формирование лота.
-            TenderLot.objects.get_or_create(
+            TenderLot.objects.update_or_create(
                 investment_object=investment_object,
-                external_id=tender_lot_id,
-                tender_lot_id=tender_lot_id,
-                url=(
-                    'https://torgi.gov.ru/new/public/lots/lot/'
-                    f'{tender_lot_id}/(lotInfo:info)?fromRec=false'
-                ),
-                description=tender_lot_json.get('lotDescription'),
-                extra_data=extra_data
+                defaults={
+                    'external_id': tender_lot_id,
+                    'description': tender_lot_json.get('lotDescription'),
+                    'extra_data': extra_data
+                },
             )
 
             logger.info(f"Обработано {entity['id']}")

@@ -1,15 +1,17 @@
 from rest_framework import serializers
 
 from server.apps.service_interaction.api.serializers.base_data import (
-    BaseCommentSerializer,
     BasePostSerializer,
 )
-from server.apps.service_interaction.models import Comment, Topic
+from server.apps.service_interaction.models import Topic
 from server.apps.services.serializers import ModelSerializerWithPermission
 
 
 class ListTopicSerializer(ModelSerializerWithPermission):
     """Сериалайзер темы."""
+
+    post_count = serializers.SerializerMethodField()
+    last_post = serializers.SerializerMethodField()
 
     class Meta:
         model = Topic
@@ -18,10 +20,21 @@ class ListTopicSerializer(ModelSerializerWithPermission):
             'name',
             'description',
             'permission_rules',
+            'post_count',
+            'last_post',
             'created_at',
             'updated_at',
         )
 
+    def get_post_count(self, topic: Topic) -> int:
+        """Количество постов в теме."""
+        return topic.posts.count()
+
+    def get_last_post(self, topic: Topic) -> int:
+        """Информация о последнем сообщении."""
+        return BasePostSerializer(
+            topic.posts.first()
+        ).data
 
 class DetailTopicSerializer(ModelSerializerWithPermission):
     """Сериалайзер темы."""

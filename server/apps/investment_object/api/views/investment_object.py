@@ -29,6 +29,9 @@ class InvestmentObjectFilter(
 ):
     """Фильтр инвестиционных площадок."""
 
+    id = django_filters.AllValuesMultipleFilter(
+        label=_('Фильтрация id объекта'),
+    )
     economic_activity_name = django_filters.AllValuesMultipleFilter(
         field_name='economic_activities__name',
         label=_('Фильтрация по экономической деятельности'),

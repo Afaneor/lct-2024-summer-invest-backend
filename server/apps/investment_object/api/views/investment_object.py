@@ -18,7 +18,7 @@ from server.apps.investment_object.models import (
 )
 from server.apps.investment_object.tasks import delayed_parsing_data
 from server.apps.personal_cabinet.models import SelectedEntity
-from server.apps.services.enums import TransactionFormType
+from server.apps.services.enums import TransactionFormType, ObjectType
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
 from server.apps.services.views import RetrieveListCreateViewSet
 
@@ -128,6 +128,7 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
         Получение данных для фильтров.
         """
         filters = {
+            'object_type': ObjectType.labels,
             'economic_activity_name': EconomicActivity.objects.order_by(
                 'name',
             ).distinct(

@@ -7,13 +7,9 @@ from server.apps.investment_object.api.serializers.base_data import (
     BaseReadyBusinessSerializer,
     BaseRealEstateSerializer,
     BaseSpecializedSiteSerializer,
-    BaseTenderLotSerializer,
+    BaseTenderLotSerializer, BaseEconomicActivitySerializer,
 )
 from server.apps.investment_object.models import InvestmentObject
-from server.apps.service_interaction.api.serializers.base_data import (
-    BaseCommentSerializer,
-)
-from server.apps.service_interaction.models import Comment
 from server.apps.services.enums import UploadDataFromFileType
 from server.apps.services.serializers import ModelSerializerWithPermission
 
@@ -25,16 +21,23 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
+    economic_activities = BaseEconomicActivitySerializer(many=True)
 
     class Meta:
         model = InvestmentObject
         fields = (
             'id',
+            'name',
             'main_photo_url',
             'photo_urls',
-            'name',
             'object_type',
+            'economic_activities',
+            'transaction_form',
+            'cost',
+            'land_area',
+            'building_area',
             'url',
+            'location',
             'longitude',
             'latitude',
             'tender_lot',
@@ -54,16 +57,23 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
+    economic_activities = BaseEconomicActivitySerializer(many=True)
 
     class Meta:
         model = InvestmentObject
         fields = (
             'id',
+            'name',
             'main_photo_url',
             'photo_urls',
-            'name',
             'object_type',
+            'economic_activities',
+            'transaction_form',
+            'cost',
+            'land_area',
+            'building_area',
             'url',
+            'location',
             'longitude',
             'latitude',
             'tender_lot',

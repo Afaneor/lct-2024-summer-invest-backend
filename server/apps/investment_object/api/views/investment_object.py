@@ -128,7 +128,7 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
         Получение данных для фильтров.
         """
         filters = {
-            'object_type': ObjectType.labels,
+            'object_type': dict(ObjectType.choices),
             'economic_activity_name': EconomicActivity.objects.order_by(
                 'name',
             ).distinct(

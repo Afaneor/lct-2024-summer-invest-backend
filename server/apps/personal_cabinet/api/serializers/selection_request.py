@@ -1,8 +1,5 @@
 from rest_framework import serializers
 
-from server.apps.investment_object.api.serializers import (
-    BaseInvestmentObjectSerializer,
-)
 from server.apps.personal_cabinet.api.serializers import BaseMessageSerializer
 from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.services.serializers import ModelSerializerWithPermission
@@ -28,7 +25,6 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
     """
 
     user = BaseUserSerializer()
-    investment_objects = BaseInvestmentObjectSerializer(many=True)
     messages = serializers.SerializerMethodField()
 
     class Meta:

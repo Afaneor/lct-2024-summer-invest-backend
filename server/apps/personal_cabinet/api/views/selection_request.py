@@ -116,7 +116,7 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
             generate_user_id = self.request.headers.get('GENERATED-USER-ID')
             actual_selection_request, created = SelectionRequest.objects.get_or_create(
                 is_actual=True,
-                anonymous_user_id=generate_user_id,
+                anonymous_user_id=generate_user_id if generate_user_id else '',
             )
 
         serializer = self.get_serializer(actual_selection_request)

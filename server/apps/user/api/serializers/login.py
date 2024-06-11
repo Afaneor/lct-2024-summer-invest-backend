@@ -7,7 +7,7 @@ from server.apps.user.models import User
 from server.apps.user.services.check_user import check_django_user
 
 
-class LoginSerializer(serializers.Serializer):
+class LoginSerializer(serializers.ModelSerializer):
     """Сериалайзер для авторизации пользователя."""
 
     email = serializers.EmailField(required=True)

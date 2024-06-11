@@ -26,8 +26,8 @@ def create_super_user(apps, schema_editor):  # noqa: C901
     user.email = BaseUserManager.normalize_email('is@kiout.ru')
     user.username = BaseUserManager.normalize_email('is@kiout.ru')
     user.password = make_password('QAZwsx1!')
-    user.first_name = 'Соколов'
-    user.last_name = 'Игорь'
+    user.first_name = 'Игорь'
+    user.last_name = 'Соколов'
     user.middle_name = 'Викорович'
     user.is_staff = False
     user.is_active = True

@@ -10,6 +10,8 @@ User = get_user_model()
 class BaseUserSerializer(serializers.ModelSerializer):
     """Сериалайзер пользователя. Используется в других сериалайзерах."""
 
+    avatar = serializers.ImageField(use_url=True)
+
     class Meta:
         model = User
         fields = (
@@ -20,11 +22,14 @@ class BaseUserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'middle_name',
+            'full_name',
         )
 
 
 class UserSerializer(ModelSerializerWithPermission):
     """Детальная информация о пользователе."""
+
+    avatar = serializers.ImageField(use_url=True)
 
     class Meta:
         model = User

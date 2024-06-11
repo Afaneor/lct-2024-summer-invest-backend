@@ -33,8 +33,10 @@ class ListTopicSerializer(ModelSerializerWithPermission):
     def get_last_post(self, topic: Topic) -> int:
         """Информация о последнем сообщении."""
         return BasePostSerializer(
-            topic.posts.first()
+            instance=topic.posts.first(),
+            context=self.context,
         ).data
+
 
 class DetailTopicSerializer(ModelSerializerWithPermission):
     """Сериалайзер темы."""

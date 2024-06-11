@@ -46,4 +46,5 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
         return BaseMessageSerializer(
             selection_request.messages.all().order_by('id'),
             many=True,
+            context=self.context,
         ).data

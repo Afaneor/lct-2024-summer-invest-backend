@@ -4,7 +4,7 @@ from server.apps.service_interaction.models import Comment, Post, Topic
 from server.apps.user.api.serializers import BaseUserSerializer
 
 
-class BasePostSerializer(serializers.Serializer):
+class BasePostSerializer(serializers.ModelSerializer):
     """Сериалайзер поста к теме."""
 
     user = BaseUserSerializer()
@@ -16,10 +16,11 @@ class BasePostSerializer(serializers.Serializer):
             'user',
             'parent',
             'text',
+            'created_at',
         )
 
 
-class BaseTopicSerializer(serializers.Serializer):
+class BaseTopicSerializer(serializers.ModelSerializer):
     """Сериалайзер темы."""
 
     class Meta:
@@ -31,7 +32,7 @@ class BaseTopicSerializer(serializers.Serializer):
         )
 
 
-class BaseCommentSerializer(serializers.Serializer):
+class BaseCommentSerializer(serializers.ModelSerializer):
     """Сериалайзер отзывов."""
 
     user = BaseUserSerializer()

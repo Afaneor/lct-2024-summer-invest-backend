@@ -4,10 +4,12 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from server.apps.investment_object.api.serializers.base_data import (
+    BaseEconomicActivitySerializer,
     BaseReadyBusinessSerializer,
     BaseRealEstateSerializer,
     BaseSpecializedSiteSerializer,
-    BaseTenderLotSerializer, BaseEconomicActivitySerializer,
+    BaseTenderLotSerializer,
+    BaseTransactionFormSerializer,
 )
 from server.apps.investment_object.models import InvestmentObject
 from server.apps.services.enums import UploadDataFromFileType
@@ -57,6 +59,7 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
+    transaction_form = BaseTransactionFormSerializer()
     economic_activities = BaseEconomicActivitySerializer(many=True)
 
     class Meta:
@@ -87,7 +90,7 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
         )
 
 
-class UploadDataFromFileSerializer(serializers.Serializer):
+class UploadDataFromFileSerializer(serializers.ModelSerializer):
     """Загрузка xlsx-файла с информацией об объектах."""
 
     file = serializers.FileField(required=True)

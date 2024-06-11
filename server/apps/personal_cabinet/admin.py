@@ -4,7 +4,6 @@ from server.apps.personal_cabinet.models import (
     Business,
     Message,
     Sector,
-    SelectedEntity,
     SelectionRequest,
     Subscription,
     SubSector,
@@ -98,33 +97,6 @@ class SectorAdmin(admin.ModelAdmin[Sector]):
     ordering = (
         'id',
     )
-
-
-@admin.register(SelectedEntity)
-class SelectedEntityAdmin(admin.ModelAdmin[SelectedEntity]):
-    """Подобранный инвестиционный объект."""
-
-    list_display = (
-        'id',
-        'investment_object',
-        'selection_request',
-        'message',
-        'is_relevant',
-    )
-    list_filter = (
-        'is_relevant',
-    )
-    search_fields = (
-        'investment_object__name',
-        'selection_request__user__username',
-        'selection_request__user__email',
-        'selection_request__user__first_name',
-        'selection_request__user__last_name',
-    )
-    ordering = (
-        'id',
-    )
-
 
 @admin.register(SelectionRequest)
 class SelectionRequestObjectAdmin(admin.ModelAdmin[SelectionRequest]):

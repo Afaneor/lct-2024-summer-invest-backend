@@ -19,7 +19,6 @@ from server.apps.investment_object.models import (
     TransactionForm,
 )
 from server.apps.investment_object.tasks import delayed_parsing_data
-from server.apps.personal_cabinet.models import SelectedEntity
 from server.apps.services.enums import ObjectType, TransactionFormType
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
@@ -235,22 +234,22 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
     def statistics(self, request: Request):
         """Статистика по всему порталу."""
         return {
-            # Какими объектами как часто интересуются.
-            'investment_object_type': SelectedEntity.objects.values(
-                investment_object_type=models.F(
-                    'investment_object__object_type',
-                ),
-            ).annotate(count=models.Count('id')).order_by('count')[10],
-            # Какими мерами поддержки как часто интересуются.
-            'service_support_type': SelectedEntity.objects.values(
-                service_support_type=models.F(
-                    'service_support__name',
-                ),
-            ).annotate(count=models.Count('id')).order_by('count')[10],
-            # Какие проблемы чаще всего возникают.
-            'problem_type': SelectedEntity.objects.values(
-                problem_type=models.F(
-                    'problem___theme',
-                ),
-            ).annotate(count=models.Count('id')).order_by('count')[10],
+            # # Какими объектами как часто интересуются.
+            # 'investment_object_type': SelectedEntity.objects.values(
+            #     investment_object_type=models.F(
+            #         'investment_object__object_type',
+            #     ),
+            # ).annotate(count=models.Count('id')).order_by('count')[10],
+            # # Какими мерами поддержки как часто интересуются.
+            # 'service_support_type': SelectedEntity.objects.values(
+            #     service_support_type=models.F(
+            #         'service_support__name',
+            #     ),
+            # ).annotate(count=models.Count('id')).order_by('count')[10],
+            # # Какие проблемы чаще всего возникают.
+            # 'problem_type': SelectedEntity.objects.values(
+            #     problem_type=models.F(
+            #         'problem___theme',
+            #     ),
+            # ).annotate(count=models.Count('id')).order_by('count')[10],
         }

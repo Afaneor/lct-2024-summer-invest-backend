@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from taggit.serializers import TagListSerializerField
 
 from server.apps.personal_cabinet.models import (
     Business,
@@ -98,7 +97,8 @@ class BaseMessageSerializer(serializers.ModelSerializer):
             'owner_type',
             'selection_request',
             'text',
-            'filter',
+            'user_filter',
+            'bot_filter',
             'parent',
             'created_at',
         )

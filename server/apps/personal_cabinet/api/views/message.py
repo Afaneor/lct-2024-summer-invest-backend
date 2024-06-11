@@ -104,7 +104,7 @@ class MessageViewSet(RetrieveListCreateViewSet):
             owner_type=MessageOwnerType.BOT,
             selection_request=serializer.instance.selection_request,
             text='Тестовое сообщение для Игоря',
-            filter={
+            bot_filter={
                 'investment_object': {
                     'object_type': 'technopark',
                 },

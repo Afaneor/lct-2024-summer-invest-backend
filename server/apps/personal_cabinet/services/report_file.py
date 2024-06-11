@@ -1,9 +1,7 @@
 import io
-import json
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-import requests
 from django.conf import settings
 from docxtpl import DocxTemplate
 
@@ -40,13 +38,12 @@ class RenderDocx(AbstractRender):
         template_full_path: str,
         file_name: str,
     ) -> io.BytesIO:
-        """Рендеринг документа."""
+        """Рендеринг документа и перевод его в pdf."""
         document = DocxTemplate(template_full_path)
         document.render(context)
         file_stream = io.BytesIO()
         document.save(file_stream)
         file_stream.seek(0)
-        # document.save(f'{settings.MEDIA_ROOT}/{file_name}.docx')
         content = DocumentConverter.convert_docx_to_pdf(file_stream)
 
         return io.BytesIO(content)

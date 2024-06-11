@@ -1,5 +1,3 @@
-from rest_framework import serializers
-
 from server.apps.personal_cabinet.models import SubSector
 from server.apps.services.serializers import ModelSerializerWithPermission
 

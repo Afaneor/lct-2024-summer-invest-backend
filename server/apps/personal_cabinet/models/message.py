@@ -24,8 +24,13 @@ class Message(AbstractBaseModel):
     text = models.TextField(
         verbose_name=_('Текст'),
     )
-    filter = models.JSONField(
-        verbose_name=_('Фильтры для инвестиционных объектов'),
+    user_filter = models.JSONField(
+        verbose_name=_('Фильтры для инвестиционных объектов от пользователя'),
+        blank=True,
+        null=True,
+    )
+    bot_filter = models.JSONField(
+        verbose_name=_('Фильтры для инвестиционных объектов от бота'),
         blank=True,
         null=True,
     )

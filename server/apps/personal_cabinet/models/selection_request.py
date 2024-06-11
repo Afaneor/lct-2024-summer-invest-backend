@@ -33,13 +33,6 @@ class SelectionRequest(AbstractBaseModel):
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Запрос на подбор')
         verbose_name_plural = _('Запросы на подборы')
-        constraints = [
-            models.UniqueConstraint(
-                name='unique_is_actual_for_selection_request',
-                condition=models.Q(('is_actual', True)),
-                fields=('is_actual',)
-            ),
-        ]
 
     def __str__(self):
         return (

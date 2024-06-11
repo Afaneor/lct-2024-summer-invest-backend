@@ -1,5 +1,3 @@
-from taggit.serializers import TagListSerializerField
-
 from server.apps.personal_cabinet.models import Sector
 from server.apps.services.serializers import ModelSerializerWithPermission
 

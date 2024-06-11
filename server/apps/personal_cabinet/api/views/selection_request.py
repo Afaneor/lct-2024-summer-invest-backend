@@ -57,7 +57,7 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
     queryset = SelectionRequest.objects.select_related(
         'user',
     ).prefetch_related(
-        'selected_entities',
+        'messages',
     )
     search_fields = (
         'user__email',

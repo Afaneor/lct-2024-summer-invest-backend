@@ -1,5 +1,3 @@
-from rest_framework import serializers
-
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.services.serializers import ModelSerializerWithPermission
 
@@ -16,7 +14,8 @@ class MessageSerializer(ModelSerializerWithPermission):
             'owner_type',
             'selection_request',
             'text',
-            'filter',
+            'user_filter',
+            'bot_filter',
             'parent',
             'permission_rules',
             'created_at',
@@ -36,6 +35,7 @@ class CreateMessageSerializer(ModelSerializerWithPermission):
             'owner_type',
             'selection_request',
             'text',
-            'filter',
+            'user_filter',
+            'bot_filter',
             'parent',
         )

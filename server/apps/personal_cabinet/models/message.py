@@ -41,6 +41,7 @@ class Message(AbstractBaseModel):
         related_name='children',
         db_index=True,
         null=True,
+        blank=True,
     )
 
     class Meta(AbstractBaseModel.Meta):

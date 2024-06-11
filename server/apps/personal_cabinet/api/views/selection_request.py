@@ -13,7 +13,7 @@ from server.apps.personal_cabinet.api.serializers import (
     SelectionRequestSerializer,
 )
 from server.apps.personal_cabinet.models import SelectionRequest
-from server.apps.personal_cabinet.services.report_file import ReportFile
+from server.apps.personal_cabinet.services.report_file import SelectionRequestFile
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
@@ -177,9 +177,8 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         except SelectionRequest.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-
     @action(
-        methods=['GET'],
+        methods=['POST'],
         url_path='download',
         detail=True,
     )
@@ -193,15 +192,15 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         """
         instance = self.get_object()
         if request.user.is_authenticated:
-            report_file = ReportFile(
+            selection_request_file = SelectionRequestFile(
                 document_format='docx',
                 selection_request=instance,
             )
 
             return FileResponse(
-                report_file.generate(),
+                selection_request_file.generate(),
                 content_type='application/pdf',
-                filename=report_file.get_file_name(),
+                filename=selection_request_file.get_file_name(),
                 status=status.HTTP_200_OK,
             )
         return Response(status=status.HTTP_403_FORBIDDEN)

@@ -45,3 +45,9 @@ SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE = config(
     default='5',
     cast=str
 )
+
+DOCUMENT_CONVERTER_URL = config(
+    'DOCUMENT_CONVERTER_URL',
+    default='http://gotenberg:3000',
+    cast=str
+)

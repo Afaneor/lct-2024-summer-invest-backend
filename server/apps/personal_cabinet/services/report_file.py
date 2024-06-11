@@ -1,12 +1,15 @@
 import io
 import json
 from abc import ABC, abstractmethod
+from typing import Any, Dict
 
 import requests
 from django.conf import settings
 from docxtpl import DocxTemplate
 
 from server.apps.personal_cabinet.models import SelectionRequest
+from server.apps.personal_cabinet.services.pdf_converter import \
+    DocumentConverter
 
 
 class AbstractRender(ABC):  # noqa: B024
@@ -39,44 +42,17 @@ class RenderDocx(AbstractRender):
         """Рендеринг документа."""
         document = DocxTemplate(template_full_path)
         document.render(context)
-        document.save(f'{settings.MEDIA_ROOT}/{file_name}.docx')
+        file_stream = io.BytesIO()
+        document.save(file_stream)
+        file_stream.seek(0)
+        # document.save(f'{settings.MEDIA_ROOT}/{file_name}.docx')
+        content = DocumentConverter.convert_docx_to_pdf(file_stream)
 
-        # https://pspdfkit.com/api/pdf-generator-api
-        instructions = {'parts': [{'file': 'document'}]}
-
-        response = requests.request(
-            'POST',
-            'https://api.pspdfkit.com/build',
-            headers={
-                'Authorization': f'Bearer {settings.PSPDFKIT_API_SECRET_KEY}',
-            },
-            files={
-                'document':
-                    open(f'{settings.MEDIA_ROOT}/{file_name}.docx', 'rb'),
-            },
-            data={'instructions': json.dumps(instructions)},
-            stream=True,
-        )
-
-        if response.ok:
-            with open(f'{settings.MEDIA_ROOT}/{file_name}.pdf', 'wb') as report:
-                for chunk in response.iter_content(chunk_size=8096):  # noqa: WPS432, E501
-                    report.write(chunk)
-        else:
-            # Если не доступно, то отправляем docx.
-            with open(f'{settings.MEDIA_ROOT}/{file_name}.docx', 'rb') as report:  # noqa: E501
-                buffer = io.BytesIO(report.read())
-                buffer.seek(0)
-                return buffer
-        # Если доступно, то отправляем pdf.
-        with open(f'{settings.MEDIA_ROOT}/{file_name}.pdf', 'rb') as report:
-            buffer = io.BytesIO(report.read())
-            buffer.seek(0)
-            return buffer
+        return io.BytesIO(content)
 
 
-class ReportFile(object):  # noqa: WPS214
-    """Генерация отчета."""
+class SelectionRequestFile(object):  # noqa: WPS214
+    """Генерация отчета для запроса на подбор."""
 
     # Рендеринг документов исходя из форматов.
     _render_handlers = {
@@ -95,20 +71,27 @@ class ReportFile(object):  # noqa: WPS214
     def get_template_full_path(self) -> str:
         """Получение шаблона для создания документа."""
         return (
-            f'{settings.BASE_DIR}/server/templates/report/' +
-            f'report.{self.document_format}'
+            f'{settings.BASE_DIR}/server/templates/selection_request/' +
+            f'invest.{self.document_format}'
         )
 
     def get_file_name(self) -> str:
         """Получение корректного названия документа."""
-        return 'Отчет_{id}'.format(id=self.selection_request.id)
+        return 'Отчет_на_подбор_инвестиционных объектов_{id}'.format(
+            id=self.selection_request.id,
+        )
 
     def generate(self) -> io.BytesIO:
         """Генерация документа."""
-        context = formation_context(selection_request=instance)
+        context = formation_context(selection_request=self.selection_request)
 
         return self._render_handlers.get(self.document_format).render(
-            context=self.selection_request.context.get('context_for_file'),
+            context=context,
             template_full_path=self.get_template_full_path(),
             file_name=self.get_file_name(),
         )
+
+
+def formation_context(selection_request: SelectionRequest) -> Dict[str, Any]:
+    """Формирование контекста для файла."""
+    return {}

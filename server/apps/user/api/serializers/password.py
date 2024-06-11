@@ -9,7 +9,7 @@ from server.apps.user.models import User
 from server.apps.user.services.reset_password import check_new_password
 
 
-class ResetPasswordRequestSerializer(serializers.ModelSerializer):
+class ResetPasswordRequestSerializer(serializers.Serializer):
     """Восстановление забытого пользователем пароля. Этап №1."""
 
     email = serializers.EmailField(required=True)
@@ -32,7 +32,7 @@ class ResetPasswordRequestSerializer(serializers.ModelSerializer):
             )
 
 
-class ResetPasswordConfirmSerializer(serializers.ModelSerializer):
+class ResetPasswordConfirmSerializer(serializers.Serializer):
     """Успешное восстановление пароля пользователя. Этап №2."""
 
     password1 = serializers.CharField(required=True)
@@ -47,7 +47,7 @@ class ResetPasswordConfirmSerializer(serializers.ModelSerializer):
         return super().is_valid(raise_exception=raise_exception)
 
 
-class ChangePasswordSerializer(serializers.ModelSerializer):
+class ChangePasswordSerializer(serializers.Serializer):
     """Изменение пароля."""
 
     password = serializers.CharField(required=True)

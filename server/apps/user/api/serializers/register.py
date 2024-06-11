@@ -8,7 +8,7 @@ from server.apps.services.validators import inn_validator
 from server.apps.user.models import User
 
 
-class RegisterSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.Serializer):
     """Регистрация пользователя."""
 
     first_name = serializers.CharField(required=True)

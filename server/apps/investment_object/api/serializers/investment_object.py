@@ -91,7 +91,7 @@ class DetailInvestmentObjectSerializer(ModelSerializerWithPermission):
         )
 
 
-class UploadDataFromFileSerializer(serializers.ModelSerializer):
+class UploadDataFromFileSerializer(serializers.Serializer):
     """Загрузка xlsx-файла с информацией об объектах."""
 
     file = serializers.FileField(required=True)

@@ -192,7 +192,7 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
     #     """
     #     instance = self.get_object()
     #     if request.user.is_authenticated:
-    #         add_offers_and_wishes_in_context(report=instance)
+    #         add_offeffddrs_and_wishes_in_context(report=instance)
     #
     #         report_file = ReportFile(
     #             document_format='docx',

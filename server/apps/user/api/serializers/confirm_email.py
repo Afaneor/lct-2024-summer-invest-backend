@@ -6,7 +6,7 @@ from server.apps.user.models import User
 from server.apps.user.services.check_user import check_user_active
 
 
-class ConfirmEmailRequestSerializer(serializers.ModelSerializer):
+class ConfirmEmailRequestSerializer(serializers.Serializer):
     """Сериализатор отправки сообщения подтверждения регистрации."""
 
     email = serializers.EmailField(required=True)

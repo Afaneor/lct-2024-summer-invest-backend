@@ -30,7 +30,7 @@ class ServiceSupportFilter(
     msp_roster = django_filters.AllValuesMultipleFilter(
         label=_('Фильтрация по требованию вхождения в реестр МСП'),
     )
-    economic_activities_name = django_filters.AllValuesMultipleFilter(
+    economic_activity_name = django_filters.AllValuesMultipleFilter(
         field_name='economic_activities__name',
         label=_('Фильтрация по экономической деятельности'),
     )
@@ -43,7 +43,7 @@ class ServiceSupportFilter(
             'support_type',
             'support_level',
             'msp_roster',
-            'economic_activities_name',
+            'economic_activity_name',
         )
 
 

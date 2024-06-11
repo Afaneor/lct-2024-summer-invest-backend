@@ -1,6 +1,7 @@
 import time
 
 import django_filters
+from django.http import FileResponse
 from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.decorators import action
@@ -11,8 +12,8 @@ from server.apps.personal_cabinet.api.serializers import (
     CreateSelectionRequestSerializer,
     SelectionRequestSerializer,
 )
-from server.apps.personal_cabinet.models import Message, SelectionRequest
-from server.apps.services.enums import MessageOwnerType
+from server.apps.personal_cabinet.models import SelectionRequest
+from server.apps.personal_cabinet.services.report_file import ReportFile
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
@@ -54,7 +55,7 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
     queryset = SelectionRequest.objects.select_related(
         'user',
     ).prefetch_related(
-        'investment_objects',
+        'selected_entities',
     )
     search_fields = (
         'user__email',
@@ -177,32 +178,30 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-    # @action(
-    #     methods=['GET'],
-    #     url_path='download',
-    #     detail=True,
-    # )
-    # def download(
-    #     self,
-    #     request: Request,
-    #     pk: int
-    # ):
-    #     """
-    #     Скачать отчет в формате pdf.
-    #     """
-    #     instance = self.get_object()
-    #     if request.user.is_authenticated:
-    #         add_offeffddrs_and_wishes_in_context(report=instance)
-    #
-    #         report_file = ReportFile(
-    #             document_format='docx',
-    #             report=instance,
-    #         )
-    #
-    #         return FileResponse(
-    #             report_file.generate(),
-    #             content_type='application/pdf',
-    #             filename=report_file.get_file_name(),
-    #             status=status.HTTP_200_OK,
-    #         )
-    #     return Response(status=status.HTTP_403_FORBIDDEN)
+    @action(
+        methods=['GET'],
+        url_path='download',
+        detail=True,
+    )
+    def download(
+        self,
+        request: Request,
+        pk: int
+    ):
+        """
+        Скачать отчет в формате pdf.
+        """
+        instance = self.get_object()
+        if request.user.is_authenticated:
+            report_file = ReportFile(
+                document_format='docx',
+                selection_request=instance,
+            )
+
+            return FileResponse(
+                report_file.generate(),
+                content_type='application/pdf',
+                filename=report_file.get_file_name(),
+                status=status.HTTP_200_OK,
+            )
+        return Response(status=status.HTTP_403_FORBIDDEN)

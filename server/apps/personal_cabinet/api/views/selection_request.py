@@ -69,6 +69,7 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
         'actual': 'view',
         'completed': 'add',
         'check_message_from_bot': 'view',
+        'download': 'view',
     }
 
     def perform_create(self, serializer):
@@ -174,3 +175,34 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
 
         except SelectionRequest.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+    # @action(
+    #     methods=['GET'],
+    #     url_path='download',
+    #     detail=True,
+    # )
+    # def download(
+    #     self,
+    #     request: Request,
+    #     pk: int
+    # ):
+    #     """
+    #     Скачать отчет в формате pdf.
+    #     """
+    #     instance = self.get_object()
+    #     if request.user.is_authenticated:
+    #         add_offers_and_wishes_in_context(report=instance)
+    #
+    #         report_file = ReportFile(
+    #             document_format='docx',
+    #             report=instance,
+    #         )
+    #
+    #         return FileResponse(
+    #             report_file.generate(),
+    #             content_type='application/pdf',
+    #             filename=report_file.get_file_name(),
+    #             status=status.HTTP_200_OK,
+    #         )
+    #     return Response(status=status.HTTP_403_FORBIDDEN)

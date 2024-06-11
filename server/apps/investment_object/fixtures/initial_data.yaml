@@ -296,91 +296,91 @@
 - model: personal_cabinet.territoriallocation
   pk: 1
   fields:
-    shot_name: ВАО
+    short_name: ВАО
     full_name: Восточный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 2
   fields:
-    shot_name: ЗАО
+    short_name: ЗАО
     full_name: Западный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 3
   fields:
-    shot_name: ЗелАО
+    short_name: ЗелАО
     full_name: Зеленоградский
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 4
   fields:
-    shot_name: НАО
+    short_name: НАО
     full_name: Новомосковский
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 5
   fields:
-    shot_name: САО
+    short_name: САО
     full_name: Северный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 6
   fields:
-    shot_name: СВАО
+    short_name: СВАО
     full_name: Северо-Восточный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 7
   fields:
-    shot_name: СЗАО
+    short_name: СЗАО
     full_name: Северо-Западный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 8
   fields:
-    shot_name: ТАО
+    short_name: ТАО
     full_name: Троицкий
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 9
   fields:
-    shot_name: ЦАО
+    short_name: ЦАО
     full_name: Центральный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 10
   fields:
-    shot_name: ЮАО
+    short_name: ЮАО
     full_name: Южный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 11
   fields:
-    shot_name: ЮВАО
+    short_name: ЮВАО
     full_name: Юго-Восточный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 12
   fields:
-    shot_name: ЮЗАО
+    short_name: ЮЗАО
     full_name: Юго-Западный
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00
 - model: personal_cabinet.territoriallocation
   pk: 13
   fields:
-    shot_name: Другое
+    short_name: Другое
     full_name: Другое
     created_at: 2024-01-01 10:00:00
     updated_at: 2024-01-01 10:00:00

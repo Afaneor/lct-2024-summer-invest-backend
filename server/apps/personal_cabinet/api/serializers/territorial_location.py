@@ -13,7 +13,7 @@ class TerritorialLocationSerializer(ModelSerializerWithPermission):
         model = TerritorialLocation
         fields = (
             'id',
-            'shot_name',
+            'short_name',
             'full_name',
             'tags',
             'permission_rules',

@@ -9,7 +9,7 @@ from server.apps.services.base_model import AbstractBaseModel
 class TerritorialLocation(AbstractBaseModel):
     """Территориальное расположение."""
 
-    shot_name = models.CharField(
+    short_name = models.CharField(
         verbose_name=_('Короткое название'),
         max_length=settings.MAX_STRING_LENGTH,
     )

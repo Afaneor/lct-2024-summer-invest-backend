@@ -173,11 +173,11 @@ class TerritorialLocationAdmin(admin.ModelAdmin[TerritorialLocation]):
 
     list_display = (
         'id',
-        'shot_name',
+        'short_name',
         'full_name',
     )
     search_fields = (
-        'shot_name',
+        'short_name',
         'full_name',
     )
     ordering = (

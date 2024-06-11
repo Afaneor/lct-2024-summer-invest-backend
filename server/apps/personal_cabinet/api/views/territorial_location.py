@@ -14,14 +14,14 @@ class TerritorialLocationFilter(
 ):
     """Фильтр территориального расположения."""
 
-    shot_name = django_filters.CharFilter(lookup_expr='icontains')
+    short_name = django_filters.CharFilter(lookup_expr='icontains')
     full_name = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = TerritorialLocation
         fields = (
             'id',
-            'shot_name',
+            'short_name',
             'full_name',
         )
 

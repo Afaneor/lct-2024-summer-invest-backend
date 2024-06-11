@@ -43,7 +43,7 @@ class BaseTerritorialLocationSerializer(serializers.ModelSerializer):
         model = TerritorialLocation
         fields = (
             'id',
-            'shot_name',
+            'short_name',
             'full_name',
         )
 

@@ -13,7 +13,9 @@ from server.apps.personal_cabinet.api.serializers import (
     SelectionRequestSerializer,
 )
 from server.apps.personal_cabinet.models import SelectionRequest
-from server.apps.personal_cabinet.services.report_file import SelectionRequestFile
+from server.apps.personal_cabinet.services.report_file import (
+    SelectionRequestFile,
+)
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,

@@ -108,7 +108,7 @@ class MessageViewSet(RetrieveListCreateViewSet):
                 'investment_object': {
                     'object_type': 'technopark',
                 },
-                'category-problem': {
+                'category_problem': {
                     'search': 'Получение или отказ в выдаче ГПЗУ',
                 },
                 'service_support': {

@@ -6,7 +6,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from server.apps.investment_object.models import EconomicActivity
-from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
+from server.apps.services.filters_mixins import (
+    CreatedUpdatedDateFilterMixin,
+    NonValidatingMultipleChoiceFilter,
+)
 from server.apps.services.views import RetrieveListViewSet
 from server.apps.support.api.serializers import (
     DetailServiceSupportSerializer,
@@ -21,16 +24,16 @@ class ServiceSupportFilter(
 ):
     """Фильтр инфраструктуры."""
 
-    support_type = django_filters.AllValuesMultipleFilter(
+    support_type = NonValidatingMultipleChoiceFilter(
         label=_('Фильтрация по типу поддержки'),
     )
-    support_level = django_filters.AllValuesMultipleFilter(
+    support_level = NonValidatingMultipleChoiceFilter(
         label=_('Фильтрация по уровню поддержки'),
     )
-    msp_roster = django_filters.AllValuesMultipleFilter(
+    msp_roster = NonValidatingMultipleChoiceFilter(
         label=_('Фильтрация по требованию вхождения в реестр МСП'),
     )
-    economic_activity_name = django_filters.AllValuesMultipleFilter(
+    economic_activity_name = NonValidatingMultipleChoiceFilter(
         field_name='economic_activities__name',
         label=_('Фильтрация по экономической деятельности'),
     )

@@ -2,9 +2,10 @@
 
 import django.db.models.deletion
 import rules.contrib.models
-import server.apps.services.validators
 from django.conf import settings
 from django.db import migrations, models
+
+import server.apps.services.validators
 
 
 class Migration(migrations.Migration):

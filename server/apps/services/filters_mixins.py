@@ -1,7 +1,4 @@
-from typing import List, Optional
-
 import django_filters
-from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_filters.fields import MultipleChoiceField
 

@@ -21,7 +21,10 @@ from server.apps.investment_object.models import (
 from server.apps.investment_object.tasks import delayed_parsing_data
 from server.apps.personal_cabinet.models import SelectedEntity
 from server.apps.services.enums import ObjectType, TransactionFormType
-from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
+from server.apps.services.filters_mixins import (
+    CreatedUpdatedDateFilterMixin,
+    NonValidatingMultipleChoiceFilter,
+)
 from server.apps.services.views import RetrieveListCreateViewSet
 
 
@@ -31,22 +34,22 @@ class InvestmentObjectFilter(
 ):
     """Фильтр инвестиционных площадок."""
 
-    id = django_filters.AllValuesMultipleFilter(
+    id = NonValidatingMultipleChoiceFilter(
         label=_('Фильтрация id объекта'),
     )
-    economic_activity_name = django_filters.AllValuesMultipleFilter(
+    economic_activity_name = NonValidatingMultipleChoiceFilter(
         field_name='economic_activities__name',
         label=_('Фильтрация по экономической деятельности'),
     )
-    preferential_treatment = django_filters.AllValuesMultipleFilter(
+    preferential_treatment = NonValidatingMultipleChoiceFilter(
         field_name='real_estate__preferential_treatment',
         label=_('Фильтрация по преференциальному режиму'),
     )
-    transaction_form_name = django_filters.MultipleChoiceFilter(
+    transaction_form_name = NonValidatingMultipleChoiceFilter(
         field_name='transaction_form__name',
         label=_('Фильтрация по названию формы сделки'),
     )
-    transaction_form_type = django_filters.MultipleChoiceFilter(
+    transaction_form_type = NonValidatingMultipleChoiceFilter(
         field_name='transaction_form__transaction_form_type',
         label=_('Фильтрация по типу формы сделки'),
     )
@@ -59,20 +62,21 @@ class InvestmentObjectFilter(
     building_area = django_filters.NumberFilter(
         label=_('Фильтрация по площади помещения'),
     )
-    location = django_filters.AllValuesMultipleFilter(
+    location = NonValidatingMultipleChoiceFilter(
         label=_('Фильтрация по местоположению'),
     )
-    site_type = django_filters.MultipleChoiceFilter(
+    site_type = NonValidatingMultipleChoiceFilter(
         field_name='real_estate__site_type',
         label=_('Фильтрация по типу площадки'),
     )
-    specialized_site_is_free_customs_zone_regime = django_filters.MultipleChoiceFilter(
+    specialized_site_is_free_customs_zone_regime = NonValidatingMultipleChoiceFilter(
         field_name='specialized_site__is_free_customs_zone_regime',
         label=_('Фильтрация по наличию режима свободной таможенной зоны'),
     )
-    real_estate_maip = django_filters.MultipleChoiceFilter(
+    real_estate_maip = NonValidatingMultipleChoiceFilter(
         field_name='real_estate__maip',
         label=_('Фильтрация по наличию МАИП'),
+        lookup_expr='icontains',
     )
 
     class Meta:

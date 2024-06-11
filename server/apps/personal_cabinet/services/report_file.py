@@ -8,8 +8,9 @@ from django.conf import settings
 from docxtpl import DocxTemplate
 
 from server.apps.personal_cabinet.models import SelectionRequest
-from server.apps.personal_cabinet.services.pdf_converter import \
-    DocumentConverter
+from server.apps.personal_cabinet.services.pdf_converter import (
+    DocumentConverter,
+)
 
 
 class AbstractRender(ABC):  # noqa: B024

@@ -19,7 +19,7 @@ class Topic(AbstractBaseModel):
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Тема')
-        verbose_name_plural = _('Тема')
+        verbose_name_plural = _('Темы')
 
     @property
     def content_type_id(self) -> int:

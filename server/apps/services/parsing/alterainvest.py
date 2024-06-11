@@ -50,7 +50,7 @@ def ready_business():
             business_detail_url = base_business_data.contents[1].attrs.get('href')
             business_response = requests.get(
                 url=(
-                    f'https://alterainvest.ru/{business_detail_url}'
+                    f'https://alterainvest.ru{business_detail_url}'
                 ),
                 timeout=15,
             )
@@ -115,7 +115,7 @@ def ready_business():
                         if extra_data.get('Район') != 'По запросу'
                         else ''
                     ),
-                    'url': f'https://alterainvest.ru/{business_detail_url}',
+                    'url': f'https://alterainvest.ru{business_detail_url}',
                 },
             )
 

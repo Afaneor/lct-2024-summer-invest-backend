@@ -1,4 +1,7 @@
+from typing import Optional
+
 from rest_framework import serializers
+from rest_framework.utils.serializer_helpers import ReturnDict
 
 from server.apps.service_interaction.api.serializers.base_data import (
     BasePostSerializer,
@@ -30,13 +33,15 @@ class ListTopicSerializer(ModelSerializerWithPermission):
         """Количество постов в теме."""
         return topic.posts.count()
 
-    def get_last_post(self, topic: Topic) -> int:
+    def get_last_post(self, topic: Topic) -> Optional[ReturnDict]:
         """Информация о последнем сообщении."""
-        return BasePostSerializer(
-            instance=topic.posts.first(),
-            context=self.context,
-        ).data
-
+        post = topic.posts.first()
+        if post:
+            return BasePostSerializer(
+                instance=topic.posts.first(),
+                context=self.context,
+            ).data
+        return None
 
 class DetailTopicSerializer(ModelSerializerWithPermission):
     """Сериалайзер темы."""

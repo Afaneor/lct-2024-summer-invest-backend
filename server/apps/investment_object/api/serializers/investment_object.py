@@ -23,6 +23,7 @@ class ListInvestmentObjectSerializer(ModelSerializerWithPermission):
     real_estate = BaseRealEstateSerializer()
     specialized_site = BaseSpecializedSiteSerializer()
     ready_business = BaseReadyBusinessSerializer()
+    transaction_form = BaseTransactionFormSerializer()
     economic_activities = BaseEconomicActivitySerializer(many=True)
 
     class Meta:

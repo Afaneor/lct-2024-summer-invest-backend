@@ -29,7 +29,6 @@ class CreateSubscriptionSerializer(serializers.ModelSerializer):
             'subscription_type',
             'telegram_username',
             'topics',
-            'events',
         )
 
 
@@ -41,5 +40,4 @@ class UpdateSubscriptionSerializer(serializers.ModelSerializer):
         fields = (
             'telegram_username',
             'topics',
-            'events',
         )

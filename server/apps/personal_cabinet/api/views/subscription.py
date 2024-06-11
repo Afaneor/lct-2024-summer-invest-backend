@@ -1,5 +1,7 @@
 import django_filters
 from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from server.apps.personal_cabinet.api.serializers import (
@@ -8,6 +10,7 @@ from server.apps.personal_cabinet.api.serializers import (
     UpdateSubscriptionSerializer,
 )
 from server.apps.personal_cabinet.models import Subscription
+from server.apps.services.enums import SubscriptionType
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,
@@ -48,6 +51,10 @@ class SubscriptionViewSet(RetrieveListCreateDeleteViewSet):
     )
     ordering_fields = '__all__'
     filterset_class = SubscriptionFilter
+    permission_type_map = {
+        **RetrieveListCreateDeleteViewSet.permission_type_map,
+        'data_for_filters': 'view',
+    }
 
     def create(self, request, *args, **kwargs):
         """Создание подписки на объекты системы."""
@@ -71,3 +78,23 @@ class SubscriptionViewSet(RetrieveListCreateDeleteViewSet):
         user = self.request.user
 
         return queryset.filter(user=user)
+
+    @action(
+        methods=['GET'],
+        url_path='data-for-filters',
+        detail=False,
+    )
+    def data_for_filters(
+        self,
+        request: Request,
+    ):
+        """
+        Получение данных для фильтров.
+        """
+        filters = {
+            'subscription_type': dict(SubscriptionType.choices),
+        }
+        return Response(
+            data=filters,
+            status=status.HTTP_200_OK,
+        )

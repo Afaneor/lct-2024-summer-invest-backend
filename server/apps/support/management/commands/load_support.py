@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 from server.apps.services.parsing.investmoscow.problem_report import (
     parsing_investmoscow_category_problem,
 )
+from server.apps.services.parsing.okved import parsing_okved
 from server.apps.services.parsing.xlsx.service_support import (
     parsing_xlsx_service_support,
 )
@@ -35,6 +36,9 @@ class Command(BaseCommand):
         # logger.info(
         #     'Закончился парсинг каталога сервисов с сайта investmoscow.ru',
         # )
+        logger.info('Начался загрузка ОКВЭД')
+        parsing_okved()
+        logger.info('Закончился загрузка ОКВЭД')
 
         logger.info('Начался парсинг мер поддержки')
         parsing_xlsx_service_support()

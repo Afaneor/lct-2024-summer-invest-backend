@@ -32,7 +32,7 @@ def parsing_real_estate(file=None):
     else:
         db = xl.readxl(
             f'{BASE_DIR}'
-            '/server/apps/investment_object/initial_data/real_estate.xlsx'
+            '/server/apps/initial_data/real_estate.xlsx'
         )
     for list_name in db.ws_names:
         for index, row in enumerate(db.ws(ws=list_name).rows):
@@ -123,40 +123,18 @@ def parsing_real_estate(file=None):
 
                 if row[79]:
                     objects_for_add = []
-                    for economic_activity_row_data in re.split(r';\d', row[11]):
+                    for economic_activity_row_data in re.split(r';', row[11]):
                         economic_activity_data = economic_activity_row_data.split('-')
-                        if economic_activity_data[0].strip().lower() == 'нет ограничений':
-                            industry, created = (
-                                EconomicActivity.objects.update_or_create(
-                                    code=get_correct_data(
-                                        economic_activity_data[0],
-                                    ),
-                                    defaults={
-                                        'name':
-                                            economic_activity_data[0].strip(),
-                                    },
-                                )
+                        try:
+                            economic_activity = EconomicActivity.objects.get(
+                                code=get_correct_data(
+                                    economic_activity_data[0],
+                                ),
                             )
-                        else:
-                            industry, created = (
-                                EconomicActivity.objects.update_or_create(
-                                    code=get_correct_data(
-                                        economic_activity_data[0],
-                                    ),
-                                    defaults={
-                                        'name':
-                                            re.sub(
-                                                '\xa0',
-                                                '',
-                                                '-'.join(
-                                                    economic_activity_data[1:],
-                                                )
-                                            ).strip(),
-                                    },
-                                )
-                            )
+                        except EconomicActivity.DoesNotExist:
+                            continue
 
-                        objects_for_add.append(industry)
+                        objects_for_add.append(economic_activity)
                     investment_object.economic_activities.set(objects_for_add)
 
                 real_estate, re_created = RealEstate.objects.update_or_create(

@@ -5,7 +5,6 @@ from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from server.apps.investment_object.models import EconomicActivity
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     NonValidatingMultipleChoiceFilter,
@@ -35,7 +34,11 @@ class ServiceSupportFilter(
     )
     economic_activity_name = NonValidatingMultipleChoiceFilter(
         field_name='economic_activities__name',
-        label=_('Фильтрация по экономической деятельности'),
+        label=_('Фильтрация по названию экономической деятельности'),
+    )
+    economic_activity_code = NonValidatingMultipleChoiceFilter(
+        field_name='economic_activities__code',
+        label=_('Фильтрация по коду экономической деятельности'),
     )
 
     class Meta:
@@ -47,6 +50,7 @@ class ServiceSupportFilter(
             'support_level',
             'msp_roster',
             'economic_activity_name',
+            'economic_activity_code',
         )
 
 
@@ -104,10 +108,6 @@ class ServiceSupportViewSet(RetrieveListViewSet):
                 'msp_roster',
             ).values_list(
                 'msp_roster',
-                flat=True,
-            ),
-            'economic_activity_name': EconomicActivity.objects.values_list(
-                'name',
                 flat=True,
             ),
         }

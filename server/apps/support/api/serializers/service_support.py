@@ -9,9 +9,6 @@ from server.apps.support.models import ServiceSupport
 class ListServiceSupportSerializer(ModelSerializerWithPermission):
     """Сериалайзер сервиса поддержки."""
 
-    economic_activities = BaseEconomicActivitySerializer(many=True)
-    restrictions = BaseRestrictionSerializer(many=True)
-
     class Meta:
         model = ServiceSupport
         fields = (
@@ -26,8 +23,6 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
             'url_legal_act',
             'url_application_form',
             'name_responsible_body',
-            'economic_activities',
-            'restrictions',
             'msp_roster',
             'applicant_requirement',
             'applicant_procedure',

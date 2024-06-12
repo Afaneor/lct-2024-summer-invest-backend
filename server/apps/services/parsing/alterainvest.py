@@ -16,6 +16,35 @@ from server.apps.services.parsing.xlsx.base import get_correct_data
 
 logger = logging.getLogger('django')
 
+MAP_FOR_OKVED = {
+    'Магазины и торговля': '47',
+    'Ресторанный бизнес': '56',
+    'Производство': '10-33',
+    'Сфера красоты': '96',
+    'Бизнес в сфере услуг': '82',
+    'Интернет магазины': '47.91',
+    'Медицинские центры': '86',
+    'Прочее': '',
+    'Гостиничный бизнес': '55',
+    'Арендный бизнес': '68.2',
+    'Детские центры и сады': '85.11',
+    'Готовый бизнес за рубежом': '',
+    'Автобизнес': '45',
+    'Квесты, атракционы, сауны, развлечения': '93.2',
+    'Аптечный бизнес': '47.73',
+    'IT-компании': '62',
+    'Строительный бизнес': '41',
+    'Готовый бизнес под ключ': '',
+    'Транспортный бизнес': '49.41',
+    'Доли в бизнесе': '',
+    'Страховой и финансовый бизнес': '64',
+    'Коммерческая недвижимость': '68',
+    'Сельское хозяйство': '01',
+    'Бизнес по цене активов': '74.90',
+    'Месторождения и карьеры': '08',
+    'Туристический бизнес': '79.1',
+    }
+
 
 def ready_business():
     """Парсинг готового бизнеса с сайта alterainvest.ru."""
@@ -121,15 +150,14 @@ def ready_business():
             )
 
             if extra_data.get('Сфера деятельности'):
-                objects_for_add = []
-                for economic_activity_row_data in extra_data.get('Сфера деятельности').split(','):
-                    economic_activity, created = (
-                        EconomicActivity.objects.update_or_create(
-                            name=get_correct_data(economic_activity_row_data),
-                        )
-                    )
-                    objects_for_add.append(economic_activity)
-                investment_object.economic_activities.set(objects_for_add)
+                code = MAP_FOR_OKVED.get(
+                    extra_data.get('Сфера деятельности').split(',')[0]
+                )
+                try:
+                    economic_activity = EconomicActivity.objects.get(code=code)
+                except EconomicActivity.DoesNotExist:
+                    continue
+                investment_object.economic_activities.add(economic_activity.id)
 
             ReadyBusiness.objects.update_or_create(
                 investment_object=investment_object,

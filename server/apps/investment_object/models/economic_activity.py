@@ -12,9 +12,21 @@ class EconomicActivity(AbstractBaseModel):
         verbose_name=_('Код отрасли'),
         blank=True
     )
-    name = models.CharField(
+    parent_code = models.CharField(
+        verbose_name=_('Родительский код отрасли'),
+        blank=True
+    )
+    section = models.CharField(
+        verbose_name=_('Секция'),
+        blank=True
+    )
+    name = models.TextField(
         verbose_name=_('Название отрасли'),
         max_length=settings.MAX_STRING_LENGTH,
+    )
+    comment = models.TextField(
+        verbose_name=_('Комментарий'),
+        blank=True,
     )
 
     class Meta(AbstractBaseModel.Meta):

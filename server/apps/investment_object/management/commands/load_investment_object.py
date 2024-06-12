@@ -3,6 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 
 from server.apps.services.parsing.alterainvest import ready_business
+from server.apps.services.parsing.okved import parsing_okved
 from server.apps.services.parsing.torgi_gov import parsing_tender_lot
 from server.apps.services.parsing.xlsx.real_estate import parsing_real_estate
 from server.apps.services.parsing.xlsx.specialized_site import (
@@ -21,7 +22,11 @@ class Command(BaseCommand):
         """Добавление данных в BusinessIndicator"""
         # parsing_investmoscow()
 
-        # logger.info('Начался парсинг технополисов и технопарков из файла')
+        # logger.info('Начался парсинг ОКВЭД')
+        # parsing_okved()
+        # logger.info('Закончился парсинг ОКВЭД')
+
+        logger.info('Начался парсинг технополисов и технопарков из файла')
         parsing_specialized_site()
         logger.info('Закончился парсинг технополисов и технопарков из файла')
 

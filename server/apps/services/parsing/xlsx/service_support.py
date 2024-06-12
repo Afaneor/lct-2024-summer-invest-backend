@@ -21,7 +21,7 @@ def parsing_xlsx_service_support():
     """
     db = xl.readxl(
         f'{BASE_DIR}'
-        '/server/apps/investment_object/initial_data/support.xlsx'
+        '/server/apps/initial_data/support.xlsx'
     )
     for list_name in db.ws_names:
         for index, row in enumerate(db.ws(ws=list_name).rows):
@@ -51,38 +51,16 @@ def parsing_xlsx_service_support():
                 )
                 if row[11]:
                     objects_for_add = []
-                    for economic_activity_row_data in re.split(';\d', row[11]):
+                    for economic_activity_row_data in re.split(';', row[11]):
                         economic_activity_data = economic_activity_row_data.split('-')
-                        if economic_activity_data[0].strip().lower() == 'нет ограничений':
-                            economic_activity, created = (
-                                EconomicActivity.objects.update_or_create(
-                                    code=get_correct_data(
-                                        economic_activity_data[0],
-                                    ),
-                                    defaults={
-                                        'name':
-                                            economic_activity_data[0].strip(),
-                                    },
-                                )
+                        try:
+                            economic_activity = EconomicActivity.objects.get(
+                                code=get_correct_data(
+                                    economic_activity_data[0],
+                                ),
                             )
-                        else:
-                            economic_activity, created = (
-                                EconomicActivity.objects.update_or_create(
-                                    code=get_correct_data(
-                                        economic_activity_data[0],
-                                    ),
-                                    defaults={
-                                        'name':
-                                            re.sub(
-                                                '\xa0',
-                                                '',
-                                                '-'.join(
-                                                    economic_activity_data[1:],
-                                                )
-                                            ).strip(),
-                                    },
-                                )
-                            )
+                        except EconomicActivity.DoesNotExist:
+                            continue
 
                         objects_for_add.append(economic_activity)
                     support_service.economic_activities.set(objects_for_add)
@@ -92,7 +70,9 @@ def parsing_xlsx_service_support():
                     for restriction_row_data in row[12].split(';'):
                         restriction, created = (
                             Restriction.objects.get_or_create(
-                                name=restriction_row_data,
+                                name=get_correct_data(
+                                    restriction_row_data,
+                                ).capitalize(),
                             )
                         )
 

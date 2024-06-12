@@ -5,10 +5,7 @@ from django.conf import settings
 from rest_framework import status
 
 from server.apps.investment_object.models import EconomicActivity
-from server.apps.personal_cabinet.models import (
-    Business,
-    TerritorialLocation,
-)
+from server.apps.personal_cabinet.models import Business, TerritorialLocation
 from server.apps.services.exception import ApiError
 
 
@@ -124,11 +121,8 @@ def update_or_create_business(
         # Добавляем виды экономической деятельности.
         objects_for_add = []
         for economic_activity_row_data in data.get('okveds', ''):
-            economic_activity, created = (
-                EconomicActivity.objects.update_or_create(
-                    code=economic_activity_row_data.get('code'),
-                    name=economic_activity_row_data.get('name')
-                )
+            economic_activity = EconomicActivity.objects.get(
+                code=economic_activity_row_data.get('code'),
             )
             objects_for_add.append(economic_activity)
         business.economic_activities.set(objects_for_add)

@@ -17,21 +17,6 @@ class NonValidatingMultipleChoiceFilter(django_filters.MultipleChoiceFilter):
     field_class = NonValidatingMultipleChoiceField
 
 
-class TagFilterMixin(django_filters.FilterSet):
-    """Миксин для фильтрации по тегам."""
-
-    tags = django_filters.CharFilter(method='tags_filter')
-
-    def tags_filter(self, queryset, name, tags_value):
-        """Фильтруем объект по тегам."""
-        filtered_queryset = queryset.filter(
-            tags__name__in=tags_value.split(','),
-        )
-        if not filtered_queryset:
-            return self.Meta.model.objects.none()
-        return filtered_queryset
-
-
 class CreatedUpdatedDateFilterMixin(django_filters.FilterSet):
     """Миксин для фильтрации по датам создания и обновления."""
 

@@ -67,7 +67,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - backend
+      - webnet
 
 # This task is an example of how to extend existing ones:
 #   some_worker:

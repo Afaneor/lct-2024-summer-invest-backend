@@ -42,7 +42,6 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'allauth',
     'allauth.account',
     'rules',
-    'taggit',
     'django_celery_beat',
 
     # Your apps go here:

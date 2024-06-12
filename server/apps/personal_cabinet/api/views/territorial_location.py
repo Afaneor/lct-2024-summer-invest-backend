@@ -30,7 +30,7 @@ class TerritorialLocationViewSet(RetrieveListViewSet):
     """Территориальное расположение. Просмотр."""
 
     serializer_class = TerritorialLocationSerializer
-    queryset = TerritorialLocation.objects.prefetch_related('tags')
+    queryset = TerritorialLocation.objects.all()
     search_fields = (
         'name',
     )

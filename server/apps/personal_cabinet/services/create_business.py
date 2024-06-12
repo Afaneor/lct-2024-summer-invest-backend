@@ -4,6 +4,7 @@ import httpx
 from django.conf import settings
 from rest_framework import status
 
+from server.apps.investment_object.models import EconomicActivity
 from server.apps.personal_cabinet.models import (
     Business,
     TerritorialLocation,
@@ -78,13 +79,13 @@ def update_or_create_business(
     """
     business_information = get_business_by_inn(inn=inn)
     if business_information:
-        business = business_information[0]
-        data = business.get('data', {})
+        business_suggestions = business_information[0]
+        data = business_suggestions.get('data', {})
         address = data.get('address', {})
         territorial_location = TerritorialLocation.objects.get(
             full_name__icontains=address.get('data', {}).get('city_area', ''),
         )
-        return Business.objects.update_or_create(
+        business, created = Business.objects.update_or_create(
             inn=inn,
             defaults={
                 'user_id': user_id,
@@ -120,5 +121,18 @@ def update_or_create_business(
                 ),
             },
         )
+        # Добавляем виды экономической деятельности.
+        objects_for_add = []
+        for economic_activity_row_data in data.get('okveds', ''):
+            economic_activity, created = (
+                EconomicActivity.objects.update_or_create(
+                    code=economic_activity_row_data.get('code'),
+                    name=economic_activity_row_data.get('name')
+                )
+            )
+            objects_for_add.append(economic_activity)
+        business.economic_activities.set(objects_for_add)
+
+        return business, created
 
     return None, False

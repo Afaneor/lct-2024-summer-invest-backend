@@ -116,7 +116,6 @@ DTM_IGNORED_MIGRATIONS = frozenset(
         ('authtoken', '*'),
         ('token_blacklist', '*'),
         ('push_notifications', '*'),
-        ('taggit', '*'),
         ('django_celery_beat', '*'),
         ('django_celery_results', '*'),
     ),

@@ -166,6 +166,12 @@ class Business(AbstractBaseModel):
         choices=TaxSystemType.choices,
         default=TaxSystemType.OSN,
     )
+    economic_activities = models.ManyToManyField(
+        to='investment_object.EconomicActivity',
+        verbose_name=_('Экономическая деятельность'),
+        related_name='business',
+        blank=True,
+    )
 
     class Meta(AbstractBaseModel.Meta):
         verbose_name = _('Бизнес')

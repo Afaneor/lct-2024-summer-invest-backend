@@ -58,7 +58,7 @@ class InvestmentObject(AbstractBaseModel):
     )
     location = models.CharField(
         verbose_name=_('Местоположение'),
-        max_length=settings.MAX_STRING_LENGTH,
+        max_length=400,
         blank=True,
     )
     url = models.CharField(

@@ -33,7 +33,6 @@ def parsing_tender_lot():
     total_pages = first_10_tender_lots_json['totalPages']
 
     # Проходимся по всем страницам и получаем информацию.
-    #
     for number_page in range(1, total_pages+1):
         tender_lots_json = requests.get(
             url=(
@@ -53,6 +52,7 @@ def parsing_tender_lot():
         for entity in tender_lots_json['content']:
             # Получаем id и делаем запрос.
             tender_lot_id = entity['id']
+            logger.info(f'Начало обработки {tender_lot_id}')
             tender_lot_url = (
                 f'https://torgi.gov.ru/new/api/public/lotcards/{tender_lot_id}'
             )
@@ -172,7 +172,7 @@ def parsing_tender_lot():
                 },
             )
 
-            logger.info(f"Обработано {entity['id']}")
+            logger.info(f'Обработано {tender_lot_id}')
 
             time.sleep(0.5)
 

@@ -5,8 +5,25 @@ It may be also used for extending doctest's context:
 1. https://docs.python.org/3/library/doctest.html
 2. https://docs.pytest.org/en/latest/doctest.html
 """
-
 import pytest
+from model_bakery import baker
+from rest_framework.test import APIClient
+
+
+@pytest.fixture
+def admin_api_client():
+    admin = baker.make('user.User', is_staff=True, is_superuser=True)
+    client = APIClient()
+    client.force_authenticate(user=admin)
+    return client
+
+
+@pytest.fixture
+def api_client():
+    admin = baker.make('user.User', is_staff=True, is_superuser=True)
+    client = APIClient()
+    client.force_authenticate(user=admin)
+    return client
 
 
 @pytest.fixture(autouse=True)

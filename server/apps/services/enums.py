@@ -62,7 +62,8 @@ class MessageOwnerType(models.TextChoices):
     """Владелец сообщения"""
 
     USER = 'user', _('Пользователь')
-    BOT = 'bot', _('Бот')
+    ASSISTANT = 'assistant', _('assistant')
+    SYSTEM = 'system', _('Система')
 
 
 class ServiceSupportType(models.TextChoices):

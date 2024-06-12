@@ -38,7 +38,11 @@ class InvestmentObjectFilter(
     )
     economic_activity_name = NonValidatingMultipleChoiceFilter(
         field_name='economic_activities__name',
-        label=_('Фильтрация по экономической деятельности'),
+        label=_('Фильтрация по названию экономической деятельности'),
+    )
+    economic_activity_code = NonValidatingMultipleChoiceFilter(
+        field_name='economic_activities__code',
+        label=_('Фильтрация по коду экономической деятельности'),
     )
     preferential_treatment = NonValidatingMultipleChoiceFilter(
         field_name='real_estate__preferential_treatment',
@@ -138,14 +142,6 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
         """
         filters = {
             'object_type': dict(ObjectType.choices),
-            'economic_activity_name': EconomicActivity.objects.order_by(
-                'name',
-            ).distinct(
-                'name',
-            ).values_list(
-                'name',
-                flat=True,
-            ),
             'preferential_treatment': RealEstate.objects.order_by(
                 'preferential_treatment',
             ).distinct(

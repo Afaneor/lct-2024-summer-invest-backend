@@ -1,10 +1,18 @@
 from llama_index.core.chat_engine.types import AgentChatResponse
+from rest_framework.exceptions import APIException
+from django.utils.translation import gettext_lazy as _
 
 from server.apps.llm.providers.abstract import AbstractLLMProvider
 from server.apps.llm.utils import get_llm_provider
 from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.services.enums import MessageOwnerType
+
+
+class MessageServiceException(APIException):
+    status_code = 503
+    default_detail = _('Нет возможности обработать сообщение в данный момент')
+    default_code = 'message_service_error'
 
 
 class MessageService(object):
@@ -28,8 +36,11 @@ class MessageService(object):
         selection_request.save(
             update_fields=['is_bot_response_waiting'],
         )
+        try:
+            response = self._send_to_llm(user_text)
+        except Exception:
+            raise MessageServiceException
 
-        response = self._send_to_llm(user_text)
         message = Message.objects.create(
             owner_type=MessageOwnerType.ASSISTANT,
             selection_request=selection_request,

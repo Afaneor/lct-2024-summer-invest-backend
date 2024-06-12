@@ -60,9 +60,12 @@ class SubscriptionViewSet(RetrieveListCreateDeleteViewSet):
         """Создание подписки на объекты системы."""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.instance, created = Subscription.objects.get_or_create(
+        serializer.instance, created = Subscription.objects.update_or_create(
             user=request.user,
             subscription_type=serializer.validated_data['subscription_type'],
+            defaults={
+                'telegram_username': serializer.validated_data['telegram_username'],
+            },
         )
         return Response(
             data=serializer.data,

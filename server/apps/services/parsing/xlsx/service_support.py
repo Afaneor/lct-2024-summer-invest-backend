@@ -34,7 +34,11 @@ def parsing_xlsx_service_support():
                             ServiceSupportType.SUPPORT_MEASURE,
                         'support_type': get_correct_data(row[2]).capitalize(),
                         'support_level': get_correct_data(row[3]).capitalize(),
-                        'description': get_correct_data(row[4]),
+                        'description': (
+                            get_correct_data(row[4])
+                            if row[4]
+                            else 'Подробнее на сайте https://investmoscow.ru/catalog/search'
+                        ),
                         'legal_act': get_correct_data(row[5]).capitalize(),
                         'url_legal_act': get_correct_data(row[6]),
                         'url_application_form': get_correct_data(row[8]),

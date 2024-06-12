@@ -111,6 +111,7 @@ def parsing_specialized_site(file=None):
                             'land_area': land_area,
                             'location': get_correct_data(row[5]),
                             'url': get_correct_data(row[21]),
+                            'data_source': 'investmoscow.ru',
                             'longitude':
                                 row[32].split(',')[0] if row[32] else None,
                             'latitude':
@@ -122,7 +123,7 @@ def parsing_specialized_site(file=None):
                 # Список отраслей.
                 if row[15]:
                     objects_for_add = []
-                    for economic_activity_row_data in re.split(';\d', row[11]):
+                    for economic_activity_row_data in re.split(r';\d', row[11]):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             economic_activity, created = (

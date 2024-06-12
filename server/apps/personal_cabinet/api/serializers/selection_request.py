@@ -12,6 +12,7 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
     """
 
     user = BaseUserSerializer()
+    messages = serializers.SerializerMethodField()
     bot_filter = serializers.SerializerMethodField()
 
     class Meta:
@@ -23,6 +24,7 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
             'bot_filter',
             'is_actual',
             'is_bot_response_waiting',
+            'messages',
             'permission_rules',
             'created_at',
             'updated_at',
@@ -34,6 +36,14 @@ class SelectionRequestSerializer(ModelSerializerWithPermission):
             bot_filter__isnull=False,
         ).order_by('created_at').first()
         return message.bot_filter if message else None
+
+
+    def get_messages(self, selection_request: SelectionRequest):
+        """Сообщения для запроса."""
+        return BaseMessageSerializer(
+            selection_request.messages.all().order_by('id'),
+            many=True,
+        ).data
 
 
 class CreateSelectionRequestSerializer(serializers.ModelSerializer):

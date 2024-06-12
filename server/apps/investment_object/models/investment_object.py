@@ -63,6 +63,11 @@ class InvestmentObject(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
+    data_source = models.CharField(
+        verbose_name=_('Источник данных'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
+    )
     longitude = models.DecimalField(
         verbose_name=_('Долгота'),
         decimal_places=3,

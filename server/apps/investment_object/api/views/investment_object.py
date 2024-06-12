@@ -95,6 +95,7 @@ class InvestmentObjectFilter(
             'site_type',
             'specialized_site_is_free_customs_zone_regime',
             'real_estate_maip',
+            'data_source',
         )
 
 

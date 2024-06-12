@@ -36,7 +36,11 @@ def parsing_investmoscow_category_problem():
                     external_id=clear_data(subcategory_data.get('id')),
                     defaults={
                         'problem_category': problem_category,
-                        'name': get_correct_data(subcategory_data.get('name')),
+                        'name': (
+                            get_correct_data(subcategory_data.get('name'))
+                            if subcategory_data.get('name') != 'Default'
+                            else 'Подробнее'
+                        ),
                     },
                 )
             )

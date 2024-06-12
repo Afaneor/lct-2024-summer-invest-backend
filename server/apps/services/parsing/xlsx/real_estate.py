@@ -40,7 +40,7 @@ def parsing_real_estate(file=None):
                 row = list(map(clear_data, row))
                 object_type = (
                     ObjectType.BUILDING.value
-                    if row[11] and [11] == 'Помещение'
+                    if row[11] and row[11] == 'Помещение'
                     else ObjectType.LAND_PLOT.value
                 )
 
@@ -111,6 +111,7 @@ def parsing_real_estate(file=None):
                             'land_area': land_area,
                             'building_area': building_area,
                             'location': get_correct_data(row[8]),
+                            'data_source': 'investmoscow.ru',
                             'url': get_correct_data(row[32]),
                             'longitude':
                                 row[86].split(',')[0] if row[86] else None,
@@ -122,7 +123,7 @@ def parsing_real_estate(file=None):
 
                 if row[79]:
                     objects_for_add = []
-                    for economic_activity_row_data in re.split(';\d', row[11]):
+                    for economic_activity_row_data in re.split(r';\d', row[11]):
                         economic_activity_data = economic_activity_row_data.split('-')
                         if economic_activity_data[0].strip().lower() == 'нет ограничений':
                             industry, created = (

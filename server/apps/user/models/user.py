@@ -99,7 +99,7 @@ class User(  # type: ignore
         """
         for business in self.businesses.all():
             if (
-                business.BusinessType != BusinessType.PHYSICAL or
+                business.business_type != BusinessType.PHYSICAL or
                 business.sector is not None or
                 business.sub_sector is not None
             ):

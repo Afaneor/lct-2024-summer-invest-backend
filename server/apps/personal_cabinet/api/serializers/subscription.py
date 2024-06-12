@@ -29,7 +29,7 @@ class CreateSubscriptionSerializer(serializers.ModelSerializer):
             'subscription_type',
             'telegram_username',
             'topics',
-        )
+            )
 
 
 class UpdateSubscriptionSerializer(serializers.ModelSerializer):

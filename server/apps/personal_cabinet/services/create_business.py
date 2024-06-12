@@ -6,13 +6,9 @@ from rest_framework import status
 
 from server.apps.personal_cabinet.models import (
     Business,
-    Sector,
-    SubSector,
     TerritorialLocation,
 )
-from server.apps.services.enums import BusinessType
 from server.apps.services.exception import ApiError
-from server.apps.user.models import User
 
 
 class ClientBase:

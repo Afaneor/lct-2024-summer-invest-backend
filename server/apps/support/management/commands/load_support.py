@@ -27,6 +27,7 @@ class Command(BaseCommand):
             'Закончился парсинг данных о проблемах с сайта investmoscow.ru',
         )
 
+        # FIXME: На сайте закрытая апи.
         # logger.info(
         #     'Начался парсинг каталога сервисов с сайта investmoscow.ru',
         # )

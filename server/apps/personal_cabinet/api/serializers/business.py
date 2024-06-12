@@ -46,7 +46,7 @@ class BusinessSerializer(ModelSerializerWithPermission):
             'management_position',
             'full_opf',
             'short_opf',
-            'okved',
+            'okved_code',
             'first_name',
             'last_name',
             'middle_name',
@@ -85,7 +85,7 @@ class CreateBusinessSerializer(serializers.ModelSerializer):
             'management_position',
             'full_opf',
             'short_opf',
-            'okved',
+            'okved_code',
             'first_name',
             'last_name',
             'middle_name',
@@ -97,6 +97,7 @@ class CreateBusinessSerializer(serializers.ModelSerializer):
             'phone',
             'email',
             'site',
+            'economic_activities',
         )
 
     def validate_inn(self, inn: str):
@@ -120,7 +121,7 @@ class UpdateBusinessSerializer(ModelSerializerWithPermission):
             'management_position',
             'full_opf',
             'short_opf',
-            'okved',
+            'okved_code',
             'first_name',
             'last_name',
             'middle_name',
@@ -132,6 +133,7 @@ class UpdateBusinessSerializer(ModelSerializerWithPermission):
             'phone',
             'email',
             'site',
+            'economic_activities',
         )
 
 

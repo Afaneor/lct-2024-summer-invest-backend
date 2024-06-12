@@ -57,16 +57,16 @@ def send_data_to_the_user_by_subscription_on_email() -> None:
     # Получаем пользователей у которых есть подписка.
     subscription_investment_object_user = Subscription.objects.filter(
         subscription_type=SubscriptionType.INVESTMENT_OBJECT,
-    ).values_list('user__email', flat=True)
+    ).values_list('email', flat=True)
     subscription_service_support_user = Subscription.objects.filter(
         subscription_type=SubscriptionType.SERVICE_SUPPORT,
-    ).values_list('user__email', flat=True)
+    ).values_list('email', flat=True)
     subscription_topic_user = Subscription.objects.filter(
         subscription_type=SubscriptionType.TOPIC,
-    ).values_list('user__email', flat=True)
+    ).values_list('email', flat=True)
     subscription_event_user = Subscription.objects.filter(
         subscription_type=SubscriptionType.EVENT,
-    ).values_list('user__email', flat=True)
+    ).values_list('email', flat=True)
 
     # Формируем объекты, которые были добавлены за последние
     # SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE минут.

@@ -64,8 +64,9 @@ class SubscriptionViewSet(RetrieveListCreateDeleteViewSet):
             user=request.user,
             subscription_type=serializer.validated_data['subscription_type'],
             defaults={
+                'email': serializer.validated_data['email'],
                 'telegram_username':
-                    serializer.validated_data['telegram_username'],
+                    serializer.validated_data.get('telegram_username'),
             },
         )
         return Response(

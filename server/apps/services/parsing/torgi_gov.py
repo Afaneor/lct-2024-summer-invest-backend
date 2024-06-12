@@ -33,7 +33,7 @@ def parsing_tender_lot():
     total_pages = first_10_tender_lots_json['totalPages']
 
     # Проходимся по всем страницам и получаем информацию.
-    for number_page in range(1, total_pages+1):
+    for number_page in range(174, total_pages+1):
         tender_lots_json = requests.get(
             url=(
                 'https://torgi.gov.ru/new/api/public/lotcards/search'

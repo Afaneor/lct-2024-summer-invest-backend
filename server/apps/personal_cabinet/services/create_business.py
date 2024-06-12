@@ -98,7 +98,7 @@ def update_or_create_business(
                 'management_position':  data.get('management', {}).get('post', ''),
                 'full_opf':  data.get('opf', {}).get('full', ''),
                 'short_opf':  data.get('opf', {}).get('short', ''),
-                'okved':  data.get('okved', ''),
+                'okved_code':  data.get('okved', ''),
                 'first_name':  data.get('fio', {}).get('name', ''),
                 'last_name':  data.get('fio', {}).get('surname', ''),
                 'middle_name':  data.get('fio', {}).get('patronymic', ''),

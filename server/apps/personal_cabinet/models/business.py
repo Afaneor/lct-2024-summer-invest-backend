@@ -97,8 +97,8 @@ class Business(AbstractBaseModel):
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
-    okved = models.CharField(
-        verbose_name=_('ОКВЕД'),
+    okved_code = models.CharField(
+        verbose_name=_('Код ОКВЕД'),
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )

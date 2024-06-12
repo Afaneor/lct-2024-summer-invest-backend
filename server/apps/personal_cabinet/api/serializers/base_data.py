@@ -70,7 +70,7 @@ class BaseBusinessSerializer(serializers.ModelSerializer):
             'management_position',
             'full_opf',
             'short_opf',
-            'okved',
+            'okved_code',
             'first_name',
             'last_name',
             'middle_name',

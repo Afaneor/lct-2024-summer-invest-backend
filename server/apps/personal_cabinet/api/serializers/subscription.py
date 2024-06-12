@@ -13,6 +13,7 @@ class SubscriptionSerializer(ModelSerializerWithPermission):
             'id',
             'user',
             'subscription_type',
+            'email',
             'telegram_username',
             'permission_rules',
             'created_at',
@@ -27,6 +28,7 @@ class CreateSubscriptionSerializer(serializers.ModelSerializer):
         model = Subscription
         fields = (
             'subscription_type',
+            'email',
             'telegram_username',
             'topics',
             )
@@ -38,6 +40,7 @@ class UpdateSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = (
+            'email',
             'telegram_username',
             'topics',
         )

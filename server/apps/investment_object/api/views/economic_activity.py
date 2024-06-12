@@ -5,7 +5,7 @@ from server.apps.investment_object.api.serializers import (
 )
 from server.apps.investment_object.models import EconomicActivity
 from server.apps.services.filters_mixins import CreatedUpdatedDateFilterMixin
-from server.apps.services.views import RetrieveListViewSet
+from server.apps.services.views import RetrieveListCreateViewSet
 
 
 class EconomicActivityFilter(
@@ -23,7 +23,7 @@ class EconomicActivityFilter(
         )
 
 
-class EconomicActivityViewSet(RetrieveListViewSet):
+class EconomicActivityViewSet(RetrieveListCreateViewSet):
     """Экономическая деятельность."""
 
     serializer_class = EconomicActivitySerializer

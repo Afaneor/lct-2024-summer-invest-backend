@@ -12,9 +12,8 @@ class InvestmentObject(AbstractBaseModel):
     Инвестиционный объект.
     """
 
-    name = models.CharField(
+    name = models.TextField(
         verbose_name=_('Наименование'),
-        max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
     main_photo_url = models.CharField(
@@ -56,10 +55,8 @@ class InvestmentObject(AbstractBaseModel):
         verbose_name=_('Площадь помещений'),
         null=True,
     )
-    location = models.CharField(
+    location = models.TextField(
         verbose_name=_('Местоположение'),
-        max_length=400,
-        blank=True,
     )
     url = models.CharField(
         verbose_name=_('Ссылка на объект'),

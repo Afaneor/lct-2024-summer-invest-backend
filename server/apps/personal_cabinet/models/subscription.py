@@ -29,6 +29,10 @@ class Subscription(AbstractBaseModel):
     )
     # Почему тут никнейм? Потому что за разными типами подписки могут
     # следить разные люди.
+    email = models.EmailField(
+        verbose_name=_('Почта пользователя'),
+        max_length=settings.MAX_STRING_LENGTH,
+    )
     telegram_username = models.CharField(
         verbose_name=_('Никнейм пользователя в телеграмме'),
         max_length=settings.MAX_STRING_LENGTH,

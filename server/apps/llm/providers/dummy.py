@@ -6,5 +6,5 @@ from server.apps.llm.providers.abstract import AbstractLLMProvider
 class DummyProvider(AbstractLLMProvider):
 
     def chat(self, message: str, response=None) -> AgentChatResponse:
-        response = response or f'Response to "{message}" from DummyProvider.'
+        response = response or f'{{"text": "Response to {message} from DummyProvider.", "bot_filter": {{}}}}'
         return AgentChatResponse(response=response)

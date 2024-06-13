@@ -1,3 +1,6 @@
+import json
+from dataclasses import dataclass
+
 from llama_index.core.chat_engine.types import AgentChatResponse
 from rest_framework.exceptions import APIException
 from django.utils.translation import gettext_lazy as _
@@ -13,6 +16,12 @@ class MessageServiceException(APIException):
     status_code = 503
     default_detail = _('Нет возможности обработать сообщение в данный момент')
     default_code = 'message_service_error'
+
+
+@dataclass
+class LLMResponse:
+    text: str
+    bot_filter: dict | None = None
 
 
 class MessageService(object):
@@ -41,10 +50,16 @@ class MessageService(object):
         except Exception:
             raise MessageServiceException
 
+        try:
+            response = LLMResponse(**json.loads(response.response))
+        except json.JSONDecodeError:
+            raise MessageServiceException
+
         message = Message.objects.create(
             owner_type=MessageOwnerType.ASSISTANT,
             selection_request=selection_request,
-            text=response.response,
+            text=response.text,
+            bot_filter=response.bot_filter,
             parent_id=message_id,
         )
 

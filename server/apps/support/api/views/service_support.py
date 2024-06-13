@@ -70,15 +70,15 @@ class ServiceSupportViewSet(RetrieveListViewSet):
     filterset_class = ServiceSupportFilter
     permission_type_map = {
         **RetrieveListViewSet.permission_type_map,
-        'data_for_filters': 'view',
+        'additional_data': 'view',
     }
 
     @action(
         methods=['GET'],
-        url_path='data-for-filters',
+        url_path='additional-data',
         detail=False,
     )
-    def data_for_filters(
+    def additional_data(
         self,
         request: Request,
     ):

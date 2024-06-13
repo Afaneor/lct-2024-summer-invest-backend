@@ -27,6 +27,7 @@ class BusinessSerializer(ModelSerializerWithPermission):
     sub_sector = BaseSubSectorSerializer(
         label=_('Подотрасль'),
     )
+    business_type_label = serializers.SerializerMethodField()
 
     class Meta:
         model = Business
@@ -62,6 +63,13 @@ class BusinessSerializer(ModelSerializerWithPermission):
             'created_at',
             'updated_at',
         )
+
+    def get_business_type_label(
+        self,
+        business: Business,
+    ):
+        """Подпись к business_type."""
+        return business.get_business_type_display()
 
 
 class CreateBusinessSerializer(serializers.ModelSerializer):

@@ -40,6 +40,8 @@ class BaseEconomicActivitySerializer(serializers.ModelSerializer):
 class BaseInfrastructureSerializer(serializers.ModelSerializer):
     """Базовый сериалайзер инфраструктуры."""
 
+    availability_label = serializers.SerializerMethodField()
+
     class Meta:
         model = Infrastructure
         fields = (
@@ -52,11 +54,21 @@ class BaseInfrastructureSerializer(serializers.ModelSerializer):
             'throughput',
             'other_characteristics',
             'availability',
+            'availability_label',
         )
+
+    def get_availability_label(
+        self,
+        infrastructure: Infrastructure,
+    ):
+        """Подпись к availability."""
+        return infrastructure.get_availability_display()
 
 
 class BaseInvestmentObjectSerializer(serializers.ModelSerializer):
     """Базовый сериалайзер инвестиционных площадок."""
+
+    object_type_label = serializers.SerializerMethodField()
 
     class Meta:
         model = InvestmentObject
@@ -67,11 +79,19 @@ class BaseInvestmentObjectSerializer(serializers.ModelSerializer):
             'photo_urls',
             'name',
             'object_type',
+            'object_type_label',
             'url',
             'extra_data',
             'longitude',
             'latitude',
         )
+
+    def get_object_type_label(
+        self,
+        investment_object: InvestmentObject,
+    ):
+        """Подпись к object_type."""
+        return investment_object.get_object_type_display()
 
 
 class BasePrivilegeSerializer(serializers.ModelSerializer):

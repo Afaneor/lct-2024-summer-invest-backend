@@ -42,8 +42,8 @@ DJANGO_SUPERUSER_PASSWORD = config(
 
 SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE = config(
     'SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE',
-    default='5',
-    cast=str
+    default=5,
+    cast=int
 )
 
 DOCUMENT_CONVERTER_URL = config(

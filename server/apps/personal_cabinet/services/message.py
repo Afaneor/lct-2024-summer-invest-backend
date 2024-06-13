@@ -10,7 +10,7 @@ from server.apps.llm.utils import get_llm_provider
 from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.services.enums import MessageOwnerType
-
+from sentry_sdk import capture_exception
 
 class MessageServiceException(APIException):
     status_code = 503
@@ -47,12 +47,14 @@ class MessageService(object):
         )
         try:
             response = self._send_to_llm(user_text)
-        except Exception:
+        except Exception as e:
+            capture_exception(e)
             raise MessageServiceException
 
         try:
             response = LLMResponse(**json.loads(response.response))
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as e:
+            capture_exception(e)
             raise MessageServiceException
 
         message = Message.objects.create(

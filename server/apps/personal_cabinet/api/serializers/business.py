@@ -62,6 +62,7 @@ class BusinessSerializer(ModelSerializerWithPermission):
             'permission_rules',
             'created_at',
             'updated_at',
+            'business_type_label',
         )
 
     def get_business_type_label(

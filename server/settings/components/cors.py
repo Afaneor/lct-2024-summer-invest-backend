@@ -53,9 +53,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://prod.api.invest.yapa.one',
 ]
 
-CSRF_COOKIE_HTTPONLY = False  # CSRF stored in http only cookie
-CSRF_COOKIE_SECURE = False  # CSRF cookie is secure
-CSRF_COOKIE_DOMAIN = '*.yapa.one'  # CSRF cookie domain
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',

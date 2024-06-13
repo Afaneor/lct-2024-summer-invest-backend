@@ -64,6 +64,13 @@ services:
     networks:
       - webnet
 
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+
 # This task is an example of how to extend existing ones:
 #   some_worker:
 #     <<: *web

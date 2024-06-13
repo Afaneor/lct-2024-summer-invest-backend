@@ -31,6 +31,7 @@ _base_settings = (
     'components/celery.py',
     'components/sentry.py',
     'components/cors.py',
+    'components/llm.py',
     # Select the right env:
     'environments/{0}.py'.format(_ENV),
     # Optionally override some settings:

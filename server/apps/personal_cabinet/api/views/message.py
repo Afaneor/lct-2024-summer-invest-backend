@@ -1,4 +1,5 @@
 import django_filters
+from rest_framework.response import Response
 
 from server.apps.personal_cabinet.api.serializers import (
     CreateMessageSerializer,
@@ -7,6 +8,9 @@ from server.apps.personal_cabinet.api.serializers import (
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.personal_cabinet.models.selection_request import (
     SelectionRequest,
+)
+from server.apps.personal_cabinet.services.message import (
+    MessageService,
 )
 from server.apps.services.enums import MessageOwnerType
 from server.apps.services.filters_mixins import (
@@ -89,33 +93,14 @@ class MessageViewSet(RetrieveListCreateViewSet):
         Сохраняем сообщение от пользователя и отправляем данные в ChatGpt.
         """
         serializer.save()
-        selection_request = serializer.instance.selection_request
-        selection_request.is_bot_response_waiting = True
-        selection_request.save(
-            update_fields=['is_bot_response_waiting'],
-        )
-        # FIXME: Логика по GPT
-        # send_data_in_chat_gpt(
-        #     user_text=serializer.validated_data['text'],
-        #     message_id=serializer.instance.id,
-        #     selection_request_id=serializer.instance.selection_request.id,
-        # )
-        Message.objects.create(
-            owner_type=MessageOwnerType.BOT,
+
+        service = MessageService()
+        response_message = service.process_user_message(
+            user_text=serializer.validated_data['text'],
+            message_id=serializer.instance.id,
             selection_request=serializer.instance.selection_request,
-            text='Тестовое сообщение для Игоря',
-            bot_filter={
-                'investment_object': {
-                    'object_type': 'technopark',
-                },
-                'category_problem': {
-                    'search': 'Получение или отказ в выдаче ГПЗУ',
-                },
-                'service_support': {
-                    'object_type': 'technopark',
-                },
-            },
         )
+        return Response(MessageSerializer(response_message).data)
 
     def get_queryset(self):
         """

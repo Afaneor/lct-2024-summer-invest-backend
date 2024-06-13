@@ -112,6 +112,7 @@ class BaseMessageSerializer(serializers.ModelSerializer):
             'bot_filter',
             'parent',
             'created_at',
+            'owner_type_label',
         )
 
     def get_owner_type_label(

@@ -53,7 +53,7 @@ class SubscriptionViewSet(RetrieveListCreateDeleteViewSet):
     filterset_class = SubscriptionFilter
     permission_type_map = {
         **RetrieveListCreateDeleteViewSet.permission_type_map,
-        'data_for_filters': 'view',
+        'additional_data': 'view',
     }
 
     def create(self, request, *args, **kwargs):
@@ -66,7 +66,7 @@ class SubscriptionViewSet(RetrieveListCreateDeleteViewSet):
             defaults={
                 'email': serializer.validated_data['email'],
                 'telegram_username':
-                    serializer.validated_data.get('telegram_username'),
+                    serializer.validated_data.get('telegram_username', ''),
             },
         )
         return Response(
@@ -86,10 +86,10 @@ class SubscriptionViewSet(RetrieveListCreateDeleteViewSet):
 
     @action(
         methods=['GET'],
-        url_path='data-for-filters',
+        url_path='additional-data',
         detail=False,
     )
-    def data_for_filters(
+    def additional_data(
         self,
         request: Request,
     ):

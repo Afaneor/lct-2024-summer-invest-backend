@@ -12,7 +12,6 @@ from server.apps.investment_object.api.serializers import (
     UploadDataFromFileSerializer,
 )
 from server.apps.investment_object.models import (
-    EconomicActivity,
     InvestmentObject,
     RealEstate,
     SpecializedSite,
@@ -124,16 +123,16 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
     filterset_class = InvestmentObjectFilter
     permission_type_map = {
         **RetrieveListCreateViewSet.permission_type_map,
-        'data_for_filters': 'view',
+        'additional_data': 'view',
         'add_data_from_xlsx_file': 'action_is_superuser',
     }
 
     @action(
         methods=['GET'],
-        url_path='data-for-filters',
+        url_path='additional-data',
         detail=False,
     )
-    def data_for_filters(
+    def additional_data(
         self,
         request: Request,
     ):

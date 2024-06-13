@@ -55,11 +55,13 @@ class BaseBusinessSerializer(serializers.ModelSerializer):
     territorial_location = BaseTerritorialLocationSerializer()
     sector = BaseSectorSerializer()
     sub_sector = BaseSubSectorSerializer()
+    business_type_label = serializers.SerializerMethodField()
 
     class Meta:
         model = Business
         fields = (
             'business_type',
+            'business_type_label',
             'inn',
             'sector',
             'sub_sector',
@@ -84,11 +86,20 @@ class BaseBusinessSerializer(serializers.ModelSerializer):
             'site',
         )
 
+    def get_business_type_label(
+        self,
+        business: Business,
+    ):
+        """Подпись к business_type."""
+        return business.get_business_type_display()
+
 
 class BaseMessageSerializer(serializers.ModelSerializer):
     """
     Сериалайзер сообщения. Используется во вложенных сериалайзерах.
     """
+
+    owner_type_label = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
@@ -103,4 +114,9 @@ class BaseMessageSerializer(serializers.ModelSerializer):
             'created_at',
         )
 
-
+    def get_owner_type_label(
+        self,
+        message: Message,
+    ):
+        """Подпись к owner_type."""
+        return message.get_owner_type_display()

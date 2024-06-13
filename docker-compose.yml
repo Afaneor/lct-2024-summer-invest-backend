@@ -68,8 +68,12 @@ services:
     image: ollama/ollama
     volumes:
       - ollama:/root/.ollama
+    command:
+      - ollama run llama3
     ports:
       - "11434:11434"
+    networks:
+      - webnet
 
 # This task is an example of how to extend existing ones:
 #   some_worker:
@@ -83,3 +87,4 @@ networks:
 volumes:
   pgdata:
   django-static:
+  ollama:

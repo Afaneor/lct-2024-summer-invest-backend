@@ -28,6 +28,7 @@ class BaseTopicSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'shot_description',
             'description',
         )
 

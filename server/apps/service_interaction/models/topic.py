@@ -13,8 +13,13 @@ class Topic(AbstractBaseModel):
         verbose_name=_('Название'),
         max_length=settings.MAX_STRING_LENGTH,
     )
+    shot_description = models.TextField(
+        verbose_name=_('Краткое описание'),
+        blank=True,
+    )
     description = models.TextField(
         verbose_name=_('Описание'),
+        blank=True,
     )
 
     class Meta(AbstractBaseModel.Meta):

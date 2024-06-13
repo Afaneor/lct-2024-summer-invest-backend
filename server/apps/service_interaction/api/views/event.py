@@ -33,6 +33,7 @@ class EventViewSet(RetrieveListViewSet):
     queryset = Event.objects.all()
     search_fields = (
         'name',
+        'shot_description',
     )
     ordering_fields = '__all__'
     filterset_class = EventFilter

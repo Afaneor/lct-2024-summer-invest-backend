@@ -24,8 +24,13 @@ class Event(AbstractBaseModel):
     event_datetime = models.DateTimeField(
         verbose_name=_('Время проведения события'),
     )
+    shot_description = models.TextField(
+        verbose_name=_('Краткое описание'),
+        blank=True,
+    )
     description = models.TextField(
         verbose_name=_('Описание'),
+        blank=True,
     )
     event_type = models.CharField(
         verbose_name=_('Название'),

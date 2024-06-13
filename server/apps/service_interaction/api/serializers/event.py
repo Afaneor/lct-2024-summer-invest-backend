@@ -16,6 +16,7 @@ class ListEventSerializer(ModelSerializerWithPermission):
             'photo',
             'name',
             'event_datetime',
+            'shot_description',
             'description',
             'event_type',
             'event_type_label',
@@ -24,7 +25,7 @@ class ListEventSerializer(ModelSerializerWithPermission):
             'updated_at',
         )
 
-    def get_availability_label(
+    def get_event_type_label(
         self,
         event: Event,
     ):
@@ -42,6 +43,7 @@ class DetailEventSerializer(ModelSerializerWithPermission):
             'photo',
             'name',
             'event_datetime',
+            'shot_description',
             'description',
             'event_type',
             'content_type_id',

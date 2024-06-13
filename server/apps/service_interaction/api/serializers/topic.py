@@ -21,6 +21,7 @@ class ListTopicSerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'name',
+            'shot_description',
             'description',
             'permission_rules',
             'post_count',
@@ -43,6 +44,7 @@ class ListTopicSerializer(ModelSerializerWithPermission):
             ).data
         return None
 
+
 class DetailTopicSerializer(ModelSerializerWithPermission):
     """Сериалайзер темы."""
 
@@ -53,6 +55,7 @@ class DetailTopicSerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'name',
+            'shot_description',
             'description',
             'posts',
             'content_type_id',

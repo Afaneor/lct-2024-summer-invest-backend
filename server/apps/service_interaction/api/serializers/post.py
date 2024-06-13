@@ -18,6 +18,7 @@ class PostSerializer(ModelSerializerWithPermission):
             'id',
             'user',
             'topic',
+            'text',
             'parent',
             'permission_rules',
             'created_at',
@@ -34,5 +35,6 @@ class CreatePostSerializer(ModelSerializerWithPermission):
             'id',
             'user',
             'topic',
+            'text',
             'parent',
         )

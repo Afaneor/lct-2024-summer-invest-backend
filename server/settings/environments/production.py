@@ -72,7 +72,7 @@ SECURE_REDIRECT_EXEMPT = [
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool, default=True)
 CSRF_COOKIE_HTTPONLY = False  # CSRF stored in http only cookie
 CSRF_COOKIE_SECURE = False  # CSRF cookie is secure
-CSRF_COOKIE_DOMAIN = '*.yapa.one'  # CSRF cookie domain
+CSRF_COOKIE_DOMAIN = '.yapa.one'  # CSRF cookie domain
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

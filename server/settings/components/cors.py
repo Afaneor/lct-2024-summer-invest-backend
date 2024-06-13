@@ -7,6 +7,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://192.168.21.141:8080',
     'https://invest.yapa.one',
+    'https://prod.invest.yapa.one',
+    'https://prod.api.invest.yapa.one',
     'https://api.invest.yapa.one',
 ]
 CORS_ALLOW_METHODS = [
@@ -46,7 +48,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:9000',
     'http://localhost:3000',
     'https://invest.yapa.one',
+    'https://prod.invest.yapa.one',
     'https://api.invest.yapa.one',
+    'https://prod.api.invest.yapa.one',
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -54,5 +58,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
     'http://192.168.21.141:8080',
     'https://invest.yapa.one',
+    'https://prod.invest.yapa.one',
     'https://api.invest.yapa.one',
+    'https://prod.api.invest.yapa.one',
 ]

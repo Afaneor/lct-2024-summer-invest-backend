@@ -118,6 +118,7 @@ DTM_IGNORED_MIGRATIONS = frozenset(
         ('push_notifications', '*'),
         ('django_celery_beat', '*'),
         ('django_celery_results', '*'),
+        ('admin_tools_stats', '*'),
     ),
 )
 

@@ -975,6 +975,17 @@ marshmallow = ">=3.18.0,<4.0.0"
 typing-inspect = ">=0.4.0,<1"
 
 [[package]]
+name = "datetime-truncate"
+version = "1.1.1"
+description = "Truncate datetime objects to a set level of precision"
+optional = false
+python-versions = "*"
+files = [
+    {file = "datetime_truncate-1.1.1-py2.py3-none-any.whl", hash = "sha256:aa8cafd313caeb2c4614018e9096f82c98fa7dd87635148f51118aecc25965aa"},
+    {file = "datetime_truncate-1.1.1.tar.gz", hash = "sha256:00210b54f63f23054c5110801baf53a941df10e3e845e7b8239ccf399bd1e064"},
+]
+
+[[package]]
 name = "decorator"
 version = "5.1.1"
 description = "Decorators for Humans"
@@ -1099,6 +1110,37 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-admin-charts"
+version = "1.3.1"
+description = "django-admin-charts - Easily configurable charts statistics for `django-admin` and `django-admin-tools`"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-admin-charts-1.3.1.tar.gz", hash = "sha256:a1bd837d474a4f6a3c9ad048f275db128bbf63ee43ef7a52b03c7f99e8c78b07"},
+    {file = "django_admin_charts-1.3.1-py3-none-any.whl", hash = "sha256:b01c5611ae500494492f662cbec4e67263155fe1c729319748305f182d5f6d8e"},
+]
+
+[package.dependencies]
+datetime-truncate = "*"
+Django = {version = ">=2.0", markers = "python_version >= \"3.0\""}
+django-bower = "*"
+django-memoize = "*"
+django-multiselectfield = "*"
+django-nvd3 = ">=0.5.0"
+python-dateutil = "*"
+
+[[package]]
+name = "django-admin-tools"
+version = "0.9.3"
+description = "A collection of tools for the django administration interface"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-admin-tools-0.9.3.tar.gz", hash = "sha256:5aee0735907f0807c88b793f6b14eccff586e652d41e77f02c691f624f965672"},
+    {file = "django_admin_tools-0.9.3-py2.py3-none-any.whl", hash = "sha256:f4bef88a5c5f4b97a760c09b822fc6f0e9f12c91a755860b1c011d01345282d3"},
+]
+
+[[package]]
 name = "django-allauth"
 version = "0.54.0"
 description = "Integrated set of Django applications addressing authentication, registration, account management as well as 3rd party (social) account authentication."
@@ -1134,6 +1176,21 @@ requests = ">=2.4.3"
 amazon-ses = ["boto3"]
 dev = ["pre-commit", "sphinx", "sphinx-rtd-theme", "tox", "twine", "virtualenv (<20.22.0)", "wheel"]
 postal = ["cryptography"]
+
+[[package]]
+name = "django-bower"
+version = "5.2.0"
+description = "Integrate django with bower"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-bower-5.2.0.tar.gz", hash = "sha256:3ab5699b782d63d1aa8e5d61f9bdcdb8d29137e7ba6f19d094d566241afee0f2"},
+    {file = "django_bower-5.2.0-py2-none-any.whl", hash = "sha256:f1cf649842c0cb28f8aa28617e99fc7fb7773bac4e8886ee4e36962a38c99a6e"},
+]
+
+[package.dependencies]
+django = "*"
+six = "*"
 
 [[package]]
 name = "django-celery-beat"
@@ -1319,6 +1376,19 @@ files = [
 netaddr = "*"
 
 [[package]]
+name = "django-memoize"
+version = "2.3.1"
+description = "An implementation of memoization technique for Django."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-memoize-2.3.1.tar.gz", hash = "sha256:62ac4807710ecf22a7397d008d64d0f798e7230482d4b6072d916cac852a47cd"},
+]
+
+[package.dependencies]
+django = "*"
+
+[[package]]
 name = "django-migration-linter"
 version = "4.1.0"
 description = "Detect backward incompatible migrations for your django project"
@@ -1350,6 +1420,37 @@ files = [
 
 [package.dependencies]
 Django = ">=3.2"
+
+[[package]]
+name = "django-multiselectfield"
+version = "0.1.12"
+description = ""
+optional = false
+python-versions = "*"
+files = [
+    {file = "master.zip", hash = "sha256:0ae687936b46ca839b90b1cf873a85aa2001bfcb271571c5fb8df4ac6473e820"},
+]
+
+[package.dependencies]
+django = ">=1.4"
+
+[package.source]
+type = "url"
+url = "https://github.com/goinnn/django-multiselectfield/archive/master.zip"
+
+[[package]]
+name = "django-nvd3"
+version = "0.10.1"
+description = "Django NVD3 - Chart Library for d3.js"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-nvd3-0.10.1.tar.gz", hash = "sha256:c46922e095e5a86870cdeffffd5b8cf3b7d47c853a2e229eac98913c53053da8"},
+]
+
+[package.dependencies]
+Django = "*"
+python-nvd3 = "*"
 
 [[package]]
 name = "django-phonenumber-field"
@@ -4492,6 +4593,20 @@ lxml = ">=3.1.0"
 typing-extensions = ">=4.9.0"
 
 [[package]]
+name = "python-nvd3"
+version = "0.16.0"
+description = "Python NVD3 - Chart Library for d3.js"
+optional = false
+python-versions = "*"
+files = [
+    {file = "python-nvd3-0.16.0.tar.gz", hash = "sha256:0115887289b3f751716ddd05c7b53ac5f05e71201e52496decdac453a50dcf7e"},
+]
+
+[package.dependencies]
+Jinja2 = ">=2.8"
+python-slugify = ">=1.2.5"
+
+[[package]]
 name = "python-slugify"
 version = "7.0.0"
 description = "A Python slugify application that also handles Unicode"
@@ -6010,4 +6125,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4"
-content-hash = "585bef0fcd8bb4b6f4f355b8abcdd01d76adb88e5e8d282181616e0ebfd8f660"
+content-hash = "053cc0eab01c43c500d331fc7e4deb01e2b9a38ea8d751867a66985860bd1ed2"

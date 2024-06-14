@@ -24,6 +24,17 @@ SITE_ID = 1
 
 # Application definition:
 INSTALLED_APPS: Tuple[str, ...] = (
+    # django-admin:
+    'admin_tools_stats',  # this must be BEFORE 'admin_tools' and 'django.contrib.admin'
+    'django_nvd3',
+    'admin_tools',
+    'admin_tools.theming',
+    'admin_tools.menu',
+    'admin_tools.dashboard',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+
+
     'corsheaders',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,9 +43,6 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
 
-    # django-admin:
-    'django.contrib.admin',
-    'django.contrib.admindocs',
 
     # django rest framework
     'rest_framework',
@@ -66,7 +74,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
 MIDDLEWARE: Tuple[str, ...] = (
     'corsheaders.middleware.CorsMiddleware',
     # Content Security Policy:
-    'csp.middleware.CSPMiddleware',
+    # 'csp.middleware.CSPMiddleware',
     # Django:
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -146,7 +154,7 @@ TEMPLATES = [{
         # Contains plain text templates, like `robots.txt`:
         BASE_DIR.joinpath('server', 'templates'),
     ],
-    'APP_DIRS': True,
+    # 'APP_DIRS': True,
     'OPTIONS': {
         'context_processors': [
             # Default template context processors:
@@ -158,6 +166,11 @@ TEMPLATES = [{
             'django.template.context_processors.tz',
             'django.contrib.messages.context_processors.messages',
             'django.template.context_processors.request',
+        ],
+        'loaders': [
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+            'admin_tools.template_loaders.Loader',
         ],
     },
 }]

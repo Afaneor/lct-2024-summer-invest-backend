@@ -51,7 +51,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('health/', include(health_urls)),  # noqa: DJ05
     path("", include(api_url)),
-
+    path(r'^admin_tools/', include('admin_tools.urls')),
+    path('admin_tools_stats/', include('admin_tools_stats.urls')),
     *admin_urlpatterns,
     *docs_urlpatterns,
     *jwt_urlpatterns,

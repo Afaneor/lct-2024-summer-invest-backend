@@ -82,13 +82,13 @@ def send_data_to_the_user_by_subscription_on_email() -> None:
             minutes=settings.SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE,
         ),
         created_at__lte=now_datetime,
-    ).values_list('id', 'name', flat=True)
+    ).values_list('id', 'name')
     topics = Post.objects.filter(
         created_at__gte=now_datetime - timedelta(
             minutes=settings.SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE,
         ),
         created_at__lte=now_datetime,
-    ).values_list('post__topic__id', 'post__topic__name', flat=True)
+    ).values_list('post__topic__id', 'post__topic__name')
     events = Event.objects.filter(
         created_at__gte=now_datetime - timedelta(
             minutes=settings.SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE,

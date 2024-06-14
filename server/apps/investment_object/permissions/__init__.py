@@ -8,6 +8,7 @@ from server.apps.investment_object.permissions import (
     restriction,
     specialized_site,
     tender_lot,
+    transaction_form,
 )
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     'restriction',
     'specialized_site',
     'tender_lot',
+    'transaction_form',
 ]

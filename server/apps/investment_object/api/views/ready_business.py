@@ -28,7 +28,7 @@ class ReadyBusinessViewSet(RetrieveListViewSet):
     serializer_class = ReadyBusinessSerializer
     queryset = ReadyBusiness.objects.all()
     search_fields = (
-        'external_id',
+        'investment_object__name',
     )
     ordering_fields = '__all__'
     filterset_class = ReadyBusinessFilter

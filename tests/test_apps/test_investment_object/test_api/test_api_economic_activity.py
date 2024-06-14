@@ -33,7 +33,7 @@ def test_economic_activity_detail(
 def test_economic_activity_list(
     api_client,
 ):
-    """Формат EconomicActivity."""
+    """Список EconomicActivity."""
     url = reverse(
         'api:investment-object:economic-activities-list',
     )

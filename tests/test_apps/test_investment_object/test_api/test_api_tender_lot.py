@@ -3,6 +3,8 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
+from tests.test_apps.conftest import response_without_keys
+
 fake = Faker()
 
 
@@ -13,51 +15,24 @@ def test_tender_lot_format(
     tender_lot_format,
 ):
     """Формат TenderLot."""
-    url = reverse('investment-object:tender-lot-detail', [tender_lot.id])
+    url = reverse('api:investment-object:tender-lots-detail', [tender_lot.id])
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == tender_lot_format(tender_lot)
-
-
-@pytest.mark.django_db()
-def test_tender_lot_post(
-    api_client,
-):
-    """Создание TenderLot."""
-    url = reverse('investment-object:tender-lot-list')
-    response = api_client.post(
-        url,
-        data={},
-        format='json',
+    assert (
+        response_without_keys(response.json()) ==
+        tender_lot_format(tender_lot)
     )
 
-    assert response.status_code == status.HTTP_201_CREATED
-
 
 @pytest.mark.django_db()
-def test_tender_lot_delete(api_client, tender_lot):
-    """Удаление TenderLot."""
-    url = reverse('investment-object:tender-lot-detail', [tender_lot.id])
-
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_tender_lot_change(
+def test_tender_lot_list(
     api_client,
-    tender_lot,
 ):
-    """Изменение TenderLot."""
-    url = reverse('api:investment-object:tender-lot-detail', [tender_lot.id])
+    """Список TenderLot."""
+    url = reverse('api:investment-object:tender-lots-list')
 
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

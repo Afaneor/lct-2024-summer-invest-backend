@@ -33,7 +33,7 @@ def test_infrastructure_format(
 def test_infrastructure_list(
     api_client,
 ):
-    """Формат Infrastructure."""
+    """Список Infrastructure."""
     url = reverse('api:investment-object:infrastructures-list')
 
     response = api_client.get(url)

@@ -3,61 +3,39 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
+from tests.test_apps.conftest import response_without_keys
+
 fake = Faker()
 
 
 @pytest.mark.django_db()
-def test_specialized_site_format(
+def test_specialized_site_detail(
     api_client,
     specialized_site,
     specialized_site_format,
 ):
     """Формат SpecializedSite."""
-    url = reverse('investment-object:specialized-site-detail', [specialized_site.id])
+    url = reverse(
+        'api:investment-object:specialized-sites-detail',
+        [specialized_site.id],
+    )
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == specialized_site_format(specialized_site)
-
-
-@pytest.mark.django_db()
-def test_specialized_site_post(
-    api_client,
-):
-    """Создание SpecializedSite."""
-    url = reverse('investment-object:specialized-site-list')
-    response = api_client.post(
-        url,
-        data={},
-        format='json',
+    assert (
+        response_without_keys(response.json()) ==
+        specialized_site_format(specialized_site)
     )
 
-    assert response.status_code == status.HTTP_201_CREATED
-
 
 @pytest.mark.django_db()
-def test_specialized_site_delete(api_client, specialized_site):
-    """Удаление SpecializedSite."""
-    url = reverse('investment-object:specialized-site-detail', [specialized_site.id])
-
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_specialized_site_change(
+def test_specialized_site_list(
     api_client,
-    specialized_site,
 ):
-    """Изменение SpecializedSite."""
-    url = reverse('api:investment-object:specialized-site-detail', [specialized_site.id])
+    """Список SpecializedSite."""
+    url = reverse('api:investment-object:specialized-sites-list')
 
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

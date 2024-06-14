@@ -33,7 +33,7 @@ def test_investment_object_detail(
 def test_investment_object_list(
     api_client,
 ):
-    """Создание InvestmentObject."""
+    """Список InvestmentObject."""
     url = reverse('api:investment-object:investment-objects-list')
 
     response = api_client.get(url)

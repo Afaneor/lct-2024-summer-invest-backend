@@ -184,7 +184,6 @@ class RealEstateFactory(DjangoModelFactory):
     other_information = lazy(fake.paragraph)
     maip = lazy(fake.paragraph)
     benefit_description = lazy(fake.paragraph)
-    infrastructures = factory.SubFactory(InfrastructureFactory)
 
     class Meta:
         model = RealEstate
@@ -214,8 +213,6 @@ class SpecializedSiteFactory(DjangoModelFactory):
     document_url = lazy(fake.paragraph)
     year_formation = lazy(fake.pyint)
     validity = lazy(fake.pyint)
-    restrictions = factory.SubFactory(RestrictionFactory)
-    infrastructures = factory.SubFactory(RestrictionFactory)
     additional_services = lazy(fake.paragraph)
     object_administrator_name = lazy(fake.paragraph)
     address = lazy(fake.paragraph)
@@ -225,7 +222,6 @@ class SpecializedSiteFactory(DjangoModelFactory):
     land_tax = lazy(fake.paragraph)
     transport_tax = lazy(fake.paragraph)
     insurance_premiums = lazy(fake.paragraph)
-    privileges = factory.SubFactory(PrivilegeFactory)
     is_free_customs_zone_regime = lazy(fake.paragraph)
     resident_info = lazy(fake.paragraph)
     minimum_investment_amount = lazy(fake.paragraph)
@@ -539,7 +535,6 @@ def investment_object_format(transaction_form_format):
             'specialized_site': None,
             'ready_business': None,
             'content_type_id': investment_object.content_type_id,
-
             'created_at':
                 DateTimeField().to_representation(investment_object.created_at),
             'updated_at':
@@ -554,14 +549,19 @@ def real_estate_format():
     def _real_estate_format(real_estate):
         return {
             'id': real_estate.id,
-            'investment_object': real_estate.investment_object,
+            'investment_object': real_estate.investment_object.id,
             'external_id': real_estate.external_id,
             'preferential_treatment': real_estate.preferential_treatment,
-            'preferential_treatment_object_code': real_estate.preferential_treatment_object_code,
-            'preferential_treatment_object_name': real_estate.preferential_treatment_object_name,
-            'support_infrastructure_object': real_estate.support_infrastructure_object,
-            'support_infrastructure_object_code': real_estate.support_infrastructure_object_code,
-            'support_infrastructure_object_name': real_estate.support_infrastructure_object_name,
+            'preferential_treatment_object_code':
+                real_estate.preferential_treatment_object_code,
+            'preferential_treatment_object_name':
+                real_estate.preferential_treatment_object_name,
+            'support_infrastructure_object':
+                real_estate.support_infrastructure_object,
+            'support_infrastructure_object_code':
+                real_estate.support_infrastructure_object_code,
+            'support_infrastructure_object_name':
+                real_estate.support_infrastructure_object_name,
             'region': real_estate.region,
             'address': real_estate.address,
             'nearest_cities': real_estate.nearest_cities,
@@ -576,8 +576,10 @@ def real_estate_format():
             'permitted_use_options': real_estate.permitted_use_options,
             'cupping': real_estate.cupping,
             'land_category': real_estate.land_category,
-            'building_cadastral_number': real_estate.building_cadastral_number,
-            'building_technical_specifications': real_estate.building_technical_specifications,
+            'building_cadastral_number':
+                real_estate.building_cadastral_number,
+            'building_technical_specifications':
+                real_estate.building_technical_specifications,
             'owner_name': real_estate.owner_name,
             'owner_inn': real_estate.owner_inn,
             'other_characteristics': real_estate.other_characteristics,
@@ -588,7 +590,11 @@ def real_estate_format():
             'other_information': real_estate.other_information,
             'maip': real_estate.maip,
             'benefit_description': real_estate.benefit_description,
-            'infrastructures': real_estate.infrastructures,
+            'infrastructures': [],
+            'created_at':
+                DateTimeField().to_representation(real_estate.created_at),
+            'updated_at':
+                DateTimeField().to_representation(real_estate.updated_at),
         }
     return _real_estate_format
 
@@ -599,9 +605,14 @@ def ready_business_format():
     def _ready_business_format(ready_business):
         return {
             'id': ready_business.id,
-            'investment_object': ready_business.investment_object,
+            'investment_object': ready_business.investment_object.id,
             'external_id': ready_business.external_id,
             'description': ready_business.description,
+            'extra_data': ready_business.extra_data,
+            'created_at':
+                DateTimeField().to_representation(ready_business.created_at),
+            'updated_at':
+                DateTimeField().to_representation(ready_business.updated_at),
         }
     return _ready_business_format
 
@@ -613,6 +624,10 @@ def restriction_format():
         return {
             'id': restriction.id,
             'name': restriction.name,
+            'created_at':
+                DateTimeField().to_representation(restriction.created_at),
+            'updated_at':
+                DateTimeField().to_representation(restriction.updated_at),
         }
     return _restriction_format
 
@@ -624,6 +639,10 @@ def privilege_format():
         return {
             'id': privilege.id,
             'name': privilege.name,
+            'created_at':
+                DateTimeField().to_representation(privilege.created_at),
+            'updated_at':
+                DateTimeField().to_representation(privilege.updated_at),
         }
     return _privilege_format
 
@@ -636,6 +655,10 @@ def transaction_form_format():
             'id': transaction_form.id,
             'name': transaction_form.name,
             'transaction_form_type': transaction_form.transaction_form_type,
+            'created_at':
+                DateTimeField().to_representation(transaction_form.created_at),
+            'updated_at':
+                DateTimeField().to_representation(transaction_form.updated_at),
         }
     return _transaction_form_format
 
@@ -646,7 +669,7 @@ def specialized_site_format():
     def _specialized_site_format(specialized_site):
         return {
             'id': specialized_site.id,
-            'investment_object': specialized_site.investment_object,
+            'investment_object': specialized_site.investment_object.id,
             'external_id': specialized_site.external_id,
             'sez': specialized_site.sez,
             'tad': specialized_site.tad,
@@ -656,8 +679,8 @@ def specialized_site_format():
             'document_url': specialized_site.document_url,
             'year_formation': specialized_site.year_formation,
             'validity': specialized_site.validity,
-            'restrictions': specialized_site.restrictions,
-            'infrastructures': specialized_site.infrastructures,
+            'restrictions': [],
+            'infrastructures': [],
             'additional_services': specialized_site.additional_services,
             'object_administrator_name': specialized_site.object_administrator_name,
             'address': specialized_site.address,
@@ -667,11 +690,15 @@ def specialized_site_format():
             'land_tax': specialized_site.land_tax,
             'transport_tax': specialized_site.transport_tax,
             'insurance_premiums': specialized_site.insurance_premiums,
-            'privileges': specialized_site.privileges,
+            'privileges': [],
             'is_free_customs_zone_regime': specialized_site.is_free_customs_zone_regime,
             'resident_info': specialized_site.resident_info,
             'minimum_investment_amount': specialized_site.minimum_investment_amount,
             'urban_planning': specialized_site.urban_planning,
+            'created_at':
+                DateTimeField().to_representation(specialized_site.created_at),
+            'updated_at':
+                DateTimeField().to_representation(specialized_site.updated_at),
         }
     return _specialized_site_format
 
@@ -701,9 +728,14 @@ def tender_lot_format():
     def _tender_lot_format(tender_lot: TenderLot):
         return {
             'id': tender_lot.id,
-            'investment_object': tender_lot.investment_object,
+            'investment_object': tender_lot.investment_object.id,
             'external_id': tender_lot.external_id,
             'description': tender_lot.description,
+            'extra_data': tender_lot.extra_data,
+            'created_at':
+                DateTimeField().to_representation(tender_lot.created_at),
+            'updated_at':
+                DateTimeField().to_representation(tender_lot.updated_at),
         }
     return _tender_lot_format
 

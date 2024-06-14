@@ -27,7 +27,6 @@ class TenderLotViewSet(RetrieveListViewSet):
     queryset = TenderLot.objects.all()
     search_fields = (
         'investment_object__name',
-        'tender_lot_id',
     )
     ordering_fields = '__all__'
     filterset_class = TenderLotFilter

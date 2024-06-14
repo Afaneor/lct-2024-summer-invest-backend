@@ -3,61 +3,36 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
+from tests.test_apps.conftest import response_without_keys
+
 fake = Faker()
 
 
 @pytest.mark.django_db()
-def test_restriction_format(
+def test_restriction_detail(
     api_client,
     restriction,
     restriction_format,
 ):
     """Формат Restriction."""
-    url = reverse('investment-object:restriction-detail', [restriction.id])
+    url = reverse('api:investment-object:restrictions-detail', [restriction.id])
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == restriction_format(restriction)
-
-
-@pytest.mark.django_db()
-def test_restriction_post(
-    api_client,
-):
-    """Создание Restriction."""
-    url = reverse('investment-object:restriction-list')
-    response = api_client.post(
-        url,
-        data={},
-        format='json',
+    assert (
+        response_without_keys(response.json()) ==
+        restriction_format(restriction)
     )
 
-    assert response.status_code == status.HTTP_201_CREATED
-
 
 @pytest.mark.django_db()
-def test_restriction_delete(api_client, restriction):
-    """Удаление Restriction."""
-    url = reverse('investment-object:restriction-detail', [restriction.id])
-
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_restriction_change(
+def test_restriction_list(
     api_client,
-    restriction,
 ):
-    """Изменение Restriction."""
-    url = reverse('api:investment-object:restriction-detail', [restriction.id])
+    """Список Restriction."""
+    url = reverse('api:investment-object:restrictions-list')
 
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

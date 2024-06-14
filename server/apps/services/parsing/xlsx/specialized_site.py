@@ -88,14 +88,14 @@ def parsing_specialized_site(file=None):
                     main_photo_url = ''
 
                 # Стоимость.
-                if row[12]:
-                    cost = row[12].replace(',', '.')
+                if row[13]:
+                    cost = row[13].replace(',', '.')
                 else:
                     cost = None
 
                 # Площадь земли.
-                if row[13]:
-                    land_area = float(row[13].replace(',', '.')) / 10000
+                if row[12]:
+                    land_area = float(row[12].replace(',', '.')) / 10000
                 else:
                     land_area = None
 

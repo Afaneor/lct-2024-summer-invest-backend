@@ -22,6 +22,7 @@ class BaseTransactionFormSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'transaction_form_type',
         )
 
 

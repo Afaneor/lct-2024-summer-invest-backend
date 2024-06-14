@@ -78,6 +78,8 @@ pylightxl = "^1.61"
 bs4 = "^0.0.2"
 llama-index = "^0.10.43"
 llama-index-llms-ollama = "^0.1.5"
+gdrfile = "^0.0.1"
+locust = "^2.29.0"
 
 [tool.poetry.dev-dependencies]
 django-coverage-plugin = "^3.0"  # https://github.com/nedbat/django_coverage_plugin

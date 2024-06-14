@@ -222,6 +222,7 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
             status=status.HTTP_201_CREATED
         )
 
+    # FIXME.
     @action(  # type: ignore
         methods=['POST'],
         url_path='statistics',

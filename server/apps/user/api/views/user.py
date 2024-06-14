@@ -90,7 +90,7 @@ class UserViewSet(RetrieveListUpdateViewSet):
         if user.is_anonymous:
             return queryset.none()
 
-        return queryset.filter(pk=user.pk)
+        return queryset.filter(id=user.id)
 
     @action(
         ['POST'],

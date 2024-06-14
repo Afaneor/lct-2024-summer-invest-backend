@@ -36,7 +36,7 @@ from server.url_components import (
 # Регистрируем routers приложений.
 router.register('investment-object', investment_object_router, 'investment-object')
 router.register('personal-cabinet', personal_cabinet_router, 'personal-cabinet')
-router.register('service-interactions', service_interaction_router, 'service-interactions')
+router.register('service-interaction', service_interaction_router, 'service-interaction')
 router.register('support', support_router, 'support')
 router.register('user', user_router, 'user')
 

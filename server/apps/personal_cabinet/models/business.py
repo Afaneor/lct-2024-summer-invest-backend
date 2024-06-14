@@ -188,4 +188,4 @@ class Business(AbstractBaseModel):
         ]
 
     def __str__(self):
-        return f'{self.business_type} - {self.sector} - {self.sub_sector} - {self.user}. ИНН - {self.inn}'
+        return f'{self.full_business_name} - {self.user}. ИНН - {self.inn}, ОКВЕД - {self.okved_code}'

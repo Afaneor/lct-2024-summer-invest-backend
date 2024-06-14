@@ -1,6 +1,7 @@
 from django.conf import settings
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.core.chat_engine import ContextChatEngine
+from llama_index.core.chat_engine.types import AgentChatResponse
 from llama_index.llms.ollama import Ollama
 
 from server.apps.llm.providers.abstract import AbstractLLMProvider
@@ -20,5 +21,5 @@ class LocalProvider(AbstractLLMProvider):
         documents = SimpleDirectoryReader(documents_directory).load_data()
         return documents
 
-    def chat(self, message: str):
-        self.engine.chat()
+    def chat(self, message: str) -> AgentChatResponse:
+        return self.engine.chat(message)

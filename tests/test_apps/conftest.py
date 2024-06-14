@@ -503,6 +503,12 @@ def transaction_form_format():
             'id': transaction_form.id,
             'name': transaction_form.name,
             'transaction_form_type': transaction_form.transaction_form_type,
+            'transaction_form_type_label':
+                transaction_form.get_transaction_form_type_display(),
+            'created_at':
+                DateTimeField().to_representation(transaction_form.created_at),
+            'updated_at':
+                DateTimeField().to_representation(transaction_form.updated_at),
         }
     return _transaction_form_format
 

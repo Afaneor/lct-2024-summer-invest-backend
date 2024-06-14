@@ -115,7 +115,7 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
         'transaction_form',
     ).prefetch_related(
         'economic_activities',
-    )
+    ).order_by('id')
     search_fields = (
         'name',
     )

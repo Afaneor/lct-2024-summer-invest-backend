@@ -1,6 +1,8 @@
 import json
 from dataclasses import dataclass
+from typing import Optional
 
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from llama_index.core.chat_engine.types import AgentChatResponse
 from rest_framework.exceptions import APIException
@@ -11,6 +13,7 @@ from server.apps.llm.utils import get_llm_provider
 from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.services.enums import MessageOwnerType
+from server.apps.user.models import User
 
 
 class MessageServiceException(APIException):
@@ -40,12 +43,20 @@ class MessageService(object):
         user_text: str,
         selection_request: SelectionRequest,
         message_id: int,
+        user: Optional[User] = None,
     ) -> Message:
         """Get response from LLM and create message."""
         selection_request.is_bot_response_waiting = True
         selection_request.save(
             update_fields=['is_bot_response_waiting'],
         )
+        if user and user.is_authenticated:
+            extra_data = ' '.join([
+                str(business)
+                for business
+                in user.businesses.all()
+            ])
+            user_text = f'{settings.AUTH_USER_PROMPT} {extra_data} {user_text}'
         try:
             response = self._send_to_llm(user_text)
         except Exception as e:
@@ -80,4 +91,3 @@ class MessageService(object):
         Отправляем информацию в LLM.
         """
         return self.llm_provider.chat(user_text)
-

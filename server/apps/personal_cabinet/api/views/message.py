@@ -99,6 +99,7 @@ class MessageViewSet(RetrieveListCreateViewSet):
             user_text=serializer.validated_data['text'],
             message_id=serializer.instance.id,
             selection_request=serializer.instance.selection_request,
+            user=self.request.user,
         )
         return Response(MessageSerializer(response_message).data)
 

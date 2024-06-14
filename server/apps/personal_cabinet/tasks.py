@@ -76,7 +76,7 @@ def send_data_to_the_user_by_subscription_on_email() -> None:
             minutes=settings.SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE,
         ),
         created_at__lte=now_datetime,
-    ).values_list('id', 'name', flat=True)
+    ).values_list('id', 'name')
     service_supports = ServiceSupport.objects.filter(
         created_at__gte=now_datetime - timedelta(
             minutes=settings.SEND_DATA_TO_THE_USER_BY_SUBSCRIPTION_MINUTE,

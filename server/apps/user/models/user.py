@@ -71,6 +71,26 @@ class User(  # type: ignore
         max_length=settings.MAX_STRING_LENGTH,
         blank=True,
     )
+    organization_website = models.URLField(
+        verbose_name=_('Сайт организации'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
+    )
+    country = models.CharField(
+        verbose_name=_('Страна'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
+    )
+    city = models.CharField(
+        verbose_name=_('Город'),
+        max_length=settings.MAX_STRING_LENGTH,
+        blank=True,
+    )
+    position = models.CharField(
+        verbose_name=_('Сайт организации'),
+        max_length=settings.MAX_STRING_LENGTH,
+    )
+
     objects = DefaultUserManager()  # noqa: WPS110
 
     class Meta:

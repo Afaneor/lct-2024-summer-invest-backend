@@ -14,6 +14,7 @@ class LocalProvider(AbstractLLMProvider):
         self.engine = ContextChatEngine.from_defaults(
             llm=self.llm,
             retriever=index.as_retriever(),
+            system_prompt=settings.SYSTEM_PROMPT,
         )
 
     def __load_data(self):

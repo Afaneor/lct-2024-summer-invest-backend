@@ -20,6 +20,10 @@ class RegisterSerializer(serializers.Serializer):
         required=False,
         allow_blank=True,
     )
+    organization_website = serializers.CharField(allow_blank=True)
+    country = serializers.CharField(allow_blank=True)
+    city = serializers.CharField(allow_blank=True)
+    position = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     inn = serializers.CharField(required=True)
     password1 = serializers.CharField(required=True)

@@ -15,3 +15,12 @@ class GPTProvider(AbstractLLMProvider):
 
     def chat(self, message: str) -> AgentChatResponse:
         return self.engine.chat(message)
+
+    @property
+    def system_prompt(self) -> str:
+        """
+        Prompt is fixed in chatGPT assistant.
+
+        :return: str
+        """
+        return settings.SYSTEM_PROMPT

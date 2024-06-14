@@ -10,6 +10,10 @@ def create_new_user(data: dict) -> User:
         first_name=data.get('first_name'),
         last_name=data.get('last_name'),
         middle_name=data.get('middle_name', ''),
+        organization_website=data.get('organization_website', ''),
+        country=data.get('country', ''),
+        city=data.get('city', ''),
+        position=data.get('position', ''),
     )
 
     # Устанавливаем пароль.

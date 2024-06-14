@@ -20,9 +20,21 @@ class RegisterSerializer(serializers.Serializer):
         required=False,
         allow_blank=True,
     )
-    organization_website = serializers.CharField(allow_blank=True)
-    country = serializers.CharField(allow_blank=True)
-    city = serializers.CharField(allow_blank=True)
+    organization_website = serializers.CharField(
+        allow_blank=True,
+        allow_null=True,
+        default='',
+    )
+    country = serializers.CharField(
+        allow_blank=True,
+        allow_null=True,
+        default='',
+    )
+    city = serializers.CharField(
+        allow_blank=True,
+        allow_null=True,
+        default='',
+    )
     position = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     inn = serializers.CharField(required=True)

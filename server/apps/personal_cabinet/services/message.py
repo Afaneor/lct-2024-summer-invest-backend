@@ -1,16 +1,17 @@
 import json
 from dataclasses import dataclass
 
+from django.utils.translation import gettext_lazy as _
 from llama_index.core.chat_engine.types import AgentChatResponse
 from rest_framework.exceptions import APIException
-from django.utils.translation import gettext_lazy as _
+from sentry_sdk import capture_exception
 
 from server.apps.llm.providers.abstract import AbstractLLMProvider
 from server.apps.llm.utils import get_llm_provider
 from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.services.enums import MessageOwnerType
-from sentry_sdk import capture_exception
+
 
 class MessageServiceException(APIException):
     status_code = 503

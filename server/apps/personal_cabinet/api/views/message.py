@@ -11,6 +11,7 @@ from server.apps.personal_cabinet.models.selection_request import (
 )
 from server.apps.personal_cabinet.services.message import (
     MessageService,
+    MessageServiceException,
 )
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,

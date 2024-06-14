@@ -14,6 +14,7 @@ from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.services.enums import MessageOwnerType
 from server.apps.user.models import User
+from loguru import logger
 
 
 class MessageServiceException(APIException):
@@ -51,13 +52,14 @@ class MessageService(object):
             update_fields=['is_bot_response_waiting'],
         )
         if user and user.is_authenticated:
-            extra_data = ' '.join([
+            extra_data = '\n'.join([
                 str(business)
                 for business
                 in user.businesses.all()
             ])
             user_text = f'{settings.AUTH_USER_PROMPT} {extra_data} {user_text}'
         try:
+            logger.info(f'User message: {user_text}')
             response = self._send_to_llm(user_text)
         except Exception as e:
             capture_exception(e)

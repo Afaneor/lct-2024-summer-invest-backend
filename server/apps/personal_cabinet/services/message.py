@@ -14,7 +14,10 @@ from server.apps.personal_cabinet.models import SelectionRequest
 from server.apps.personal_cabinet.models.message import Message
 from server.apps.services.enums import MessageOwnerType
 from server.apps.user.models import User
-from loguru import logger
+import logging
+
+
+logger = logging.getLogger('django')
 
 
 class MessageServiceException(APIException):

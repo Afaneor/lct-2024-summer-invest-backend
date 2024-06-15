@@ -13,7 +13,7 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
         model = ServiceSupport
         fields = (
             'id',
-            'external_id'
+            'external_id',
             'region',
             'service_support_type',
             'name',

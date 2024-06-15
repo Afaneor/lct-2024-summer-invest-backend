@@ -1,4 +1,6 @@
 import django_filters
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 
 from server.apps.personal_cabinet.api.serializers import (
@@ -72,6 +74,7 @@ class MessageFilter(
         )
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class MessageViewSet(RetrieveListCreateViewSet):
     """
     Сообщение. Просмотр/добавление.

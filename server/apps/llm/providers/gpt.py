@@ -21,7 +21,7 @@ class GPTProvider(AbstractLLMProvider):
         return self.engine.chat(message)
 
     def chat_no_rag(self, message: str) -> str:
-        messages = [ChatMessage(content=message)]
+        messages = [ChatMessage(content=message, role='user', additional_kwargs={})]
         return self.no_rag.chat(messages).message.content
 
     @property

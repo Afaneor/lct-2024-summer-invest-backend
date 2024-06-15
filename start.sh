@@ -43,9 +43,9 @@ function ask_env_var() {
     local value=""
 
     if [ -n "$hint" ]; then
-        print_color "blue" "$var_name [$hint]: "
+        print_color "blue" "$var_name (Если ничего не ввести, то значение по умолчанию: $default_value) [$hint]: "
     else
-        print_color "blue" "$var_name: "
+        print_color "blue" "$var_name (Если ничего не ввести, то значение по умолчанию: $default_value) : "
     fi
 
     read -r input_value

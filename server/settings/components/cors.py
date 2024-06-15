@@ -51,7 +51,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://prod.invest.yapa.one',
     'https://api.invest.yapa.one',
     'https://prod.api.invest.yapa.one',
-    'chrome-extension://*'
+    'chrome-extension://*',
 ]
 
 

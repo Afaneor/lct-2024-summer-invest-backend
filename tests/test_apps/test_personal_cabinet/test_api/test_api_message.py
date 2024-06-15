@@ -11,14 +11,19 @@ fake = Faker()
 
 @pytest.mark.django_db()
 def test_message_format(
-    user_api_client,
+    api_client,
     message,
     message_format,
 ):
     """Формат Message."""
     url = reverse('api:personal-cabinet:messages-detail', [message.id])
 
-    response = user_api_client.get(url)
+    response = api_client.get(
+        url,
+        headers={
+            'GENERATED-USER-ID': 'test-anonymous-user-id'
+        }
+    )
 
     assert response.status_code == status.HTTP_200_OK
     assert (
@@ -30,13 +35,13 @@ def test_message_format(
 # FIXME: Надо замокать ChatGpt
 @pytest.mark.django_db()
 def test_message_post(
-    user_api_client,
+    api_client,
     selection_request,
 ):
     """Создание Message."""
     url = reverse('api:personal-cabinet:messages-list')
 
-    response = user_api_client.post(
+    response = api_client.post(
         url,
         data={
             'owner_type': MessageOwnerType.USER,
@@ -50,10 +55,10 @@ def test_message_post(
 
 
 @pytest.mark.django_db()
-def test_message_list(user_api_client):
+def test_message_list(api_client):
     """Список Message."""
     url = reverse('api:personal-cabinet:messages-list')
 
-    response = user_api_client.get(url)
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

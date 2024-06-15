@@ -376,7 +376,7 @@ class SelectionRequestFactory(DjangoModelFactory):
     """Фабрика для SelectionRequest."""
 
     user = factory.SubFactory(UserFactory)
-    anonymous_user_id = lazy(fake.paragraph)
+    anonymous_user_id = 'test-anonymous-user-id'
     is_actual = lazy(fake.pybool)
     is_bot_response_waiting = lazy(fake.pybool)
 
@@ -873,13 +873,15 @@ def business_format(
 
 
 @pytest.fixture
-def selection_request_format():
+def selection_request_format(user_format):
     """Формат SelectionRequest."""
     def _selection_request_format(selection_request: SelectionRequest):
         return {
             'id': selection_request.id,
-            'user': selection_request.user,
+            'user': user_format(selection_request.user),
             'anonymous_user_id': selection_request.anonymous_user_id,
+            'bot_filter': None,
+            'messages': [],
             'is_actual': selection_request.is_actual,
             'is_bot_response_waiting': selection_request.is_bot_response_waiting,
             'created_at':
@@ -1078,3 +1080,21 @@ def problem_theme_format():
             'name': problem_theme.name,
         }
     return _problem_theme_format
+
+
+@pytest.fixture
+def user_format():
+    """Формат USer."""
+    def _user_format(user: User):
+        return {
+            'id': user.id,
+            'avatar': user.avatar if user.avatar else None,
+            'email': user.email,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'middle_name': user.middle_name,
+            'full_name': user.full_name,
+        }
+    return _user_format
+

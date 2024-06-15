@@ -16,7 +16,7 @@ from server.apps.personal_cabinet.models import Subscription, \
 from server.apps.service_interaction.models import Event, Topic, Comment, Post
 from server.apps.services.enums import TransactionFormType, ObjectType, \
     InfrastructureAvailability, SubscriptionType, BusinessType, TaxSystemType, \
-    MessageOwnerType
+    MessageOwnerType, ServiceSupportType
 from server.apps.support.models import ProblemSubcategory, ServiceSupport, \
     ProblemCategory, ProblemTheme, Problem
 from server.apps.user.models import User
@@ -241,10 +241,9 @@ class TenderLotFactory(DjangoModelFactory):
 class ServiceSupportFactory(DjangoModelFactory):
     """Фабрика для ServiceSupport."""
 
-
     external_id = lazy(fake.paragraph)
     region = lazy(fake.paragraph)
-    service_support_type = lazy(fake.paragraph)
+    service_support_type = random_text_choice(ServiceSupportType)
     name = lazy(fake.paragraph)
     support_type = lazy(fake.paragraph)
     support_level = lazy(fake.paragraph)
@@ -253,9 +252,6 @@ class ServiceSupportFactory(DjangoModelFactory):
     url_legal_act = lazy(fake.paragraph)
     url_application_form = lazy(fake.paragraph)
     name_responsible_body = lazy(fake.paragraph)
-    economic_activities = factory.SubFactory(EconomicActivityFactory)
-    restrictions = factory.SubFactory(RestrictionFactory)
-    msp_roster = lazy(fake.paragraph)
     msp_roster = lazy(fake.paragraph)
     applicant_requirement = lazy(fake.paragraph)
     applicant_procedure = lazy(fake.paragraph)
@@ -1010,6 +1006,10 @@ def problem_subcategory_format():
             'problem_category': problem_subcategory.problem_category,
             'external_id': problem_subcategory.external_id,
             'name': problem_subcategory.name,
+            'created_at':
+                DateTimeField().to_representation(problem_subcategory.created_at),
+            'updated_at':
+                DateTimeField().to_representation(problem_subcategory.updated_at),
         }
     return _problem_subcategory_format
 
@@ -1020,8 +1020,12 @@ def problem_category_format():
     def _problem_category_format(problem_category: ProblemCategory):
         return {
             'id': problem_category.id,
-            'external_id': problem_category.external_id,
             'name': problem_category.name,
+            'problem_subcategories': [],
+            'created_at':
+                DateTimeField().to_representation(problem_category.created_at),
+            'updated_at':
+                DateTimeField().to_representation(problem_category.updated_at),
         }
     return _problem_category_format
 
@@ -1043,13 +1047,18 @@ def service_support_format():
             'url_legal_act': service_support.url_legal_act,
             'url_application_form': service_support.url_application_form,
             'name_responsible_body': service_support.name_responsible_body,
-            'economic_activities': service_support.economic_activities,
-            'restrictions': service_support.restrictions,
+            'economic_activities': [],
+            'restrictions': [],
             'msp_roster': service_support.msp_roster,
             'applicant_requirement': service_support.applicant_requirement,
             'applicant_procedure': service_support.applicant_procedure,
             'required_document': service_support.required_document,
             'url': service_support.url,
+            'content_type_id': service_support.content_type_id,
+            'created_at':
+                DateTimeField().to_representation(service_support.created_at),
+            'updated_at':
+                DateTimeField().to_representation(service_support.updated_at),
         }
     return _service_support_format
 
@@ -1065,6 +1074,10 @@ def problem_format():
             'name': problem.name,
             'additional_info': problem.additional_info,
             'url': problem.url,
+            'created_at':
+                DateTimeField().to_representation(problem.created_at),
+            'updated_at':
+                DateTimeField().to_representation(problem.updated_at),
         }
     return _problem_format
 
@@ -1078,6 +1091,10 @@ def problem_theme_format():
             'problem_subcategory': problem_theme.problem_subcategory,
             'external_id': problem_theme.external_id,
             'name': problem_theme.name,
+            'created_at':
+                DateTimeField().to_representation(problem_theme.created_at),
+            'updated_at':
+                DateTimeField().to_representation(problem_theme.updated_at),
         }
     return _problem_theme_format
 

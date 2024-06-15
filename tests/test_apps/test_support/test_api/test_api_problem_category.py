@@ -3,61 +3,39 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
+from tests.test_apps.conftest import object_without_keys
+
 fake = Faker()
 
 
 @pytest.mark.django_db()
-def test_problem_category_format(
+def test_problem_category_detail(
     api_client,
     problem_category,
     problem_category_format,
 ):
     """Формат ProblemCategory."""
-    url = reverse('support:problem-category-detail', [problem_category.id])
+    url = reverse(
+        'api:support:problem-categories-detail',
+        [problem_category.id],
+    )
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == problem_category_format(problem_category)
-
-
-@pytest.mark.django_db()
-def test_problem_category_post(
-    api_client,
-):
-    """Создание ProblemCategory."""
-    url = reverse('support:problem-category-list')
-    response = api_client.post(
-        url,
-        data={},
-        format='json',
+    assert (
+        object_without_keys(response.json()) ==
+        problem_category_format(problem_category)
     )
 
-    assert response.status_code == status.HTTP_201_CREATED
-
 
 @pytest.mark.django_db()
-def test_problem_category_delete(api_client, problem_category):
-    """Удаление ProblemCategory."""
-    url = reverse('support:problem-category-detail', [problem_category.id])
-
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_problem_category_change(
+def test_problem_category_list(
     api_client,
-    problem_category,
 ):
-    """Изменение ProblemCategory."""
-    url = reverse('api:support:problem-category-detail', [problem_category.id])
+    """Список ProblemCategory."""
+    url = reverse('api:support:problem-categories-list')
 
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

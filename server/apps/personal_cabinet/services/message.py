@@ -96,3 +96,15 @@ class MessageService(object):
         Отправляем информацию в LLM.
         """
         return self.llm_provider.chat(user_text)
+
+    def get_summary(self, selection_request: SelectionRequest) -> str:
+        """
+        Получаем краткое описание от LLM.
+        """
+        messages = '\n'.join([message.text[:300] for message in selection_request.messages.all()])
+        try:
+            response = self.llm_provider.chat_no_rag(messages)
+        except Exception as e:
+            capture_exception(e)
+            raise MessageServiceException
+        return response

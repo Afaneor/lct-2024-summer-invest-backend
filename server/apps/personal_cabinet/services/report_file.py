@@ -5,7 +5,9 @@ from typing import Any, Dict
 from django.conf import settings
 from docxtpl import DocxTemplate
 
+from server.apps.investment_object.models import InvestmentObject
 from server.apps.personal_cabinet.models import SelectionRequest
+from server.apps.personal_cabinet.services.message import MessageService
 from server.apps.personal_cabinet.services.pdf_converter import (
     DocumentConverter,
 )
@@ -92,4 +94,13 @@ class SelectionRequestFile(object):  # noqa: WPS214
 
 def formation_context(selection_request: SelectionRequest) -> Dict[str, Any]:
     """Формирование контекста для файла."""
-    return {}
+    summary = MessageService().get_summary(selection_request)
+    filters = {}
+    for message in selection_request.messages.all():
+        if message.bot_filter and message.bot_filter.get('investment_objects'):
+            filters.update(message.bot_filter)
+    investment_objects = InvestmentObject.objects.filter(**filters)[:5]
+    return {
+        'investment_objects': investment_objects,
+        'summary': summary,
+    }

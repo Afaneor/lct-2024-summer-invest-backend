@@ -16,3 +16,7 @@ class AbstractLLMProvider(abc.ABC):
     @abc.abstractmethod
     def chat(self, message: str) -> AgentChatResponse:
         pass
+
+    @abc.abstractmethod
+    def chat_no_rag(self, message: str) -> str:
+        pass

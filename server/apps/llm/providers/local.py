@@ -3,6 +3,7 @@ from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.core.chat_engine import ContextChatEngine
 from llama_index.core.chat_engine.types import AgentChatResponse
 from llama_index.llms.ollama import Ollama
+from llama_index_client import ChatMessage
 
 from server.apps.llm.providers.abstract import AbstractLLMProvider
 
@@ -16,11 +17,15 @@ class LocalProvider(AbstractLLMProvider):
             retriever=index.as_retriever(),
             system_prompt=settings.SYSTEM_PROMPT,
         )
+        self.no_rag = self.engine
 
     def __load_data(self):
         documents_directory = settings.BASE_DIR / 'data'
         documents = SimpleDirectoryReader(documents_directory).load_data()
         return documents
+
+    def chat_no_rag(self, message: str) -> str:
+        return self.no_rag.chat(message).response
 
     def chat(self, message: str) -> AgentChatResponse:
         return self.engine.chat(message)

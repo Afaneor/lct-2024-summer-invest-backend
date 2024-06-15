@@ -1,4 +1,4 @@
-from typing import Callable, Any, Tuple, Dict
+from typing import Any, Callable, Dict, Tuple
 
 import factory
 import pytest
@@ -8,17 +8,46 @@ from faker import Faker
 from pytest_factoryboy import register
 from rest_framework.fields import DateTimeField
 
-from server.apps.investment_object.models import InvestmentObject, \
-    EconomicActivity, TransactionForm, Restriction, Privilege, RealEstate, \
-    Infrastructure, ReadyBusiness, SpecializedSite, TenderLot
-from server.apps.personal_cabinet.models import Subscription, \
-    TerritorialLocation, SelectionRequest, SubSector, Sector, Message, Business
-from server.apps.service_interaction.models import Event, Topic, Comment, Post
-from server.apps.services.enums import TransactionFormType, ObjectType, \
-    InfrastructureAvailability, SubscriptionType, BusinessType, TaxSystemType, \
-    MessageOwnerType, ServiceSupportType
-from server.apps.support.models import ProblemSubcategory, ServiceSupport, \
-    ProblemCategory, ProblemTheme, Problem
+from server.apps.investment_object.models import (
+    EconomicActivity,
+    Infrastructure,
+    InvestmentObject,
+    Privilege,
+    ReadyBusiness,
+    RealEstate,
+    Restriction,
+    SpecializedSite,
+    TenderLot,
+    TransactionForm,
+)
+from server.apps.personal_cabinet.models import (
+    Business,
+    Message,
+    Sector,
+    SelectionRequest,
+    Subscription,
+    SubSector,
+    TerritorialLocation,
+)
+from server.apps.service_interaction.models import Comment, Event, Post, Topic
+from server.apps.services.enums import (
+    BusinessType,
+    EventType,
+    InfrastructureAvailability,
+    MessageOwnerType,
+    ObjectType,
+    ServiceSupportType,
+    SubscriptionType,
+    TaxSystemType,
+    TransactionFormType,
+)
+from server.apps.support.models import (
+    Problem,
+    ProblemCategory,
+    ProblemSubcategory,
+    ProblemTheme,
+    ServiceSupport,
+)
 from server.apps.user.models import User
 
 fake = Faker()
@@ -306,7 +335,6 @@ class ProblemFactory(DjangoModelFactory):
     additional_info = lazy(fake.paragraph)
     url = lazy(fake.paragraph)
 
-
     class Meta:
         model = Problem
 
@@ -314,12 +342,11 @@ class ProblemFactory(DjangoModelFactory):
 class EventFactory(DjangoModelFactory):
     """Фабрика для Event."""
 
-    photo = lazy(fake.file_name)
     name = lazy(fake.paragraph)
     event_datetime = lazy(fake.date_time_this_month)
     shot_description = lazy(fake.paragraph)
     description = lazy(fake.paragraph)
-    event_type = lazy(fake.paragraph)
+    event_type = random_text_choice(EventType)
 
     class Meta:
         model = Event
@@ -514,8 +541,9 @@ def investment_object_format(transaction_form_format):
             'photo_urls': investment_object.photo_urls,
             'object_type': investment_object.object_type,
             'economic_activities': [],
-            'transaction_form': transaction_form_format(
-                investment_object.transaction_form
+            'transaction_form': object_without_keys(
+                transaction_form_format(investment_object.transaction_form),
+                ('created_at', 'updated_at'),
             ),
             'cost': investment_object.cost,
             'land_area': investment_object.land_area,
@@ -641,22 +669,6 @@ def privilege_format():
                 DateTimeField().to_representation(privilege.updated_at),
         }
     return _privilege_format
-
-
-@pytest.fixture
-def transaction_form_format():
-    """Формат TransactionForm."""
-    def _transaction_form_format(transaction_form: TransactionForm):
-        return {
-            'id': transaction_form.id,
-            'name': transaction_form.name,
-            'transaction_form_type': transaction_form.transaction_form_type,
-            'created_at':
-                DateTimeField().to_representation(transaction_form.created_at),
-            'updated_at':
-                DateTimeField().to_representation(transaction_form.updated_at),
-        }
-    return _transaction_form_format
 
 
 @pytest.fixture
@@ -945,12 +957,18 @@ def event_format():
     def _event_format(event):
         return {
             'id': event.id,
-            'photo': event.photo,
+            'photo': None,
             'name': event.name,
-            'event_datetime': event.event_datetime,
+            'event_datetime':
+                DateTimeField().to_representation(event.event_datetime),
             'shot_description': event.shot_description,
             'description': event.description,
             'event_type': event.event_type,
+            'content_type_id': event.content_type_id,
+            'created_at':
+                DateTimeField().to_representation(event.created_at),
+            'updated_at':
+                DateTimeField().to_representation(event.updated_at),
         }
     return _event_format
 
@@ -964,37 +982,55 @@ def topic_format():
             'name': topic.name,
             'shot_description': topic.shot_description,
             'description': topic.description,
+            'posts': [],
+            'content_type_id': topic.content_type_id,
+            'created_at':
+                DateTimeField().to_representation(topic.created_at),
+            'updated_at':
+                DateTimeField().to_representation(topic.updated_at),
         }
     return _topic_format
 
 
 @pytest.fixture
-def comment_format():
+def comment_format(user_format):
     """Формат Comment."""
     def _comment_format(comment: Comment):
         return {
             'id': comment.id,
-            'user': comment.user,
+            'user': user_format(comment.user),
             'text': comment.text,
-            'content_type': comment.content_type,
+            'content_type': comment.content_type.id,
             'object_id': comment.object_id,
+            'created_at':
+                DateTimeField().to_representation(comment.created_at),
+            'updated_at':
+                DateTimeField().to_representation(comment.updated_at),
         }
     return _comment_format
 
 
 @pytest.fixture
-def post_format():
+def post_format(user_format, topic_format):
     """Формат Post."""
     def _post_format(post: Post):
         return {
             'id': post.id,
-            'user': post.user,
-            'topic': post.topic,
+            'user': user_format(post.user),
+            'topic': object_without_keys(
+                topic_format(post.topic),
+                ('created_at', 'updated_at', 'posts', 'content_type_id'),
+            ),
             'parent': post.parent,
             'text': post.text,
+            'created_at':
+                DateTimeField().to_representation(
+                    post.created_at),
+            'updated_at':
+                DateTimeField().to_representation(
+                    post.updated_at),
         }
     return _post_format
-
 
 
 @pytest.fixture

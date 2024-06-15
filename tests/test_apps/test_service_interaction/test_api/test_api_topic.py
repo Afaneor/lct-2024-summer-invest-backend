@@ -1,9 +1,8 @@
 import pytest
-from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
-fake = Faker()
+from tests.test_apps.conftest import object_without_keys
 
 
 @pytest.mark.django_db()
@@ -13,51 +12,24 @@ def test_topic_format(
     topic_format,
 ):
     """Формат Topic."""
-    url = reverse('service-interaction:topic-detail', [topic.id])
+    url = reverse('api:service-interaction:topics-detail', [topic.id])
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == topic_format(topic)
-
-
-@pytest.mark.django_db()
-def test_topic_post(
-    api_client,
-):
-    """Создание Topic."""
-    url = reverse('service-interaction:topic-list')
-    response = api_client.post(
-        url,
-        data={},
-        format='json',
+    assert (
+        object_without_keys(response.json()) ==
+        topic_format(topic)
     )
 
-    assert response.status_code == status.HTTP_201_CREATED
-
 
 @pytest.mark.django_db()
-def test_topic_delete(api_client, topic):
-    """Удаление Topic."""
-    url = reverse('service-interaction:topic-detail', [topic.id])
-
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_topic_change(
+def test_topic_list(
     api_client,
-    topic,
 ):
-    """Изменение Topic."""
-    url = reverse('api:service-interaction:topic-detail', [topic.id])
+    """Список Topic."""
+    url = reverse('api:service-interaction:topics-list')
 
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

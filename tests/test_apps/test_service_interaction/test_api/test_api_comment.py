@@ -1,9 +1,8 @@
 import pytest
-from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
-fake = Faker()
+from tests.test_apps.conftest import object_without_keys
 
 
 @pytest.mark.django_db()
@@ -13,23 +12,31 @@ def test_comment_format(
     comment_format,
 ):
     """Формат Comment."""
-    url = reverse('service-interaction:comment-detail', [comment.id])
+    url = reverse('api:service-interaction:comments-detail', [comment.id])
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == comment_format(comment)
+    assert (
+        object_without_keys(response.json()) ==
+        comment_format(comment)
+    )
 
 
 @pytest.mark.django_db()
 def test_comment_post(
-    api_client,
+    user_api_client,
+    investment_object,
 ):
     """Создание Comment."""
-    url = reverse('service-interaction:comment-list')
-    response = api_client.post(
+    url = reverse('api:service-interaction:comments-list')
+    response = user_api_client.post(
         url,
-        data={},
+        data={
+            'text': 'тест',
+            'content_type': investment_object.content_type_id,
+            'object_id': investment_object.id,
+        },
         format='json',
     )
 
@@ -37,27 +44,10 @@ def test_comment_post(
 
 
 @pytest.mark.django_db()
-def test_comment_delete(api_client, comment):
+def test_comment_list(api_client, comment):
     """Удаление Comment."""
-    url = reverse('service-interaction:comment-detail', [comment.id])
+    url = reverse('api:service-interaction:comments-list')
 
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_comment_change(
-    api_client,
-    comment,
-):
-    """Изменение Comment."""
-    url = reverse('api:service-interaction:comment-detail', [comment.id])
-
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

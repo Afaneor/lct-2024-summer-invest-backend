@@ -1,11 +1,8 @@
 import pytest
-from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
 from tests.test_apps.conftest import object_without_keys
-
-fake = Faker()
 
 
 @pytest.mark.django_db()

@@ -42,3 +42,10 @@ class PostViewSet(RetrieveListCreateViewSet):
     queryset = Post.objects.select_related('user', 'topic')
     ordering_fields = '__all__'
     filterset_class = PostFilter
+
+    def perform_create(self, serializer):
+        """
+        Добавляем информацию о пользователе.
+        """
+        serializer.validated_data.update(user=self.request.user)
+        serializer.save()

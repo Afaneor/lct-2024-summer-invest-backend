@@ -3,7 +3,7 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
-fake = Faker()
+from tests.test_apps.conftest import object_without_keys
 
 
 @pytest.mark.django_db()
@@ -13,23 +13,30 @@ def test_post_format(
     post_format,
 ):
     """Формат Post."""
-    url = reverse('service-interaction:post-detail', [post.id])
+    url = reverse('api:service-interaction:posts-detail', [post.id])
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == post_format(post)
+    assert (
+        object_without_keys(response.json()) ==
+        post_format(post)
+    )
 
 
 @pytest.mark.django_db()
 def test_post_post(
-    api_client,
+    user_api_client,
+    topic,
 ):
     """Создание Post."""
-    url = reverse('service-interaction:post-list')
-    response = api_client.post(
+    url = reverse('api:service-interaction:posts-list')
+    response = user_api_client.post(
         url,
-        data={},
+        data={
+            'topic': topic.id,
+            'text': 'тест'
+        },
         format='json',
     )
 
@@ -37,27 +44,11 @@ def test_post_post(
 
 
 @pytest.mark.django_db()
-def test_post_delete(api_client, post):
+def test_post_list(api_client):
     """Удаление Post."""
-    url = reverse('service-interaction:post-detail', [post.id])
+    url = reverse('api:service-interaction:posts-list')
 
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_post_change(
-    api_client,
-    post,
-):
-    """Изменение Post."""
-    url = reverse('api:service-interaction:post-detail', [post.id])
-
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
+

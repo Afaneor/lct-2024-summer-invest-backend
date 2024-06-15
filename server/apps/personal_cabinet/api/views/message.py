@@ -9,9 +9,7 @@ from server.apps.personal_cabinet.models.message import Message
 from server.apps.personal_cabinet.models.selection_request import (
     SelectionRequest,
 )
-from server.apps.personal_cabinet.services.message import (
-    MessageService,
-)
+from server.apps.personal_cabinet.services.message import MessageService
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,

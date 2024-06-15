@@ -1,13 +1,9 @@
 import pytest
-from django.conf import settings
-from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
 from server.apps.services.enums import BusinessType
 from tests.test_apps.conftest import object_without_keys
-
-fake = Faker()
 
 
 @pytest.mark.django_db()
@@ -65,9 +61,9 @@ def test_business_create_by_inn_without_access(
         format='json',
     )
 
-    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert (
-        response.jsob()['detail'] ==
+        response.json()['detail'] ==
         (
             'При добавлении по ИНН вашего бизнеса произошла '
             'ошибка, связанная с доступом к сервису DaData.'

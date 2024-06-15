@@ -1,11 +1,8 @@
 import pytest
-from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
 from tests.test_apps.conftest import object_without_keys
-
-fake = Faker()
 
 
 @pytest.mark.django_db()
@@ -16,9 +13,9 @@ def test_transaction_form_format(
 ):
     """Формат TransactionForm."""
     url = reverse(
-        'investment-object:transaction-forms-detail',
-        [transaction_form.id,
-         ])
+        'api:investment-object:transaction-forms-detail',
+        [transaction_form.id],
+    )
 
     response = api_client.get(url)
 
@@ -30,7 +27,7 @@ def test_transaction_form_format(
 
 
 @pytest.mark.django_db()
-def test_transaction_form_post(
+def test_transaction_form_list(
     api_client,
 ):
     """Список TransactionForm."""

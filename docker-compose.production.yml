@@ -1,14 +1,13 @@
----
-
-# Default compose file for development and production.
-# Should be used directly in development.
-# Automatically loads `docker-compose.override.yml` if it exists.
-# No extra steps required.
-# Should be used together with `docker/docker-compose.prod.yml`
-# in production.
-
-version: "3.6"
 services:
+  frontend:
+    image:
+    environment:
+      VIRTUAL_HOST: prod.invest.yapa.one
+      VIRTUAL_PORT: 3000
+      LETSENCRYPT_HOST: prod.invest.yapa.one
+    networks:
+      - ingress
+
   db:
     image: "postgres:15-alpine"
     restart: unless-stopped
@@ -19,7 +18,7 @@ services:
     env_file: ./.env
 
   web:
-    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
+    image:
     volumes:
       - django-static:/var/www/django/static
     depends_on:
@@ -45,20 +44,26 @@ services:
       start_period: 30s
 
   nginx:
-    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
+    image:
     command:
       - nginx
     networks:
       - webnet
+      - ingress
     volumes:
       - django-static:/var/www/django/static
     env_file: .env
     depends_on:
       - web
+      - frontend
+    environment:
+      VIRTUAL_HOST: prod.api.invest.yapa.one
+      VIRTUAL_PORT: 8000
+      LETSENCRYPT_HOST: prod.api.invest.yapa.one
 
   # Celery worker
   celery:
-    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
+    image:
     command: celery -A server.celery worker -l info
     env_file: .env
     healthcheck:
@@ -68,10 +73,12 @@ services:
       retries: 3
     networks:
       - webnet
+    depends_on:
+      - rabbitmq
 #
 #  # Celery Beat
   beat:
-    image: "ghub.letsnova.com/nova/hackathons/django-template/wip:main"
+    image:
     command: celery -A server.celery beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     env_file: .env
     healthcheck:
@@ -81,15 +88,50 @@ services:
       retries: 3
     networks:
       - webnet
+    depends_on:
+      - rabbitmq
 
   rabbitmq:
     image: "rabbitmq:3.8-management"
     networks:
       - webnet
 
+  gotenberg:
+    image: thecodingmachine/gotenberg:6
+    networks:
+      - webnet
+
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama:/root/.ollama
+    command: ollama run llama3
+    networks:
+      - webnet
+
+  pgbackups:
+    image: prodrigestivill/postgres-backup-local
+    volumes:
+      - ./pgbackups:/backups
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_HOST=postgres
+      - SCHEDULE=@daily
+      - BACKUP_KEEP_DAYS=7
+      - BACKUP_KEEP_WEEKS=4
+      - BACKUP_KEEP_MONTHS=6
+      - HEALTHCHECK_PORT=8080
+    env_file:
+      - .env
+
 networks:
   # Network for your internals, use it by default:
   webnet:
+  ingress:
+    external:
+      name: ingress_default
 
 volumes:
   django-static:
+  ollama:

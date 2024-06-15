@@ -15,6 +15,7 @@ from server.apps.personal_cabinet.services.message import (
     MessageService,
     MessageServiceException,
 )
+from server.apps.personal_cabinet.services.message import MessageService
 from server.apps.services.filters_mixins import (
     CreatedUpdatedDateFilterMixin,
     UserFilterMixin,

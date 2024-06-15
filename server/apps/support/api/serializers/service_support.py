@@ -13,6 +13,7 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
         model = ServiceSupport
         fields = (
             'id',
+            'external_id'
             'region',
             'service_support_type',
             'name',
@@ -27,6 +28,7 @@ class ListServiceSupportSerializer(ModelSerializerWithPermission):
             'applicant_requirement',
             'applicant_procedure',
             'required_document',
+            'url',
             'permission_rules',
             'created_at',
             'updated_at',
@@ -43,6 +45,7 @@ class DetailServiceSupportSerializer(ModelSerializerWithPermission):
         model = ServiceSupport
         fields = (
             'id',
+            'external_id',
             'region',
             'service_support_type',
             'name',
@@ -61,6 +64,7 @@ class DetailServiceSupportSerializer(ModelSerializerWithPermission):
             'required_document',
             'content_type_id',
             'permission_rules',
+            'url',
             'content_type_id',
             'created_at',
             'updated_at',

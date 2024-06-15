@@ -7,4 +7,4 @@ def get_content_type_id(cicada_object) -> int:
         cicada_object.__class__,
     )
 
-    return obj_ct.pk
+    return obj_ct.id

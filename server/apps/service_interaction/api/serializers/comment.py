@@ -16,6 +16,8 @@ class CommentSerializer(ModelSerializerWithPermission):
             'id',
             'user',
             'text',
+            'content_type',
+            'object_id',
             'permission_rules',
             'created_at',
             'updated_at',

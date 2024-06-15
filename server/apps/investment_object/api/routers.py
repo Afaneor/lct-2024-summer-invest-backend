@@ -35,7 +35,7 @@ router.register(
     InfrastructureViewSet,
     'infrastructures',
 )
-router.register('privileges', PrivilegeViewSet, 'privilege')
+router.register('privileges', PrivilegeViewSet, 'privileges')
 router.register('ready-businesses', ReadyBusinessViewSet, 'ready-businesses')
 router.register(
     'investment-objects',

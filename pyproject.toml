@@ -81,6 +81,8 @@ llama-index-llms-ollama = "^0.1.5"
 django-admin-charts = "^1.3.1"
 django-admin-tools = "^0.9.3"
 django-multiselectfield = {url = "https://github.com/goinnn/django-multiselectfield/archive/master.zip"}
+gdrfile = "^0.0.1"
+locust = "^2.29.0"
 
 [tool.poetry.dev-dependencies]
 django-coverage-plugin = "^3.0"  # https://github.com/nedbat/django_coverage_plugin

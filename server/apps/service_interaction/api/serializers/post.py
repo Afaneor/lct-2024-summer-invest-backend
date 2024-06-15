@@ -33,7 +33,6 @@ class CreatePostSerializer(ModelSerializerWithPermission):
         model = Post
         fields = (
             'id',
-            'user',
             'topic',
             'text',
             'parent',

@@ -18,6 +18,7 @@ class SpecializedSiteFilter(
         model = SpecializedSite
         fields = (
             'id',
+            'investment_object',
         )
 
 
@@ -27,7 +28,7 @@ class SpecializedSiteViewSet(RetrieveListViewSet):
     serializer_class = SpecializedSiteSerializer
     queryset = SpecializedSite.objects.all()
     search_fields = (
-        'id',
+        'investment_object__name',
     )
     ordering_fields = '__all__'
     filterset_class = SpecializedSiteFilter

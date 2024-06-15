@@ -9,8 +9,8 @@ class ReadyBusinessSerializer(ModelSerializerWithPermission):
         model = ReadyBusiness
         fields = (
             'id',
+            'investment_object',
             'external_id',
-            'name',
             'description',
             'extra_data',
             'permission_rules',

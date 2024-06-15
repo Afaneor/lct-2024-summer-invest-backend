@@ -26,9 +26,9 @@ router.register('businesses', BusinessViewSet, 'businesses')
 router.register('sectors', SectorViewSet, 'sectors')
 router.register('sub-sectors', SubSectorViewSet, 'sub-sectors')
 router.register(
-    'territorial-location',
+    'territorial-locations',
     TerritorialLocationViewSet,
-    'territorial-location',
+    'territorial-locations',
 )
 router.register('selection-requests', SelectionRequestViewSet, 'selection-requests')
 router.register('messages', MessageViewSet, 'messages')

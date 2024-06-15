@@ -17,6 +17,7 @@ class MessageSerializer(ModelSerializerWithPermission):
             'id',
             'owner_type',
             'selection_request',
+            'owner_type_label',
             'text',
             'user_filter',
             'bot_filter',
@@ -24,7 +25,6 @@ class MessageSerializer(ModelSerializerWithPermission):
             'permission_rules',
             'created_at',
             'updated_at',
-            'owner_type_label',
         )
 
     def get_owner_type_label(

@@ -28,6 +28,7 @@ class BusinessSerializer(ModelSerializerWithPermission):
         label=_('Подотрасль'),
     )
     business_type_label = serializers.SerializerMethodField()
+    tax_system_type_label = serializers.SerializerMethodField()
 
     class Meta:
         model = Business
@@ -59,6 +60,8 @@ class BusinessSerializer(ModelSerializerWithPermission):
             'phone',
             'email',
             'site',
+            'tax_system_type',
+            'tax_system_type_label',
             'permission_rules',
             'created_at',
             'updated_at',
@@ -71,6 +74,13 @@ class BusinessSerializer(ModelSerializerWithPermission):
     ):
         """Подпись к business_type."""
         return business.get_business_type_display()
+
+    def get_tax_system_type_label(
+        self,
+        business: Business,
+    ):
+        """Подпись к tax_system_type."""
+        return business.get_tax_system_type_display()
 
 
 class CreateBusinessSerializer(serializers.ModelSerializer):

@@ -12,20 +12,11 @@ class EconomicActivitySerializer(ModelSerializerWithPermission):
         fields = (
             'id',
             'code',
+            'parent_code',
+            'section',
             'name',
+            'comment',
             'permission_rules',
             'created_at',
             'updated_at',
-        )
-
-
-class CreateEconomicActivitySerializer(serializers.ModelSerializer):
-    """Сериалайзер экономической деятельности."""
-
-    class Meta:
-        model = EconomicActivity
-        fields = (
-            'id',
-            'code',
-            'name',
         )

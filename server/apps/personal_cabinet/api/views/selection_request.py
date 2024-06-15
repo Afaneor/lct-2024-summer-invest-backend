@@ -81,7 +81,8 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
 
         Перевод ранее активного запроса в выполненный.
         """
-        serializer.validated_data.update(user=self.request.user)
+        if self.request.user.is_authenticated:
+            serializer.validated_data.update(user=self.request.user)
         SelectionRequest.objects.filter(
             is_actual=True,
         ).update(

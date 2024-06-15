@@ -15,7 +15,8 @@ from server.apps.personal_cabinet.models import Subscription, \
     TerritorialLocation, SelectionRequest, SubSector, Sector, Message, Business
 from server.apps.service_interaction.models import Event, Topic, Comment, Post
 from server.apps.services.enums import TransactionFormType, ObjectType, \
-    InfrastructureAvailability, SubscriptionType, BusinessType, TaxSystemType
+    InfrastructureAvailability, SubscriptionType, BusinessType, TaxSystemType, \
+    MessageOwnerType
 from server.apps.support.models import ProblemSubcategory, ServiceSupport, \
     ProblemCategory, ProblemTheme, Problem
 from server.apps.user.models import User
@@ -404,7 +405,7 @@ class SectorFactory(DjangoModelFactory):
 class MessageFactory(DjangoModelFactory):
     """Фабрика для Message."""
 
-    owner_type = lazy(fake.paragraph)
+    owner_type = random_text_choice(MessageOwnerType)
     selection_request = factory.SubFactory(SelectionRequestFactory)
     text = lazy(fake.paragraph)
 
@@ -926,9 +927,12 @@ def message_format():
         return {
             'id': message.id,
             'owner_type': message.owner_type,
-            'selection_request': message.selection_request,
+            'owner_type_label': message.get_owner_type_display(),
+            'selection_request': message.selection_request.id,
             'text': message.text,
             'parent': message.parent,
+            'user_filter': message.user_filter,
+            'bot_filter': message.bot_filter,
             'created_at':
                 DateTimeField().to_representation(message.created_at),
             'updated_at':

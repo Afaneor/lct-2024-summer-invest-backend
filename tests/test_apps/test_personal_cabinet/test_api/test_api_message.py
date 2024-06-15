@@ -3,33 +3,46 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
+from server.apps.services.enums import MessageOwnerType
+from tests.test_apps.conftest import object_without_keys
+
 fake = Faker()
 
 
 @pytest.mark.django_db()
 def test_message_format(
-    api_client,
+    user_api_client,
     message,
     message_format,
 ):
     """Формат Message."""
-    url = reverse('api:personal-cabinet:message-detail', [message.id])
+    url = reverse('api:personal-cabinet:messages-detail', [message.id])
 
-    response = api_client.get(url)
+    response = user_api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == message_format(message)
+    assert (
+        object_without_keys(response.json()) ==
+        message_format(message)
+    )
 
 
+# FIXME: Надо замокать ChatGpt
 @pytest.mark.django_db()
 def test_message_post(
-    api_client,
+    user_api_client,
+    selection_request,
 ):
     """Создание Message."""
-    url = reverse('api:personal-cabinet:message-list')
-    response = api_client.post(
+    url = reverse('api:personal-cabinet:messages-list')
+
+    response = user_api_client.post(
         url,
-        data={},
+        data={
+            'owner_type': MessageOwnerType.USER,
+            'selection_request': selection_request.id,
+            'text': 'тест',
+        },
         format='json',
     )
 
@@ -37,27 +50,10 @@ def test_message_post(
 
 
 @pytest.mark.django_db()
-def test_message_delete(api_client, message):
-    """Удаление Message."""
-    url = reverse('api:personal-cabinet:message-detail', [message.id])
+def test_message_list(user_api_client):
+    """Список Message."""
+    url = reverse('api:personal-cabinet:messages-list')
 
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_message_change(
-    api_client,
-    message,
-):
-    """Изменение Message."""
-    url = reverse('api:personal-cabinet:message-detail', [message.id])
-
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = user_api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

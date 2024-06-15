@@ -1,8 +1,10 @@
 import pytest
+from django.conf import settings
 from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
+from server.apps.services.enums import BusinessType
 from tests.test_apps.conftest import object_without_keys
 
 fake = Faker()
@@ -28,17 +30,50 @@ def test_business_detail(
 
 @pytest.mark.django_db()
 def test_business_post(
-    api_client,
+    user_api_client,
+    user,
 ):
     """Создание Business."""
-    url = reverse('api:personal-cabinet:business-list')
-    response = api_client.post(
+    url = reverse('api:personal-cabinet:businesses-list')
+    response = user_api_client.post(
         url,
-        data={},
+        data={
+            'user': user.id,
+            'business_type': BusinessType.LEGAL,
+            'inn': '7707083893',
+            'full_business_name': 'ООО Ромашка',
+
+        },
         format='json',
     )
 
     assert response.status_code == status.HTTP_201_CREATED
+
+
+@pytest.mark.django_db()
+def test_business_create_by_inn_without_access(
+    user_api_client,
+    user,
+):
+    """Создание Business."""
+    url = reverse('api:personal-cabinet:businesses-create-business-by-inn')
+    response = user_api_client.post(
+        url,
+        data={
+            'inn': '7707083893',
+        },
+        format='json',
+    )
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert (
+        response.jsob()['detail'] ==
+        (
+            'При добавлении по ИНН вашего бизнеса произошла '
+            'ошибка, связанная с доступом к сервису DaData.'
+            'Вы можете добавить информацию в ручную.'
+        )
+    )
 
 
 @pytest.mark.django_db()

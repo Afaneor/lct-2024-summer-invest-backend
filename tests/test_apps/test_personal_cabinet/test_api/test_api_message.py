@@ -13,7 +13,7 @@ def test_message_format(
     message_format,
 ):
     """Формат Message."""
-    url = reverse('personal-cabinet:message-detail', [message.id])
+    url = reverse('api:personal-cabinet:message-detail', [message.id])
 
     response = api_client.get(url)
 
@@ -26,7 +26,7 @@ def test_message_post(
     api_client,
 ):
     """Создание Message."""
-    url = reverse('personal-cabinet:message-list')
+    url = reverse('api:personal-cabinet:message-list')
     response = api_client.post(
         url,
         data={},
@@ -39,7 +39,7 @@ def test_message_post(
 @pytest.mark.django_db()
 def test_message_delete(api_client, message):
     """Удаление Message."""
-    url = reverse('personal-cabinet:message-detail', [message.id])
+    url = reverse('api:personal-cabinet:message-detail', [message.id])
 
     response = api_client.delete(url)
 

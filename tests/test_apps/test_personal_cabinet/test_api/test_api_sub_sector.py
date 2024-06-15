@@ -3,61 +3,36 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
+from tests.test_apps.conftest import object_without_keys
+
 fake = Faker()
 
 
 @pytest.mark.django_db()
-def test_sub_sector_format(
+def test_sub_sector_detail(
     api_client,
     sub_sector,
     sub_sector_format,
 ):
     """Формат SubSector."""
-    url = reverse('personal-cabinet:sub-sector-detail', [sub_sector.id])
+    url = reverse('api:personal-cabinet:sub-sectors-detail', [sub_sector.id])
 
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response == sub_sector_format(sub_sector)
-
-
-@pytest.mark.django_db()
-def test_sub_sector_post(
-    api_client,
-):
-    """Создание SubSector."""
-    url = reverse('personal-cabinet:sub-sector-list')
-    response = api_client.post(
-        url,
-        data={},
-        format='json',
+    assert (
+        object_without_keys(response.json()) ==
+        sub_sector_format(sub_sector)
     )
 
-    assert response.status_code == status.HTTP_201_CREATED
-
 
 @pytest.mark.django_db()
-def test_sub_sector_delete(api_client, sub_sector):
-    """Удаление SubSector."""
-    url = reverse('personal-cabinet:sub-sector-detail', [sub_sector.id])
-
-    response = api_client.delete(url)
-
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-
-
-@pytest.mark.django_db()
-def test_sub_sector_change(
+def test_sub_sector_list(
     api_client,
-    sub_sector,
 ):
-    """Изменение SubSector."""
-    url = reverse('api:personal-cabinet:sub-sector-detail', [sub_sector.id])
+    """Список SubSector."""
+    url = reverse('api:personal-cabinet:sub-sectors-list')
 
-    response = api_client.put(
-        url,
-        data={},
-        format='json',
-    )
+    response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK

@@ -2,13 +2,11 @@ from typing import Callable, Any, Tuple, Dict
 
 import factory
 import pytest
-from factory import LazyAttribute, SubFactory
+from factory import LazyAttribute
 from factory.django import DjangoModelFactory
 from faker import Faker
 from pytest_factoryboy import register
 from rest_framework.fields import DateTimeField
-from rest_framework.response import Response
-from rest_framework.test import APIClient
 
 from server.apps.investment_object.models import InvestmentObject, \
     EconomicActivity, TransactionForm, Restriction, Privilege, RealEstate, \
@@ -17,7 +15,7 @@ from server.apps.personal_cabinet.models import Subscription, \
     TerritorialLocation, SelectionRequest, SubSector, Sector, Message, Business
 from server.apps.service_interaction.models import Event, Topic, Comment, Post
 from server.apps.services.enums import TransactionFormType, ObjectType, \
-    InfrastructureAvailability, SubscriptionType
+    InfrastructureAvailability, SubscriptionType, BusinessType, TaxSystemType
 from server.apps.support.models import ProblemSubcategory, ServiceSupport, \
     ProblemCategory, ProblemTheme, Problem
 from server.apps.user.models import User
@@ -37,14 +35,14 @@ def random_text_choice(choice_source) -> LazyAttribute:
     )
 
 
-def response_without_keys(
-    response_json: Dict[str, Any],
+def object_without_keys(
+    json_object: Dict[str, Any],
     keys: Tuple[str, ...] = ('permission_rules',),
 ) -> Dict[str, Any]:
-    """Response без permissionRules."""
+    """Json объект без ключей."""
     for key in keys:
-        response_json.pop(key)
-    return response_json
+        json_object.pop(key)
+    return json_object
 
 
 class UserFactory(DjangoModelFactory):
@@ -61,9 +59,6 @@ class UserFactory(DjangoModelFactory):
         lambda user: fake.date_time_this_month(),
     )
     email = lazy(fake.email)
-    can_change_password = True
-    phone = lazy(fake.phone_number)
-
 
     class Meta:
         model = User
@@ -422,7 +417,6 @@ class SubscriptionFactory(DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
     subscription_type = random_text_choice(SubscriptionType)
-    topics = factory.SubFactory(TopicFactory)
     email = lazy(fake.ascii_free_email)
     telegram_username = lazy(fake.word)
 
@@ -435,8 +429,8 @@ class BusinessFactory(DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
     position = lazy(fake.paragraph)
-    business_type = lazy(fake.paragraph)
-    inn = lazy(fake.paragraph)
+    business_type = random_text_choice(BusinessType)
+    inn = '7707083893'
     sector = factory.SubFactory(SectorFactory)
     sub_sector = factory.SubFactory(SubSectorFactory)
     territorial_location = factory.SubFactory(TerritorialLocationFactory)
@@ -459,8 +453,7 @@ class BusinessFactory(DjangoModelFactory):
     phone = lazy(fake.paragraph)
     email = lazy(fake.ascii_free_email)
     site = lazy(fake.paragraph)
-    tax_system_type = lazy(fake.paragraph)
-    economic_activities = factory.SubFactory(EconomicActivityFactory)
+    tax_system_type = random_text_choice(TaxSystemType)
 
     class Meta:
         model = Business
@@ -778,9 +771,12 @@ def problem_subcategory_format():
             'problem_category': problem_subcategory.problem_category,
             'external_id': problem_subcategory.external_id,
             'name': problem_subcategory.name,
+            'created_at':
+                DateTimeField().to_representation(problem_subcategory.created_at),
+            'updated_at':
+                DateTimeField().to_representation(problem_subcategory.updated_at),
         }
     return _problem_subcategory_format
-
 
 
 @pytest.fixture
@@ -789,11 +785,16 @@ def subscription_format():
     def _subscription_format(subscription: Subscription):
         return {
             'id': subscription.id,
-            'user': subscription.user,
+            'user': subscription.user.id if subscription.user else None,
             'subscription_type': subscription.subscription_type,
-            'topics': subscription.topics,
+            'subscription_type_label': subscription.get_subscription_type_display(),
+            'topics': [],
             'email': subscription.email,
             'telegram_username': subscription.telegram_username,
+            'created_at':
+                DateTimeField().to_representation(subscription.created_at),
+            'updated_at':
+                DateTimeField().to_representation(subscription.updated_at),
         }
     return _subscription_format
 
@@ -806,23 +807,41 @@ def territorial_location_format():
             'id': territorial_location.id,
             'short_name': territorial_location.short_name,
             'full_name': territorial_location.full_name,
+            'created_at':
+                DateTimeField().to_representation(territorial_location.created_at),
+            'updated_at':
+                DateTimeField().to_representation(territorial_location.updated_at),
         }
     return _territorial_location_format
 
 
 @pytest.fixture
-def business_format():
+def business_format(
+    sector_format,
+    sub_sector_format,
+    territorial_location_format,
+):
     """Формат Business."""
     def _business_format(business):
         return {
             'id': business.id,
-            'user': business.user,
+            'user': business.user.id,
             'position': business.position,
             'business_type': business.business_type,
+            'business_type_label': business.get_business_type_display(),
             'inn': business.inn,
-            'sector': business.sector,
-            'sub_sector': business.sub_sector,
-            'territorial_location': business.territorial_location,
+            'sector': object_without_keys(
+                sector_format(business.sector),
+                ('created_at', 'updated_at'),
+            ),
+            'sub_sector': object_without_keys(
+                sub_sector_format(business.sub_sector),
+                ('created_at', 'updated_at'),
+            ),
+            'territorial_location': object_without_keys(
+                territorial_location_format(business.territorial_location),
+                ('created_at', 'updated_at'),
+            ),
             'hid': business.hid,
             'short_business_name': business.short_business_name,
             'full_business_name': business.full_business_name,
@@ -843,7 +862,11 @@ def business_format():
             'email': business.email,
             'site': business.site,
             'tax_system_type': business.tax_system_type,
-            'economic_activities': business.economic_activities,
+            'tax_system_type_label': business.get_tax_system_type_display(),
+            'created_at':
+                DateTimeField().to_representation(business.created_at),
+            'updated_at':
+                DateTimeField().to_representation(business.updated_at),
         }
     return _business_format
 
@@ -858,6 +881,10 @@ def selection_request_format():
             'anonymous_user_id': selection_request.anonymous_user_id,
             'is_actual': selection_request.is_actual,
             'is_bot_response_waiting': selection_request.is_bot_response_waiting,
+            'created_at':
+                DateTimeField().to_representation(selection_request.created_at),
+            'updated_at':
+                DateTimeField().to_representation(selection_request.updated_at),
         }
     return _selection_request_format
 
@@ -869,6 +896,10 @@ def sub_sector_format():
         return {
             'id': sub_sector.id,
             'name': sub_sector.name,
+            'created_at':
+                DateTimeField().to_representation(sub_sector.created_at),
+            'updated_at':
+                DateTimeField().to_representation(sub_sector.updated_at),
         }
     return _sub_sector_format
 
@@ -880,6 +911,10 @@ def sector_format():
         return {
             'id': sector.id,
             'name': sector.name,
+            'created_at':
+                DateTimeField().to_representation(sector.created_at),
+            'updated_at':
+                DateTimeField().to_representation(sector.updated_at),
         }
     return _sector_format
 
@@ -894,6 +929,10 @@ def message_format():
             'selection_request': message.selection_request,
             'text': message.text,
             'parent': message.parent,
+            'created_at':
+                DateTimeField().to_representation(message.created_at),
+            'updated_at':
+                DateTimeField().to_representation(message.updated_at),
         }
     return _message_format
 

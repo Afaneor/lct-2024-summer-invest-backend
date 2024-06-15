@@ -13,7 +13,7 @@ def test_selection_request_format(
     selection_request_format,
 ):
     """Формат SelectionRequest."""
-    url = reverse('personal-cabinet:selection-request-detail', [selection_request.id])
+    url = reverse('api:personal-cabinet:selection-request-detail', [selection_request.id])
 
     response = api_client.get(url)
 
@@ -26,7 +26,7 @@ def test_selection_request_post(
     api_client,
 ):
     """Создание SelectionRequest."""
-    url = reverse('personal-cabinet:selection-request-list')
+    url = reverse('api:personal-cabinet:selection-request-list')
     response = api_client.post(
         url,
         data={},
@@ -39,7 +39,7 @@ def test_selection_request_post(
 @pytest.mark.django_db()
 def test_selection_request_delete(api_client, selection_request):
     """Удаление SelectionRequest."""
-    url = reverse('personal-cabinet:selection-request-detail', [selection_request.id])
+    url = reverse('api:personal-cabinet:selection-request-detail', [selection_request.id])
 
     response = api_client.delete(url)
 

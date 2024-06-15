@@ -3,7 +3,7 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
-from tests.test_apps.conftest import response_without_keys
+from tests.test_apps.conftest import object_without_keys
 
 fake = Faker()
 
@@ -21,7 +21,7 @@ def test_privilege_detail(
 
     assert response.status_code == status.HTTP_200_OK
     assert (
-        response_without_keys(response.json()) ==
+        object_without_keys(response.json()) ==
         privilege_format(privilege)
     )
 

@@ -3,13 +3,13 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.reverse import reverse
 
-from tests.test_apps.conftest import response_without_keys
+from tests.test_apps.conftest import object_without_keys
 
 fake = Faker()
 
 
 @pytest.mark.django_db()
-def test_tender_lot_format(
+def test_tender_lot_detail(
     api_client,
     tender_lot,
     tender_lot_format,
@@ -21,7 +21,7 @@ def test_tender_lot_format(
 
     assert response.status_code == status.HTTP_200_OK
     assert (
-        response_without_keys(response.json()) ==
+        object_without_keys(response.json()) ==
         tender_lot_format(tender_lot)
     )
 

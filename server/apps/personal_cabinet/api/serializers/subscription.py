@@ -17,6 +17,7 @@ class SubscriptionSerializer(ModelSerializerWithPermission):
             'subscription_type',
             'subscription_type_label',
             'email',
+            'topics',
             'telegram_username',
             'permission_rules',
             'created_at',

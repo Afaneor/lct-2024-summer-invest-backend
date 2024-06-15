@@ -11,18 +11,15 @@ from rest_framework.test import APIClient
 
 
 @pytest.fixture
-def admin_api_client():
-    admin = baker.make('user.User', is_staff=True, is_superuser=True)
+def api_client():
     client = APIClient()
-    client.force_authenticate(user=admin)
     return client
 
 
 @pytest.fixture
-def api_client():
-    admin = baker.make('user.User', is_staff=True, is_superuser=True)
+def user_api_client(user):
     client = APIClient()
-    client.force_authenticate(user=admin)
+    client.force_authenticate(user=user)
     return client
 
 
@@ -35,19 +32,20 @@ def _media_root(settings, tmpdir_factory) -> None:
 
 
 @pytest.fixture(autouse=True)
+def _auth_backends(settings) -> None:
+    """Deactivates security backend from Axes app."""
+    settings.AUTHENTICATION_BACKENDS = (
+        'rules.permissions.ObjectPermissionBackend',
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+
+@pytest.fixture(autouse=True)
 def _password_hashers(settings) -> None:
     """Forces django to use fast password hashers for tests."""
     settings.PASSWORD_HASHERS = [
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ]
-
-
-@pytest.fixture(autouse=True)
-def _auth_backends(settings) -> None:
-    """Deactivates security backend from Axes app."""
-    settings.AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-    )
 
 
 @pytest.fixture(autouse=True)

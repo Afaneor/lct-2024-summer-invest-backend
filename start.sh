@@ -125,6 +125,13 @@ fi
 
 print_color "yellow" "Запускаем остальные контейнеры..."
 docker compose up -d
+# Проверка, если выбран локальный провайдер, запуск модели
+
+if grep -q "LLM_PROVIDER=server.apps.llm.providers.LocalProvider" "$env_file"; then
+    print_color "yellow" "Запускаем модель ollama для локального провайдера..."
+    docker exec -d $(docker-compose ps -q ollama) ollama run llama3
+    print_color "green" "Модель ollama успешно запущена."
+fi
 
 print_color "green" "Настройка завершена."
 print_color "green" "Frontend доступен на localhost:80, а backend на localhost:8000"

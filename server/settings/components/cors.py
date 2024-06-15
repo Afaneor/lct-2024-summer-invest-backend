@@ -10,6 +10,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://prod.invest.yapa.one',
     'https://prod.api.invest.yapa.one',
     'https://api.invest.yapa.one',
+    'chrome-extension://eplahbmjpbjomloegfopehpcggpggkah',
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -51,6 +52,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://prod.invest.yapa.one',
     'https://api.invest.yapa.one',
     'https://prod.api.invest.yapa.one',
+    'chrome-extension://eplahbmjpbjomloegfopehpcggpggkah',
 ]
 
 
@@ -62,4 +64,5 @@ CORS_ORIGIN_WHITELIST = [
     'https://prod.invest.yapa.one',
     'https://api.invest.yapa.one',
     'https://prod.api.invest.yapa.one',
+    'chrome-extension://eplahbmjpbjomloegfopehpcggpggkah',
 ]

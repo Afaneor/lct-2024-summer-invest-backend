@@ -65,3 +65,5 @@ CORS_ORIGIN_WHITELIST = [
     'https://api.invest.yapa.one',
     'https://prod.api.invest.yapa.one',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True

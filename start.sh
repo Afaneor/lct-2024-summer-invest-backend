@@ -68,6 +68,7 @@ ask_env_var "SENTRY_DEPLOYMENT" "" "можно пропустить, испол�
 ask_env_var "DJANGO_DATABASE_HOST" "db" "[url базы данных]"
 ask_env_var "CELERY_BROKER_URL" "amqp://guest:guest@rabbitmq:5672/"
 ask_env_var "OLLAMA_HOST" "http://ollama:11434"
+ask_env_var "SECURE_SSL_REDIRECT" "0"
 ask_env_var "DJANGO_SECRET_KEY" "3^qygs767umquk1a3w5x_5werlv(2p8t4=m*fw&ogp8zl1@31yex"
 ask_env_var "DOMAIN_NAME" "localhost" "[название домена]"
 
@@ -140,5 +141,5 @@ if grep -q "LLM_PROVIDER=server.apps.llm.providers.LocalProvider" "$env_file"; t
 fi
 
 print_color "green" "Настройка завершена."
-print_color "green" "Frontend доступен на localhost:80, а backend на localhost:8000"
+print_color "green" "Frontend доступен на localhost:3000, а backend на localhost:8000"
 print_color "green" "Для остановки контейнеров используйте docker compose down"

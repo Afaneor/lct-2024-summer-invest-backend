@@ -67,7 +67,7 @@ class EconomicActivityAdmin(admin.ModelAdmin[EconomicActivity]):
         'name',
     )
     list_filter = (
-        'section'
+        'section',
     )
     ordering = (
         'id',
@@ -87,7 +87,7 @@ class InfrastructureAdmin(admin.ModelAdmin[Infrastructure]):
         'name',
     )
     list_filter = (
-        'availability'
+        'availability',
     )
     ordering = (
         'id',

@@ -68,6 +68,8 @@ ask_env_var "SENTRY_DEPLOYMENT" "" "можно пропустить, испол�
 ask_env_var "DJANGO_DATABASE_HOST" "db" "[url базы данных]"
 ask_env_var "CELERY_BROKER_URL" "amqp://guest:guest@rabbitmq:5672/"
 ask_env_var "OLLAMA_HOST" "http://ollama:11434"
+ask_env_var "DJANGO_SECRET_KEY" "3^qygs767umquk1a3w5x_5werlv(2p8t4=m*fw&ogp8zl1@31yex"
+ask_env_var "DOMAIN_NAME" "localhost" "[название домена]"
 
 # Обязательный ввод значений для GPTProvider
 if grep -q "LLM_PROVIDER=server.apps.llm.providers.GPTProvider" "$env_file"; then
@@ -100,12 +102,12 @@ fi
 ask_env_var "DADATA_API_TOKEN" "" "[API ключ dadata, нужен для автоматической генерации данных по бизнесам, можно запросить у https://t.me/NikolayPavlin]"
 
 # Email settings
-ask_env_var "EMAIL_HOST" "" "[данные для отправки писем]"
-ask_env_var "EMAIL_PORT" "" "[данные для отправки писем]"
-ask_env_var "EMAIL_HOST_USER" "" "[данные для отправки писем]"
-ask_env_var "EMAIL_HOST_PASSWORD" "" "[данные для отправки писем]"
-ask_env_var "EMAIL_USE_TLS" "" "[данные для отправки писем]"
-ask_env_var "DEFAULT_FROM_EMAIL" "" "[данные для отправки писем]"
+ask_env_var "EMAIL_HOST" "fake" "[данные для отправки писем]"
+ask_env_var "EMAIL_PORT" "1025" "[данные для отправки писем]"
+ask_env_var "EMAIL_HOST_USER" "fake" "[данные для отправки писем]"
+ask_env_var "EMAIL_HOST_PASSWORD" "fake" "[данные для отправки писем]"
+ask_env_var "EMAIL_USE_TLS" "0" "[данные для отправки писем]"
+ask_env_var "DEFAULT_FROM_EMAIL" "fake" "[данные для отправки писем]"
 
 print_color "yellow" "Начинаем загрузку контейнеров..."
 docker compose pull
@@ -122,6 +124,10 @@ if [ "$load_backup" == "y" ] || [ "$load_backup" == "Y" ]; then
     docker exec -i $(docker-compose ps -q db) psql -U $POSTGRES_USER -d $POSTGRES_DB < ./backup/backup.sql
     print_color "green" "Бэкап данных успешно загружен."
 fi
+
+print_color "yellow" "Выполняем provision..."
+docker compose run --rm web provision
+print_color "green" "Собраны статические файлы и применены миграции"
 
 print_color "yellow" "Запускаем остальные контейнеры..."
 docker compose up -d

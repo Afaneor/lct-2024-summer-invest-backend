@@ -23,7 +23,7 @@ class EventAdmin(admin.ModelAdmin[Event]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -40,7 +40,7 @@ class CommentAdmin(admin.ModelAdmin[Comment]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -61,7 +61,7 @@ class PostAdmin(admin.ModelAdmin[Post]):
         'topic__name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -77,5 +77,5 @@ class TopicAdmin(admin.ModelAdmin[Topic]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )

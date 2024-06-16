@@ -25,12 +25,7 @@ class UserAdmin(auth_admin.UserAdmin):
     )
     list_filter = ('is_superuser', 'is_active')
     ordering = (
-        'id',
-        'email',
-        'username',
-        'last_name',
-        'first_name',
-        'is_superuser',
+        '-id',
     )
     fieldsets = (
         (None, {'fields': ('username', 'password')}),

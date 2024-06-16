@@ -21,7 +21,7 @@ class ProblemCategoryAdmin(admin.ModelAdmin[ProblemCategory]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -42,7 +42,7 @@ class ProblemCategoryAdmin(admin.ModelAdmin[ProblemSubcategory]):
         'problem_category__name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -64,7 +64,7 @@ class ProblemThemeAdmin(admin.ModelAdmin[ProblemTheme]):
         'problem_subcategory__problem_category__name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -90,7 +90,7 @@ class ProblemAdmin(admin.ModelAdmin[Problem]):
         'problem_theme__problem_subcategory__problem_category__name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -113,5 +113,5 @@ class ServiceSupportAdmin(admin.ModelAdmin[ServiceSupport]):
         'region',
     )
     ordering = (
-        'id',
+        '-id',
     )

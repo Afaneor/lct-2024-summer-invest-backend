@@ -12,7 +12,6 @@ from server.apps.investment_object.models import (
     TransactionForm,
 )
 from server.apps.services.enums import ObjectType, TransactionFormType
-from server.apps.services.parsing.xlsx.base import get_correct_data
 
 logger = logging.getLogger('django')
 

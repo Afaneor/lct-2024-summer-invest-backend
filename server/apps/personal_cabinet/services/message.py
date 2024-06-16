@@ -101,7 +101,10 @@ class MessageService(object):
         """
         Получаем краткое описание от LLM.
         """
-        messages = '\n'.join([message.text[:300] for message in selection_request.messages.all()])
+        messages = '\n'.join(
+            [message.text[:300]
+             for message in selection_request.messages.all()]
+        )
         try:
             response = self.llm_provider.chat_no_rag(messages)
         except Exception as e:

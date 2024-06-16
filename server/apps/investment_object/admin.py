@@ -33,7 +33,7 @@ class InvestmentObjectAdmin(admin.ModelAdmin[InvestmentObject]):
         'url',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -49,7 +49,7 @@ class TenderLotAdmin(admin.ModelAdmin[TenderLot]):
         'external_id',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -67,10 +67,10 @@ class EconomicActivityAdmin(admin.ModelAdmin[EconomicActivity]):
         'name',
     )
     list_filter = (
-        'section'
+        'section',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -87,10 +87,10 @@ class InfrastructureAdmin(admin.ModelAdmin[Infrastructure]):
         'name',
     )
     list_filter = (
-        'availability'
+        'availability',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -106,7 +106,7 @@ class PrivilegeAdmin(admin.ModelAdmin[Privilege]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -125,7 +125,7 @@ class RealEstateAdmin(admin.ModelAdmin[RealEstate]):
         'preferential_treatment',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -141,7 +141,7 @@ class RestrictionAdmin(admin.ModelAdmin[Restriction]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -157,7 +157,7 @@ class SpecializedSiteAdmin(admin.ModelAdmin[SpecializedSite]):
         'investment_object__name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -173,7 +173,7 @@ class ReadyBusinessAdmin(admin.ModelAdmin[ReadyBusiness]):
         'investment_object__name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -192,5 +192,5 @@ class TransactionFormAdmin(admin.ModelAdmin[TransactionForm]):
         'transaction_form_type',
     )
     ordering = (
-        'id',
+        '-id',
     )

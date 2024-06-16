@@ -53,7 +53,7 @@ class BusinessAdmin(admin.ModelAdmin[Business]):
         'site',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -79,7 +79,7 @@ class MessageAdmin(admin.ModelAdmin[Message]):
         'selection_request__investment_objects__name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -95,7 +95,7 @@ class SectorAdmin(admin.ModelAdmin[Sector]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -120,7 +120,7 @@ class SelectionRequestObjectAdmin(admin.ModelAdmin[SelectionRequest]):
         'user__last_name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -136,7 +136,7 @@ class SubSectorAdmin(admin.ModelAdmin[SubSector]):
         'name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -154,7 +154,7 @@ class TerritorialLocationAdmin(admin.ModelAdmin[TerritorialLocation]):
         'full_name',
     )
     ordering = (
-        'id',
+        '-id',
     )
 
 
@@ -177,5 +177,5 @@ class SubscriptionAdmin(admin.ModelAdmin[Subscription]):
         'user__last_name',
     )
     ordering = (
-        'id',
+        '-id',
     )

@@ -41,8 +41,8 @@ poetry install
 ```shell
 python manage.py migrate
 python manage.py loaddata initial_data
-python manage.py load_investment_object
 python manage.py load_support
+python manage.py load_investment_object
 python manage.py runserver
 ```
 

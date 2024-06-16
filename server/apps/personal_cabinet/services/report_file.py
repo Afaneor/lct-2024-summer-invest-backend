@@ -3,14 +3,18 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict
 
 from django.conf import settings
+from django.db import models
+from django.db.models import CharField
+from django.db.models.functions import Concat
 from docxtpl import DocxTemplate
 
 from server.apps.investment_object.models import InvestmentObject
 from server.apps.personal_cabinet.models import SelectionRequest
-from server.apps.personal_cabinet.services.message import MessageService
 from server.apps.personal_cabinet.services.pdf_converter import (
     DocumentConverter,
 )
+from server.apps.services.enums import ObjectType
+from server.apps.support.models import ServiceSupport
 
 
 class AbstractRender(ABC):  # noqa: B024
@@ -94,13 +98,93 @@ class SelectionRequestFile(object):  # noqa: WPS214
 
 def formation_context(selection_request: SelectionRequest) -> Dict[str, Any]:
     """Формирование контекста для файла."""
-    summary = MessageService().get_summary(selection_request)
-    filters = {}
+    # summary = MessageService().get_summary(selection_request)
+    investment_object_filters = {}
+    service_support_filters = {}
     for message in selection_request.messages.all():
-        if message.bot_filter and message.bot_filter.get('investment_objects'):
-            filters.update(message.bot_filter)
-    investment_objects = InvestmentObject.objects.filter(**filters)[:5]
+        if message.bot_filter and message.bot_filter.get('investment_object'):
+            investment_object_filters.update(
+                message.bot_filter.get('investment_object'),
+            )
+        if message.bot_filter and message.bot_filter.get('service_support'):
+            service_support_filters.update(
+                message.bot_filter.get('service_support'),
+            )
+
+    # Объекты InvestmentObject для отчета.
+    investment_objects = InvestmentObject.objects.filter(
+        **investment_object_filters,
+    ).annotate(
+        url_to_front=Concat(
+            models.Value('https://prod.invest.yapa.one/smart-assistant/'),
+            models.F('id'),
+            models.Value('/'),
+            output_field=CharField(),
+        ),
+    ).values(
+        'name',
+        'object_type',
+        'cost',
+        'location',
+        'transaction_form__name',
+        'land_area',
+        'building_area',
+        'url_to_front',
+    )[:5]
+
+    # Объекты ServiceSupport для отчета.
+    service_supports = ServiceSupport.objects.filter(
+        **service_support_filters,
+    ).annotate(
+        url_to_front=Concat(
+            models.Value('https://prod.invest.yapa.one/supports/'),
+            models.F('id'),
+            models.Value('/'),
+            output_field=CharField(),
+        ),
+    ).values(
+        'name',
+        'support_type',
+        'url_to_front',
+    )[:5]
+
+    for investment_object in investment_objects:
+        investment_object.update(
+            {
+                'object_type':
+                    dict(ObjectType.choices).get(
+                        investment_object.get('object_type'),
+                    ),
+                'cost': (
+                    f'{investment_object.get("cost")} руб.'
+                    if investment_object.get('cost')
+                    else '-'
+                ),
+                'location': (
+                    investment_object.get('location')
+                    if investment_object.get('location')
+                    else '-'
+                ),
+                'transaction_form__name': (
+                    investment_object.get('transaction_form__name')
+                    if investment_object.get('transaction_form__name')
+                    else '-'
+                ),
+                'land_area': (
+                    investment_object.get('land_area')
+                    if investment_object.get('land_area')
+                    else '-'
+                ),
+                'building_area': (
+                    investment_object.get('building_area')
+                    if investment_object.get('building_area')
+                    else '-'
+                ),
+            }
+        )
+
     return {
         'investment_objects': investment_objects,
-        'summary': summary,
+        'service_supports': service_supports,
+        # 'summary': summary,
     }

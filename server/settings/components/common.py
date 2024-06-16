@@ -73,7 +73,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
 
 MIDDLEWARE: Tuple[str, ...] = (
     'server.apps.services.middleware.DisableCSRFMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     # Content Security Policy:
     # 'csp.middleware.CSPMiddleware',
     # Django:

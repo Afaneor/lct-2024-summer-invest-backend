@@ -113,7 +113,7 @@ ask_env_var "DEFAULT_FROM_EMAIL" "fake" "[данные для отправки �
 print_color "yellow" "Начинаем загрузку контейнеров..."
 docker compose pull
 
-print_color "blue" "Хотите загрузить бэкап данных из ./backup/backup.sql? [y/N]: "
+print_color "blue" "Хотите загрузить бэкап данных из ./backup/backup.sql (бекап можно запросить у https://t.me/NikolayPavlin)? [y/N]: "
 read -r load_backup
 
 if [ "$load_backup" == "y" ] || [ "$load_backup" == "Y" ]; then

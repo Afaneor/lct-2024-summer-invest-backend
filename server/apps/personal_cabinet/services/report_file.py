@@ -131,22 +131,24 @@ def formation_context(selection_request: SelectionRequest) -> Dict[str, Any]:
         'building_area',
         'url_to_front',
     )[:5]
-
-    # Объекты ServiceSupport для отчета.
-    service_supports = ServiceSupport.objects.filter(
-        **service_support_filters,
-    ).annotate(
-        url_to_front=Concat(
-            models.Value('https://prod.invest.yapa.one/supports/'),
-            models.F('id'),
-            models.Value('/'),
-            output_field=CharField(),
-        ),
-    ).values(
-        'name',
-        'support_type',
-        'url_to_front',
-    )[:5]
+    if service_support_filters:
+        # Объекты ServiceSupport для отчета.
+        service_supports = ServiceSupport.objects.filter(
+            **service_support_filters,
+        ).annotate(
+            url_to_front=Concat(
+                models.Value('https://prod.invest.yapa.one/supports/'),
+                models.F('id'),
+                models.Value('/'),
+                output_field=CharField(),
+            ),
+        ).values(
+            'name',
+            'support_type',
+            'url_to_front',
+        )[:5]
+    else:
+        service_supports = None
 
     for investment_object in investment_objects:
         investment_object.update(

@@ -17,20 +17,33 @@ services:
     networks:
       - webnet
     env_file: ./config/.env
+    ports:
+      - "5432:5432"
+    healthcheck:
+        test: pg_isready -U postgres
+        interval: 10s
+        timeout: 5s
+        retries: 5
+        start_period: 30s
+
+  frontend:
+    image: afaneor/summer-invest-front:latest
+    ports:
+      - "3000:3000"
 
   web:
     <<: &web
       # Image name is changed in production:
-      image: "lct-summer-med:dev"
-      build:
-        target: development_build
-        context: .
-        dockerfile: ./docker/django/Dockerfile
-        args:
-          DJANGO_ENV: development
-          NOVA_BUILD_ID: "${CI_PIPELINE_IID:-No CI}"
-          NOVA_RELEASE: "${CI_COMMIT_TAG:-No release image}"
-          NOVA_PIPELINE_URL: "${CI_PIPELINE_URL:-No CI}"
+      image: afaneor/summer-invest-backend:latest
+#      build:
+#        target: development_build
+#        context: .
+#        dockerfile: ./docker/django/Dockerfile
+#        args:
+#          DJANGO_ENV: development
+#          NOVA_BUILD_ID: "${CI_PIPELINE_IID:-No CI}"
+#          NOVA_RELEASE: "${CI_COMMIT_TAG:-No release image}"
+#          NOVA_PIPELINE_URL: "${CI_PIPELINE_URL:-No CI}"
 
       volumes:
         - django-static:/var/www/django/static
@@ -56,29 +69,38 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-
-  gotenberg:
-    image: thecodingmachine/gotenberg:6
     ports:
-      - "3000:3000"
-    networks:
-      - webnet
+      - "8000:8000"
 
   ollama:
     image: ollama/ollama
     volumes:
       - ollama:/root/.ollama
-    command:
-      - ollama run llama3
     ports:
       - "11434:11434"
     networks:
       - webnet
 
-# This task is an example of how to extend existing ones:
-#   some_worker:
-#     <<: *web
-#     command: python manage.py worker_process
+  # Celery worker
+  celery:
+    <<: *web
+    command: celery -A server.celery worker -l info
+#
+#  # Celery Beat
+  beat:
+    <<: *web
+    command: celery -A server.celery beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+  rabbitmq:
+    image: "rabbitmq:3.8-management"
+    networks:
+      - webnet
+
+  gotenberg:
+    image: thecodingmachine/gotenberg:6
+    networks:
+      - webnet
+
 
 networks:
   # Network for your internals, use it by default:

@@ -221,32 +221,3 @@ class InvestmentObjectViewSet(RetrieveListCreateViewSet):
             data={'detail': _('Данные загружены. Происходит их обработка')},
             status=status.HTTP_201_CREATED
         )
-
-    # FIXME.
-    @action(  # type: ignore
-        methods=['POST'],
-        url_path='statistics',
-        detail=False,
-    )
-    def statistics(self, request: Request):
-        """Статистика по всему порталу."""
-        return {
-            # # Какими объектами как часто интересуются.
-            # 'investment_object_type': SelectedEntity.objects.values(
-            #     investment_object_type=models.F(
-            #         'investment_object__object_type',
-            #     ),
-            # ).annotate(count=models.Count('id')).order_by('count')[10],
-            # # Какими мерами поддержки как часто интересуются.
-            # 'service_support_type': SelectedEntity.objects.values(
-            #     service_support_type=models.F(
-            #         'service_support__name',
-            #     ),
-            # ).annotate(count=models.Count('id')).order_by('count')[10],
-            # # Какие проблемы чаще всего возникают.
-            # 'problem_type': SelectedEntity.objects.values(
-            #     problem_type=models.F(
-            #         'problem___theme',
-            #     ),
-            # ).annotate(count=models.Count('id')).order_by('count')[10],
-        }

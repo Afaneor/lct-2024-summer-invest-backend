@@ -165,10 +165,6 @@ class SelectionRequestViewSet(RetrieveListCreateViewSet):
             selection_requests = SelectionRequest.objects.get(
                 is_actual=True
             )
-            # FIXME: для теста Игорю.
-            if now().time().second % 5 == 0:
-                selection_requests.is_bot_response_waiting = False
-                selection_requests.save()
             return Response(
                 data={
                     'is_bot_response_waiting':

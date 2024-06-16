@@ -98,6 +98,7 @@ class SectorAdmin(admin.ModelAdmin[Sector]):
         'id',
     )
 
+
 @admin.register(SelectionRequest)
 class SelectionRequestObjectAdmin(admin.ModelAdmin[SelectionRequest]):
     """Запрос на подбор."""
